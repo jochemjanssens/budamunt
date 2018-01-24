@@ -46,30 +46,44 @@ export default class MapScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
 
-    let text = 'Waiting..';
+    let text = 'GPS nog niet beschikbaar';
     let data = 'empty';
-        if (this.state.errorMessage) {
-          text = this.state.errorMessage;
-        } else if (this.state.location) {
-          data = this.state.location.coords;
-          text = '';
-        }
 
-        return (
-          <View style={styles.container}>
-            <MapView
-              style={styles.map}
-              region={{
-                latitude: data.latitude,
-                longitude: data.longitude,
-                latitudeDelta: 0.004,
-                longitudeDelta: 0.004,
-              }}
-            >
-            </MapView>
-            <Text style={styles.paragraph}>{text}</Text>
-          </View>
-        );
+    if (this.state.errorMessage) {
+      text = this.state.errorMessage;
+    } else if (this.state.location) {
+      data = this.state.location.coords;
+      text = '';
+    }
+
+    //Standaard aan BK6
+    let currentLatitude = 50.830668;
+    let currentLongitude = 3.266142;
+
+    if(data !== 'empty'){
+      //check aanwezig op buda
+      if(data.latitude > 50.829535 && data.latitude < 50.830430 && data.longitude > 3.264549 && data.longitude < 3.265707){
+        currentLatitude = data.latitude;
+        currentLongitude = data.longitude;
+      }
+    }
+
+    return (
+      <View style={styles.container}>
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: currentLatitude,
+            longitude: currentLongitude,
+            latitudeDelta: 0.004,
+            longitudeDelta: 0.004,
+          }}
+        >
+        </MapView>
+        <Text style={styles.paragraph}>{text}</Text>
+      </View>
+    );
+
   }
 }
 
