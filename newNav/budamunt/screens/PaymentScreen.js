@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import PayScreen from './PayScreen';
-
+import ReceiveScreen from './ReceiveScreen';
+import QRScreen from './QRScreen';
 
 class PaymentScreen extends React.Component {
   render() {
@@ -12,8 +13,12 @@ class PaymentScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Button
-          onPress={() => navigate('PayScreen'})}
+          onPress={() => navigate('PayScreen')}
           title="Betaal"
+        />
+        <Button
+          onPress={() => navigate('ReceiveScreen')}
+          title="Ontvang"
         />
       </View>
     );
@@ -40,6 +45,8 @@ export default class App extends React.Component {
 export const ListNavigation = StackNavigator({
   PaymentScreen: { screen: PaymentScreen },
   PayScreen: { screen: PayScreen },
+  ReceiveScreen: { screen: ReceiveScreen },
+  QRScreen: { screen: QRScreen },
 });
 
 const styles = StyleSheet.create({
