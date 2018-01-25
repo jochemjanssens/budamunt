@@ -7,18 +7,5 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
     "react-native-maps": "^0.19.0",
     "react-navigation": "^1.0.0-beta.27"
-  },
-  "expo": {
-    "name": "Budamunt",
-    "icon": "./assets/icon.png",
-    "version": "1.0.1",
-    "slug": "budamunt",
-    "sdkVersion": "19.0.0",
-    "ios": {
-      "bundleIdentifier": "com.yourcompany.yourappname"
-    },
-    "android": {
-      "package": "com.example.myapp"
-    }
   }
 }

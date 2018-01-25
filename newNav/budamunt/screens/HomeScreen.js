@@ -15,6 +15,13 @@ export default class HomeScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
 
+
+        fetch(`http://172.20.66.55:3000/api/products`)
+          .then(r => r.json())
+          .then(respons=>{
+            console.log(respons);
+          });
+
     return (
       <View style={styles.container}>
         <Text>HOME</Text>
