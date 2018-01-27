@@ -35,6 +35,18 @@ const schema = {
     validation: Joi.string()
   },
 
+  starttime: {
+    type: String,
+    required: true,
+    validation: Joi.string()
+  },
+
+  endtime: {
+    type: String,
+    required: true,
+    validation: Joi.string()
+  },
+
 };
 
 module.exports = {schema};

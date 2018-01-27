@@ -15,10 +15,31 @@ const AddEvent = ({store}) => {
   let $description = null;
   let $location = null;
   let $date = null;
+  let $starttime = null;
+  let $endtime = null;
+
+  let today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth() + 1;
+  const yyyy = today.getFullYear();
+
+  if (dd < 10) {
+    dd = `0${dd}`;
+  }
+
+  if (mm < 10) {
+    mm = `0${mm}`;
+  }
+
+  today = `${yyyy}-${mm}-${dd}`;
 
   const handleSubmit = e => {
     e.preventDefault();
-    addEvent($name.value, $description.value, $location.value, $date.value);
+
+    if ($starttime.value < $endtime.value) {
+      addEvent($name.value, $description.value, $location.value, $date.value, $starttime.value, $endtime.value);
+    }
+
   };
   if (eventAdded !== true) {
     return (
@@ -31,11 +52,11 @@ const AddEvent = ({store}) => {
             placeholder='Naam'
           />
 
-          <input
+          <textarea
             type='text'
             ref={$el => $description = $el}
             placeholder='beschrijving'
-          />
+          ></textarea>
 
           <input
             type='text'
@@ -46,8 +67,22 @@ const AddEvent = ({store}) => {
           <input
             type='date'
             ref={$el => $date = $el}
+            min={today}
             placeholder='Datum'
           />
+
+          <label htmlFor='startTime'>Starttijd</label>
+          <input
+            type='time'
+            ref={$el => $starttime = $el}
+            id='startTime'
+          />
+
+          <label htmlFor='endTime'>Eindtijd</label>
+          <input
+            type='time'
+            ref={$el => $endtime = $el}
+            id='endTime' />
 
           <input
             type='submit'

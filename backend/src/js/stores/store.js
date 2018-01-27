@@ -55,8 +55,10 @@ class Store {
   getEvents = () => {
     eventsAPI.select(this.token)
       .then(({events}) => {
-        if (events.length !== this.events.length) {
-          this.events = events;
+        if (events) {
+          if (events.length !== this.events.length) {
+            this.events = events;
+          }
         }
       });
   }
@@ -72,8 +74,8 @@ class Store {
       });
   }
 
-  addEvent = (name, description, location, date) => {
-    eventsAPI.insert(this.currentUser, name, description, location, date, this.token)
+  addEvent = (name, description, location, date, starttime, endtime) => {
+    eventsAPI.insert(this.currentUser, name, description, location, date, starttime, endtime, this.token)
       .then(d => {
         console.log(d);
         this.eventAdded = true;

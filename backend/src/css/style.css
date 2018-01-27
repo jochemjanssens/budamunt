@@ -23,6 +23,17 @@ input {
   display: block;
 }
 
+.event {
+  border: 1px solid black;
+  padding: 1rem;
+}
+
 .own {
   color: red;
+}
+
+.delete {
+  cursor: pointer;
+  font-style: italic;
+  text-decoration: underline;
 }

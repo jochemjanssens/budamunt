@@ -2,7 +2,7 @@ const url = `/api/events`;
 
 export default {
 
-  insert: (user, name, description, location, date, token = ``) => {
+  insert: (user, name, description, location, date, starttime, endtime, token = ``) => {
 
     const method = `POST`;
     const body = new FormData();
@@ -12,6 +12,8 @@ export default {
     body.append(`description`, description);
     body.append(`location`, location);
     body.append(`date`, date);
+    body.append(`starttime`, starttime);
+    body.append(`endtime`, endtime);
 
     const headers = new Headers({
       Authorization: `Bearer ${token}`

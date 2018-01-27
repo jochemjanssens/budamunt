@@ -13,14 +13,14 @@ const EventList = ({events, store}) => {
   } = store;
 
   return (
-    <ul>
-      {
-        events.map(
-          event => (
-            <Event key={event._id} status={(currentUser === event.user) ? `own` : `other`} {...event} />
+      <ul className='tweets'>
+        {
+          events.map(
+            event => (
+              <Event key={event._id} status={(currentUser === event.user) ? `own` : `other`} {...event} />
+            )
           )
-        )
-      }
+        }
     </ul>
   );
 };
