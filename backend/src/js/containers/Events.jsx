@@ -3,6 +3,9 @@ import {Link} from 'react-router-dom';
 
 import EventList from '../components/EventList';
 
+import {Redirect} from 'react-router';
+
+
 import {observer, inject, PropTypes} from 'mobx-react';
 
 const Events = ({store}) => {
@@ -14,6 +17,12 @@ const Events = ({store}) => {
   } = store;
 
   loadEvents();
+
+  if (events === ``) {
+    return (
+      <Redirect to='/' />
+    );
+  }
 
   return (
 

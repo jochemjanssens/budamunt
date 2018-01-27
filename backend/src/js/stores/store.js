@@ -80,6 +80,14 @@ class Store {
       });
   }
 
+  deleteEvent = id => {
+    eventsAPI.remove(id, this.token)
+      .then(d => {
+        console.log(d);
+        this.loadEvents();
+      });
+  }
+
 }
 
 const store = new Store();

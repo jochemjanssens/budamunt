@@ -4,6 +4,9 @@ import React from 'react';
 
 import {observer, inject, PropTypes} from 'mobx-react';
 
+import Event from '../components/Event';
+
+
 const EventList = ({events, store}) => {
   const {
     currentUser
@@ -14,7 +17,7 @@ const EventList = ({events, store}) => {
       {
         events.map(
           event => (
-            <p key={event._id} className={(currentUser === event.user) ? `own` : `other`}>{event.user} - {event.date} - {event.name} - {event.location} - {event.description}</p>
+            <Event key={event._id} status={(currentUser === event.user) ? `own` : `other`} {...event} />
           )
         )
       }
