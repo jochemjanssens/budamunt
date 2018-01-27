@@ -2,11 +2,12 @@ const url = `/api/events`;
 
 export default {
 
-  insert: (name, description, location, date, token = ``) => {
+  insert: (user, name, description, location, date, token = ``) => {
 
     const method = `POST`;
     const body = new FormData();
 
+    body.append(`user`, user);
     body.append(`name`, name);
     body.append(`description`, description);
     body.append(`location`, location);

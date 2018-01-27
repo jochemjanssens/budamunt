@@ -5,6 +5,12 @@ const Joi = require(`joi`);
 
 const schema = {
 
+  user: {
+    type: String,
+    required: true,
+    validation: Joi.string()
+  },
+
   name: {
     type: String,
     required: true,

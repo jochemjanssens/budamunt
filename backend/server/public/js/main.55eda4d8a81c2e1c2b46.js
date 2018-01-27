@@ -12256,7 +12256,7 @@ module.exports = lowPriorityWarning;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_api_auth__ = __webpack_require__(125);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_api_users__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_api_events__ = __webpack_require__(126);
-var _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+var _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
 
 function _initDefineProp(target, property, descriptor, context) {
   if (!descriptor) return;
@@ -12325,8 +12325,9 @@ var Store = (_class = function Store() {
 
   _initDefineProp(this, 'events', _descriptor6, this);
 
+  _initDefineProp(this, 'currentUser', _descriptor7, this);
+
   this.loadEvents = function () {
-    console.log('load');
     _this.eventAdded = false;
     _this.getEvents();
   };
@@ -12344,6 +12345,7 @@ var Store = (_class = function Store() {
       } else {
         _this.failed = false;
       }
+      _this.currentUser = username;
       _this.token = token;
       _this.getEvents();
     });
@@ -12353,8 +12355,9 @@ var Store = (_class = function Store() {
     __WEBPACK_IMPORTED_MODULE_3__lib_api_events__["a" /* default */].select(_this.token).then(function (_ref2) {
       var events = _ref2.events;
 
-      console.log(events);
-      _this.events = events;
+      if (events.length !== _this.events.length) {
+        _this.events = events;
+      }
     });
   };
 
@@ -12369,7 +12372,7 @@ var Store = (_class = function Store() {
   };
 
   this.addEvent = function (name, description, location, date) {
-    __WEBPACK_IMPORTED_MODULE_3__lib_api_events__["a" /* default */].insert(name, description, location, date, _this.token).then(function (d) {
+    __WEBPACK_IMPORTED_MODULE_3__lib_api_events__["a" /* default */].insert(_this.currentUser, name, description, location, date, _this.token).then(function (d) {
       console.log(d);
       _this.eventAdded = true;
     });
@@ -12400,6 +12403,11 @@ var Store = (_class = function Store() {
     return '';
   }
 }), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'events', [__WEBPACK_IMPORTED_MODULE_0_mobx__["observable"]], {
+  enumerable: true,
+  initializer: function initializer() {
+    return '';
+  }
+}), _descriptor7 = _applyDecoratedDescriptor(_class.prototype, 'currentUser', [__WEBPACK_IMPORTED_MODULE_0_mobx__["observable"]], {
   enumerable: true,
   initializer: function initializer() {
     return '';
@@ -17091,7 +17099,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__stores__ = __webpack_require__(128);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _jsxFileName = '/Users/jochemjanssens/Desktop/newGit/budamunt/backend/src/js/script.js';
+var _jsxFileName = '/Users/jochemjanssens/Desktop/budamunt/backend/src/js/script.js';
 /* eslint-disable react/jsx-filename-extension */
 
 
@@ -17148,7 +17156,7 @@ init();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mobx_react__ = __webpack_require__(18);
-var _jsxFileName = '/Users/jochemjanssens/Desktop/newGit/budamunt/backend/src/js/components/EventList.jsx';
+var _jsxFileName = '/Users/jochemjanssens/Desktop/budamunt/backend/src/js/components/EventList.jsx';
 /* eslint-disable react/jsx-filename-extension */
 
 
@@ -17158,19 +17166,12 @@ var _jsxFileName = '/Users/jochemjanssens/Desktop/newGit/budamunt/backend/src/js
 var EventList = function EventList(_ref) {
   var events = _ref.events;
 
-
-  console.log(events.length);
-
-  for (var dayIndex = 0; dayIndex < events.length; dayIndex++) {
-    console.log(events[dayIndex].name);
-  }
-
   return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
     'ul',
     {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 16
+        lineNumber: 9
       }
     },
     events.map(function (event) {
@@ -17178,7 +17179,7 @@ var EventList = function EventList(_ref) {
         'p',
         { key: event._id, __source: {
             fileName: _jsxFileName,
-            lineNumber: 20
+            lineNumber: 13
           }
         },
         event.date,
@@ -17208,7 +17209,7 @@ EventList.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mobx_react__ = __webpack_require__(18);
-var _jsxFileName = '/Users/jochemjanssens/Desktop/newGit/budamunt/backend/src/js/components/Login.jsx';
+var _jsxFileName = '/Users/jochemjanssens/Desktop/budamunt/backend/src/js/components/Login.jsx';
 /* eslint-disable react/jsx-filename-extension */
 
 
@@ -17340,7 +17341,7 @@ Login.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mobx_react__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router__ = __webpack_require__(105);
-var _jsxFileName = '/Users/jochemjanssens/Desktop/newGit/budamunt/backend/src/js/containers/AddEvent.jsx';
+var _jsxFileName = '/Users/jochemjanssens/Desktop/budamunt/backend/src/js/containers/AddEvent.jsx';
 
 
 
@@ -17478,7 +17479,7 @@ AddEvent.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__AddEvent__ = __webpack_require__(118);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Vrijwilligers__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__stores_store__ = __webpack_require__(67);
-var _jsxFileName = '/Users/jochemjanssens/Desktop/newGit/budamunt/backend/src/js/containers/App.jsx';
+var _jsxFileName = '/Users/jochemjanssens/Desktop/budamunt/backend/src/js/containers/App.jsx';
 
 
 
@@ -17625,7 +17626,7 @@ App.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EventList__ = __webpack_require__(116);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mobx_react__ = __webpack_require__(18);
-var _jsxFileName = '/Users/jochemjanssens/Desktop/newGit/budamunt/backend/src/js/containers/Events.jsx';
+var _jsxFileName = '/Users/jochemjanssens/Desktop/budamunt/backend/src/js/containers/Events.jsx';
 
 
 
@@ -17710,7 +17711,7 @@ Events.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(23);
-var _jsxFileName = '/Users/jochemjanssens/Desktop/newGit/budamunt/backend/src/js/containers/Home.jsx';
+var _jsxFileName = '/Users/jochemjanssens/Desktop/budamunt/backend/src/js/containers/Home.jsx';
 
 
 
@@ -17775,7 +17776,7 @@ Home.displayName = 'Home';
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Login__ = __webpack_require__(117);
-var _jsxFileName = '/Users/jochemjanssens/Desktop/newGit/budamunt/backend/src/js/containers/Login.jsx';
+var _jsxFileName = '/Users/jochemjanssens/Desktop/budamunt/backend/src/js/containers/Login.jsx';
 
 
 
@@ -17839,7 +17840,7 @@ Login.displayName = 'Login';
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mobx_react__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router__ = __webpack_require__(105);
-var _jsxFileName = '/Users/jochemjanssens/Desktop/newGit/budamunt/backend/src/js/containers/Registreer.jsx';
+var _jsxFileName = '/Users/jochemjanssens/Desktop/budamunt/backend/src/js/containers/Registreer.jsx';
 
 
 
@@ -17978,7 +17979,7 @@ Registreer.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(23);
-var _jsxFileName = '/Users/jochemjanssens/Desktop/newGit/budamunt/backend/src/js/containers/Vrijwilligers.jsx';
+var _jsxFileName = '/Users/jochemjanssens/Desktop/budamunt/backend/src/js/containers/Vrijwilligers.jsx';
 
 
 
@@ -32611,4 +32612,4 @@ module.exports = __webpack_require__(114);
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.73f84709cf9e44b49b0a.js.map
+//# sourceMappingURL=main.55eda4d8a81c2e1c2b46.js.map

@@ -2,22 +2,19 @@
 
 import React from 'react';
 
-import {PropTypes} from 'mobx-react';
+import {observer, inject, PropTypes} from 'mobx-react';
 
-const EventList = ({events}) => {
-
-  console.log(events.length);
-
-  for (let dayIndex = 0;dayIndex < events.length;dayIndex ++) {
-    console.log(events[dayIndex].name);
-  }
+const EventList = ({events, store}) => {
+  const {
+    currentUser
+  } = store;
 
   return (
     <ul>
       {
         events.map(
           event => (
-            <p key={event._id}>{event.date} - {event.name} - {event.location} - {event.description}</p>
+            <p key={event._id} className={(currentUser === event.user) ? `own` : `other`}>{event.user} - {event.date} - {event.name} - {event.location} - {event.description}</p>
           )
         )
       }
@@ -26,7 +23,10 @@ const EventList = ({events}) => {
 };
 
 EventList.propTypes = {
-  events: PropTypes.observableObject.isRequired,
+  events: PropTypes.objectOrObservableObject.isRequired,
+  store: PropTypes.observableObject.isRequired
 };
 
-export default EventList;
+export default inject(`store`)(
+  observer(EventList)
+);

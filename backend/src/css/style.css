@@ -22,3 +22,7 @@ h1 {
 input {
   display: block;
 }
+
+.own {
+  color: red;
+}

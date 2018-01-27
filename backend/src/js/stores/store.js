@@ -23,8 +23,10 @@ class Store {
   @observable
   events = ``;
 
+  @observable
+  currentUser = ``;
+
   loadEvents = () => {
-    console.log(`load`);
     this.eventAdded = false;
     this.getEvents();
   }
@@ -44,6 +46,7 @@ class Store {
         } else {
           this.failed = false;
         }
+        this.currentUser = username;
         this.token = token;
         this.getEvents();
       });
@@ -52,8 +55,9 @@ class Store {
   getEvents = () => {
     eventsAPI.select(this.token)
       .then(({events}) => {
-        console.log(events);
-        this.events = events;
+        if (events.length !== this.events.length) {
+          this.events = events;
+        }
       });
   }
 
@@ -69,7 +73,7 @@ class Store {
   }
 
   addEvent = (name, description, location, date) => {
-    eventsAPI.insert(name, description, location, date, this.token)
+    eventsAPI.insert(this.currentUser, name, description, location, date, this.token)
       .then(d => {
         console.log(d);
         this.eventAdded = true;

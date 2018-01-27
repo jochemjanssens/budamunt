@@ -9,11 +9,11 @@ const Events = ({store}) => {
 
   const {
     loadEvents,
-    events
+    events,
+    currentUser
   } = store;
 
   loadEvents();
-  console.log(events);
 
   return (
 
@@ -21,7 +21,7 @@ const Events = ({store}) => {
       <header>
         <h1>Events</h1>
       </header>
-      <EventList events={events} />
+      <EventList events={events} user={currentUser} />
       <Link to='/Nieuwevent'>Eventment toevoegen</Link>
       <Link to='/Home'>Home</Link>
     </section>

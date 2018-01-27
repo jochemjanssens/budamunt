@@ -6,7 +6,6 @@ export default {
 
     const method = `POST`;
     const body = new FormData();
-
     body.append(`firstname`, firstname);
     body.append(`name`, name);
     body.append(`email`, email);
