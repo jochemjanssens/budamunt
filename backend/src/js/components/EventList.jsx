@@ -12,10 +12,29 @@ const EventList = ({events, store}) => {
     currentUser
   } = store;
 
+
+  //Sorteer de events op een heel slechte manier
+  // Maar het werkt 🔥
+  const eventsArray = [];
+  events.map(event => {
+    let added = false;
+    eventsArray.forEach((newEvent, key) => {
+      if (event.date < newEvent.date) {
+        if (added === false) {
+          eventsArray.splice(key, 0, event);
+        }
+        added = true;
+      }
+    });
+    if (added === false) {
+      eventsArray.push(event);
+    }
+  });
+
   return (
       <ul className='tweets'>
         {
-          events.map(
+          eventsArray.map(
             event => (
               <Event key={event._id} status={(currentUser === event.user) ? `own` : `other`} {...event} />
             )

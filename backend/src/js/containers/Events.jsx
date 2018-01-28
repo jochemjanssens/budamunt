@@ -24,6 +24,19 @@ const Events = ({store}) => {
     );
   }
 
+  if (events === `empty`) {
+    return (
+      <section>
+        <header>
+          <h1>Events</h1>
+        </header>
+        <p>Nog geen events toegevoegd</p>
+        <Link to='/Nieuwevent'>Eventment toevoegen</Link>
+        <Link to='/Home'>Home</Link>
+      </section>
+    );
+  }
+
   return (
 
     <section>

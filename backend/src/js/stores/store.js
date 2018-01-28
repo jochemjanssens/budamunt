@@ -21,7 +21,7 @@ class Store {
   registered = ``
 
   @observable
-  events = ``;
+  events = `empty`;
 
   @observable
   currentUser = ``;
@@ -56,7 +56,9 @@ class Store {
     eventsAPI.select(this.token)
       .then(({events}) => {
         if (events) {
-          if (events.length !== this.events.length) {
+          if (events.length === 0) {
+            this.events = `empty`;
+          } else if (events.length !== this.events.length) {
             this.events = events;
           }
         }
