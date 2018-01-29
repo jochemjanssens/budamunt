@@ -1,5 +1,5 @@
 # Budamunt
-Bachelorproef voor de opleiding Digital Design & Development aan Howest Kortrijk. Door [Jorden Di Egidio](https://www.behance.net/jordendiegidio) en [Jochem Janssens](https://www.janssensjochem.be)
+Bachelorproef voor de opleiding Digital Design & Development aan Howest Kortrijk. Door [Jorden Di Egidio](https://www.behance.net/jordendiegidio) en [Jochem Janssens](https://www.janssensjochem.be).
 
 ## Onderdelen
 

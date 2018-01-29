@@ -40,25 +40,25 @@ const Home = ({store}) => {
         <Link to='/'>Log uit</Link>
       </section>
     );
+  } else {
+    return (
+      <section>
+        <header>
+          <h1>Home</h1>
+        </header>
+        <p>Welkom {userInformation.firstname}</p>
+
+
+        <p>Munten: {userInformation.munten}</p>
+
+        <Link to='/Events'>Events</Link>
+        <Link to='/Vrijwilligers'>Vrijwilligerswerk</Link>
+
+        <Link to='/'>Log uit</Link>
+      </section>
+    );
   }
 
-  console.log(userInformation);
-  return (
-    <section>
-      <header>
-        <h1>Home</h1>
-      </header>
-      <p>Welkom {userInformation.firstname}</p>
-
-
-      <p>Munten: {userInformation.munten}</p>
-
-      <Link to='/Events'>Events</Link>
-      <Link to='/Vrijwilligers'>Vrijwilligerswerk</Link>
-
-      <Link to='/'>Log uit</Link>
-    </section>
-  );
 };
 
 Home.propTypes = {
