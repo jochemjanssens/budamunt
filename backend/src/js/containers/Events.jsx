@@ -18,6 +18,8 @@ const Events = ({store}) => {
 
   loadEvents();
 
+  console.log(events);
+
   if (events === ``) {
     return (
       <Redirect to='/' />

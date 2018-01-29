@@ -9,6 +9,9 @@ const Login = () => (
     <LoginComponent />
 
     <Link to='/Registreer'>Nog geen account, registreer</Link>
+    <Link to='/RegistreerOrganisatie'>Maak een organisatieaccount</Link>
+    <Link to='/RegistreerHandelaar'>Maak een handelaarsaccount</Link>
+
   </section>
 );
 

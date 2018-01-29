@@ -6,12 +6,18 @@ import {observer, inject, PropTypes} from 'mobx-react';
 
 import {Redirect} from 'react-router';
 
-const Registreer = ({store}) => {
+const RegistreerHandelaar = ({store}) => {
 
   const {
-    register,
+    registerStore,
     registered
   } = store;
+
+
+  let $winkel = null;
+  let $type = null;
+  let $street = null;
+  let $city = null;
 
   let $name = null;
   let $firstname = null;
@@ -22,7 +28,16 @@ const Registreer = ({store}) => {
 
     e.preventDefault();
 
-    register($firstname.value, $name.value, $email.value, $password.value);
+    registerStore(
+      $firstname.value,
+      $name.value,
+      $email.value,
+      $password.value,
+      $winkel.value,
+      $type.value,
+      $street.value,
+      $city.value
+    );
   };
 
   if (registered) {
@@ -33,13 +48,36 @@ const Registreer = ({store}) => {
 
   return (
     <div className='register'>
-      <h1>Registreer</h1>
+      <h1>Registreer Organisatie</h1>
       <form className='login' onSubmit={handleSubmit}>
 
         <input
           type='text'
+          ref={$el => $winkel = $el}
+          placeholder='naam zaak'
+        />
+
+        <select ref={$el => $type = $el}>
+          <option value='koffiezaak'>Koffiezaak</option>
+          <option value='winkel'>Winkel</option>
+        </select>
+
+        <input
+          type='text'
+          ref={$el => $street = $el}
+          placeholder='Vul de straat en nummer in'
+        />
+
+        <input
+          type='text'
+          ref={$el => $city = $el}
+          value='8500 Kortrijk'
+        />
+
+        <input
+          type='text'
           ref={$el => $firstname = $el}
-          placeholder='firstname'
+          placeholder='voornaam'
         />
 
         <input
@@ -74,10 +112,10 @@ const Registreer = ({store}) => {
   );
 };
 
-Registreer.propTypes = {
+RegistreerHandelaar.propTypes = {
   store: PropTypes.observableObject.isRequired,
 };
 
 export default inject(`store`)(
-  observer(Registreer)
+  observer(RegistreerHandelaar)
 );

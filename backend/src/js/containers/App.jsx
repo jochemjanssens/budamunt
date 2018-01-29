@@ -9,10 +9,13 @@ import {Route, Switch, Redirect, withRouter} from 'react-router-dom';
 import Login from './Login';
 import Home from './Home';
 import Registreer from './Registreer';
+import RegistreerOrganisatie from './RegistreerOrganisatie';
+import RegistreerHandelaar from './RegistreerHandelaar';
 
 import Events from './Events';
 import AddEvent from './AddEvent';
 import Vrijwilligers from './Vrijwilligers';
+import AddVolunteer from './AddVolunteer';
 
 import store from '../stores/store';
 
@@ -51,6 +54,10 @@ const App = ({history}) => {
             component={Registreer}
           />
           <Route
+            path='/RegistreerOrganisatie'
+            component={RegistreerOrganisatie}
+          />
+          <Route
             path='/events'
             component={Events}
           />
@@ -61,6 +68,14 @@ const App = ({history}) => {
           <Route
             path='/Nieuwevent'
             component={AddEvent}
+          />
+          <Route
+            path='/Nieuwvrijwilligerswerk'
+            component={AddVolunteer}
+          />
+          <Route
+            path='/RegistreerHandelaar'
+            component={RegistreerHandelaar}
           />
         </Switch>
       </section>
