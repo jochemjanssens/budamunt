@@ -10,6 +10,7 @@ export default {
     body.append(`name`, name);
     body.append(`email`, email);
     body.append(`password`, password);
+    body.append(`munten`, 0);
     body.append(`scope`, scope);
 
     return fetch(url, {method, body})

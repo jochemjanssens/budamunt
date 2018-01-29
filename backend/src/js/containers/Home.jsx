@@ -22,6 +22,8 @@ const Home = ({store}) => {
         <p>Welkom {organisationInformation.organisatie}</p>
         <Link to='/Events'>Events</Link>
         <Link to='/Vrijwilligers'>Vrijwilligerswerk</Link>
+
+        <Link to='/'>Log uit</Link>
       </section>
     );
   } else if (userType === `STORE`) {
@@ -34,6 +36,8 @@ const Home = ({store}) => {
         <p>Welkom {storeInformation.store}</p>
         <Link to='/Events'>Events</Link>
         <Link to='/Vrijwilligers'>Vrijwilligerswerk</Link>
+
+        <Link to='/'>Log uit</Link>
       </section>
     );
   }
@@ -45,8 +49,14 @@ const Home = ({store}) => {
         <h1>Home</h1>
       </header>
       <p>Welkom {userInformation.firstname}</p>
+
+
+      <p>Munten: {userInformation.munten}</p>
+
       <Link to='/Events'>Events</Link>
       <Link to='/Vrijwilligers'>Vrijwilligerswerk</Link>
+
+      <Link to='/'>Log uit</Link>
     </section>
   );
 };

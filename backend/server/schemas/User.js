@@ -14,14 +14,14 @@ const schema = {
   firstname: {
     type: String,
     required: true,
-    validation: Joi.string().alphanum().min(2),
+    validation: Joi.string().min(2),
     login: true
   },
 
   name: {
     type: String,
     required: true,
-    validation: Joi.string().alphanum().min(2),
+    validation: Joi.string().min(2),
     login: true
   },
 
@@ -30,6 +30,12 @@ const schema = {
     required: true,
     validation: Joi.string().min(3),
     projection: false
+  },
+
+  munten: {
+    type: Number,
+    required: true,
+    validation: Joi.number()
   },
 
   scope: {
