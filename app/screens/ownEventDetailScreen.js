@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+
+import EventScreen from './EventScreen';
 
 export default class ownEventDetailScreen extends React.Component {
 
@@ -7,11 +9,28 @@ export default class ownEventDetailScreen extends React.Component {
     title: `Event ${navigation.state.params.name}`,
   });
 
+  deleteEvent = () => {
+    const { params } = this.props.navigation.state;
+
+    AsyncStorage.getItem("myToken").then(token => {
+      const method = `DELETE`;
+      const headers = new Headers({
+        Authorization: `Bearer ${token}`
+      });
+      const url = 'http://192.168.1.5:3000/api/events/' + params._id;
+      console.log(url);
+      fetch(url, {method, headers})
+        .then(r => {
+          this.props.navigation.goBack()
+        })
+        .catch(err => console.error(err));
+    });
+  }
+
   render() {
     const { navigate } = this.props.navigation;
 
     const { params } = this.props.navigation.state;
-    console.log(params);
     return (
       <View>
         <Text>OWNER</Text>
@@ -20,6 +39,12 @@ export default class ownEventDetailScreen extends React.Component {
         <Text>Waar:  {params.location}</Text>
         <Text>Wanneer:  {params.date}</Text>
         <Text>Wat: {params.description}</Text>
+
+        <Button
+          onPress={this.deleteEvent}
+          title="Verwijder event"
+          color="#841584"
+        />
       </View>
     );
   }

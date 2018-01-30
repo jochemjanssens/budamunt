@@ -14,9 +14,20 @@ const User = t.struct({
 });
 
 export default class App extends React.Component {
+
   state = {
     login: false
   };
+
+  async componentWillMount() {
+    AsyncStorage.getItem("myToken").then((token) => {
+      if(token){
+        this.setState({ login: true });
+      }
+    });
+  }
+
+
 
   handleSubmit = () => {
     const value = this._form.getValue(); // use that ref to get the form value
@@ -26,7 +37,7 @@ export default class App extends React.Component {
       body.append(`password`, value.password);
       body.append(`audience`, `tweets-frontend`);
 
-    fetch('http://172.20.66.20:3000/api/auth', {
+    fetch('http://192.168.1.5:3000/api/auth', {
       method: 'POST',
       body: body
     })

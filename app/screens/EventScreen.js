@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 
 import EventDetailScreen from './EventDetailScreen';
 import ownEventDetailScreen from './ownEventDetailScreen';
+import NewEvent from './NewEvent';
 
 
 class EventScreen extends React.Component {
@@ -22,7 +23,7 @@ class EventScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://172.20.66.20:3000/api/events?isActive=true`, {headers})
+      fetch(`http://192.168.1.5:3000/api/events?isActive=true`, {headers})
         .then(r => {
           this.setState({'events': JSON.parse(r._bodyText).events});
         })
@@ -35,12 +36,32 @@ class EventScreen extends React.Component {
     });
   }
 
+  loadEvents = () => {
+    AsyncStorage.getItem("myToken").then((token) => {
+      const headers = new Headers({
+        Authorization: `Bearer ${token}`
+      });
+
+      fetch(`http://192.168.1.5:3000/api/events?isActive=true`, {headers})
+        .then(r => {
+          const { events } = this.state;
+          if(events){
+            if(events.length !== JSON.parse(r._bodyText).events.length){
+                this.setState({'events': JSON.parse(r._bodyText).events});
+            }
+          }
+        })
+        .catch(err => console.error(err));
+    });
+  }
+
+
   render() {
+    setInterval(this.loadEvents, 1000);
     const { navigate } = this.props.navigation;
 
     const { events, user } = this.state;
-    if(events){
-      console.log(user.email);
+    if(events && user){
       return (
         <View style={styles.container}>
           {
@@ -51,11 +72,16 @@ class EventScreen extends React.Component {
                   onPress={() => navigate(`${(user.email === event.user) ? 'ownEventDetail' : "EventDetail"}`, { ...event })}
                   title={event.name}
                   key={event._id}
-                  color={(user.email === event.user) ? '#ECF838' : "#134D57"}
+                  color={(user.email === event.user) ? '#FD9C27' : "#134D57"}
                 />
               )
             )
           }
+          <Button
+            style={styles.newEvent}
+            title='Maak nieuw event'
+            onPress={() => navigate(`newEvent`)}
+          />
         </View>
       );
     }
@@ -90,6 +116,7 @@ export const ListNavigation = StackNavigator({
   EventList: { screen: EventScreen },
   EventDetail: { screen: EventDetailScreen },
   ownEventDetail: { screen: ownEventDetailScreen },
+  newEvent: { screen: NewEvent },
 });
 
 const styles = StyleSheet.create({
@@ -98,6 +125,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  newEvent: {
+    marginTop: 100,
   },
   icon: {
     width: 26,
