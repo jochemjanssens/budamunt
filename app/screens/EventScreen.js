@@ -1,28 +1,68 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import EventDetailScreen from './EventDetailScreen';
 
 
 class EventScreen extends React.Component {
+  state = {
+    token: null,
+    user: null,
+    events: null
+  };
+
+  async componentWillMount() {
+    AsyncStorage.getItem("myToken").then((token) => {
+      this.setState({'token': token});
+
+      //Get Events
+      const headers = new Headers({
+        Authorization: `Bearer ${token}`
+      });
+
+      fetch(`http://172.20.66.20:3000/api/events?isActive=true`, {headers})
+        .then(r => {
+          this.setState({'events': JSON.parse(r._bodyText).events});
+        })
+        .catch(err => console.error(err));
+    });
+
+    AsyncStorage.getItem("user").then(user => {
+      this.setState({'user': JSON.parse(user)});
+      console.log(user);
+    });
+  }
+
   render() {
     const { navigate } = this.props.navigation;
 
+    const { events, user } = this.state;
+    if(events){
+      console.log(user.email);
+      return (
+        <View style={styles.container}>
+          {
+            events.map(
+              event => (
+                console.log(event.user),
+                <Button
+                  onPress={() => navigate('EventDetail', { ...event })}
+                  title={event.name}
+                  key={event._id}
+                  color={(user.email === event.user) ? '#ECF838' : "#134D57"}
+                />
+              )
+            )
+          }
+        </View>
+      );
+    }
+
+
     return (
       <View style={styles.container}>
-        <Button
-          onPress={() => navigate('EventDetail', { user: 'Feest' })}
-          title="Feest"
-        />
-        <Button
-          onPress={() => navigate('EventDetail', { user: 'Nog meer feest' })}
-          title="Nog meer feest"
-        />
-        <Button
-          onPress={() => navigate('EventDetail', { user: 'AZ Feest' })}
-          title="AZ Feest"
-        />
+          <Text>Geen events</Text>
       </View>
     );
   }
@@ -60,5 +100,11 @@ const styles = StyleSheet.create({
   icon: {
     width: 26,
     height: 26,
+  },
+  own: {
+    color: '#ff0',
+  },
+  other: {
+    backgroundColor: '#0f0',
   },
 });

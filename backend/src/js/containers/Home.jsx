@@ -22,6 +22,8 @@ const Home = ({store}) => {
         <p>Welkom {organisationInformation.organisatie}</p>
         <Link to='/Events'>Events</Link>
         <Link to='/Vrijwilligers'>Vrijwilligerswerk</Link>
+
+        <Link to='/'>Log uit</Link>
       </section>
     );
   } else if (userType === `STORE`) {
@@ -34,21 +36,29 @@ const Home = ({store}) => {
         <p>Welkom {storeInformation.store}</p>
         <Link to='/Events'>Events</Link>
         <Link to='/Vrijwilligers'>Vrijwilligerswerk</Link>
+
+        <Link to='/'>Log uit</Link>
+      </section>
+    );
+  } else {
+    return (
+      <section>
+        <header>
+          <h1>Home</h1>
+        </header>
+        <p>Welkom {userInformation.firstname}</p>
+
+
+        <p>Munten: {userInformation.munten}</p>
+
+        <Link to='/Events'>Events</Link>
+        <Link to='/Vrijwilligers'>Vrijwilligerswerk</Link>
+
+        <Link to='/'>Log uit</Link>
       </section>
     );
   }
 
-  console.log(userInformation);
-  return (
-    <section>
-      <header>
-        <h1>Home</h1>
-      </header>
-      <p>Welkom {userInformation.firstname}</p>
-      <Link to='/Events'>Events</Link>
-      <Link to='/Vrijwilligers'>Vrijwilligerswerk</Link>
-    </section>
-  );
 };
 
 Home.propTypes = {
