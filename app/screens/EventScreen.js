@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-nativ
 import { StackNavigator } from 'react-navigation';
 
 import EventDetailScreen from './EventDetailScreen';
+import ownEventDetailScreen from './ownEventDetailScreen';
 
 
 class EventScreen extends React.Component {
@@ -47,7 +48,7 @@ class EventScreen extends React.Component {
               event => (
                 console.log(event.user),
                 <Button
-                  onPress={() => navigate('EventDetail', { ...event })}
+                  onPress={() => navigate(`${(user.email === event.user) ? 'ownEventDetail' : "EventDetail"}`, { ...event })}
                   title={event.name}
                   key={event._id}
                   color={(user.email === event.user) ? '#ECF838' : "#134D57"}
@@ -88,6 +89,7 @@ export default class App extends React.Component {
 export const ListNavigation = StackNavigator({
   EventList: { screen: EventScreen },
   EventDetail: { screen: EventDetailScreen },
+  ownEventDetail: { screen: ownEventDetailScreen },
 });
 
 const styles = StyleSheet.create({
