@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage} from 'react-native';
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Home',
@@ -12,18 +12,36 @@ export default class HomeScreen extends React.Component {
     ),
   };
 
-  render() {
-    const { navigate } = this.props.navigation;
+  state = {
+    token: null,
+  };
 
-
-        fetch(`http://172.20.66.55:3000/api/products`)
-          .then(r => r.json())
-          .then(respons=>{
-            console.log(respons);
+  async componentWillMount() {
+    AsyncStorage.getItem("myToken").then((token) => {
+          this.setState({'token': token});
+          const headers = new Headers({
+            Authorization: `Bearer ${token}`
           });
+          fetch(`http://172.20.66.20:3000/api/me?isActive=true`, {headers})
+            .then(user => {
+              const userContent = user._bodyText;
+              AsyncStorage.setItem("user", userContent);
+            })
+            .catch(err => console.error(err));
+    }).done();
+
+  }
+
+
+  render() {
+    const { token } = this.state;
+
 
     return (
       <View style={styles.container}>
+        <Text>
+            token: {token}
+        </Text>
         <Text>HOME</Text>
       </View>
     );

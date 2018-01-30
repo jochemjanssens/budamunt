@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
 
 import t from 'tcomb-form-native';
 
@@ -20,20 +20,19 @@ export default class App extends React.Component {
 
   handleSubmit = () => {
     const value = this._form.getValue(); // use that ref to get the form value
-    console.log('value: ', value);
 
-  const body = new FormData();
-    body.append(`login`, value.email);
-    body.append(`password`, value.password);
-    body.append(`audience`, `tweets-frontend`);
+    const body = new FormData();
+      body.append(`login`, value.email);
+      body.append(`password`, value.password);
+      body.append(`audience`, `tweets-frontend`);
 
-    fetch('http://192.168.1.60:3000/api/auth', {
+    fetch('http://172.20.66.20:3000/api/auth', {
       method: 'POST',
       body: body
     })
     .then(r => {
-      console.log(r._bodyText);
       token = JSON.parse(r._bodyText).token;
+      AsyncStorage.setItem("myToken", token);
       this.setState({ login: true });
     })
     .catch(
@@ -49,7 +48,7 @@ export default class App extends React.Component {
       return <Login />
     }else{
       return (
-        <View>
+        <View style={styles.container}>
           <Form
              type={User}
              ref={c => this._form = c}
@@ -63,3 +62,12 @@ export default class App extends React.Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: 300,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+});
