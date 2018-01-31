@@ -9,6 +9,12 @@ export default class VolunteerDetailScreen extends React.Component {
     const { params } = this.props.navigation.state;
     return (
       <View style={styles.container}>
+        <Button
+          onPress={() => this.props.navigation.goBack()}
+          title="Terug"
+          color="#841584"
+        />
+        
         <Text>Vrijwilligerswerk {params.user}</Text>
       </View>
     );

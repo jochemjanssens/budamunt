@@ -17,7 +17,7 @@ export default class HomeScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://172.20.66.17:3000/api/me?isActive=true`, {headers})
+          fetch(`http://192.168.1.14:3000/api/me?isActive=true`, {headers})
             .then(user => {
               const userContent = user._bodyText;
               AsyncStorage.setItem("user", userContent);
@@ -34,11 +34,9 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    const { token, logout } = this.state;
+    const { logout } = this.state;
 
     const { navigate } = this.props.navigation;
-
-    console.log(logout);
     if(logout){
       return (
         <App />
@@ -47,9 +45,6 @@ export default class HomeScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text>
-            token: {token}
-        </Text>
         <Text>HOME</Text>
         <Button
           title='MELD AF'
@@ -67,5 +62,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-  },
+  }
 });

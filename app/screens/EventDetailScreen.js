@@ -4,11 +4,15 @@ import { StyleSheet, Text, View, Button, Image } from 'react-native';
 export default class EventDetailScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
-
     const { params } = this.props.navigation.state;
-    console.log(params);
+
     return (
       <View style={styles.container}>
+        <Button
+          onPress={() => this.props.navigation.goBack()}
+          title="Terug"
+          color="#841584"
+        />
         <Text>Naam:  {params.name}</Text>
         <Text>Waar:  {params.location}</Text>
         <Text>Wanneer:  {params.date}</Text>

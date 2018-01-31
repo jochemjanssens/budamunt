@@ -1,6 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 
+import t from 'tcomb-form-native';
+const Form = t.form.Form;
+
+const User = t.struct({
+  email: t.String,
+  password: t.String
+});
+
 export default class NewEvent extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
@@ -12,6 +20,11 @@ export default class NewEvent extends React.Component {
 
     return (
       <View style={styles.container}>
+        <Button
+          onPress={() => this.props.navigation.goBack()}
+          title="Terug"
+          color="#841584"
+        />
         <Text>Naam</Text>
       </View>
     );
