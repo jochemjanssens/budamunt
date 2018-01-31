@@ -2,12 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-import EventDetailScreen from './EventDetailScreen';
-import ownEventDetailScreen from './ownEventDetailScreen';
-import NewEvent from './NewEvent';
-
-
-class EventScreen extends React.Component {
+import Navbar from './Navbar';
+export default class EventScreen extends React.Component {
   state = {
     token: null,
     user: null,
@@ -23,7 +19,7 @@ class EventScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.5:3000/api/events?isActive=true`, {headers})
+      fetch(`http://172.20.66.17:3000/api/events?isActive=true`, {headers})
         .then(r => {
           this.setState({'events': JSON.parse(r._bodyText).events});
         })
@@ -38,20 +34,22 @@ class EventScreen extends React.Component {
 
   loadEvents = () => {
     AsyncStorage.getItem("myToken").then((token) => {
-      const headers = new Headers({
-        Authorization: `Bearer ${token}`
-      });
+      if(token){
+        const headers = new Headers({
+          Authorization: `Bearer ${token}`
+        });
 
-      fetch(`http://192.168.1.5:3000/api/events?isActive=true`, {headers})
-        .then(r => {
-          const { events } = this.state;
-          if(events){
-            if(events.length !== JSON.parse(r._bodyText).events.length){
-                this.setState({'events': JSON.parse(r._bodyText).events});
+        fetch(`http://172.20.66.17:3000/api/events?isActive=true`, {headers})
+          .then(r => {
+            const { events } = this.state;
+            if(events && r){
+              if(events.length !== JSON.parse(r._bodyText).events.length){
+                  this.setState({'events': JSON.parse(r._bodyText).events});
+              }
             }
-          }
-        })
-        .catch(err => console.error(err));
+          })
+          .catch(err => console.error(err));
+      }
     });
   }
 
@@ -67,7 +65,6 @@ class EventScreen extends React.Component {
           {
             events.map(
               event => (
-                console.log(event.user),
                 <Button
                   onPress={() => navigate(`${(user.email === event.user) ? 'ownEventDetail' : "EventDetail"}`, { ...event })}
                   title={event.name}
@@ -80,8 +77,9 @@ class EventScreen extends React.Component {
           <Button
             style={styles.newEvent}
             title='Maak nieuw event'
-            onPress={() => navigate(`newEvent`)}
+            onPress={() => navigate('newEvent')}
           />
+          <Navbar navigate={navigate} />
         </View>
       );
     }
@@ -90,34 +88,11 @@ class EventScreen extends React.Component {
     return (
       <View style={styles.container}>
           <Text>Geen events</Text>
+          <Navbar navigate={navigate} />
       </View>
     );
   }
 }
-
-export default class App extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: 'Evenementen',
-    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/icon.png')}
-        style={[styles.icon, {tintColor: tintColor}]}
-      />
-    ),
-  };
-
-  render() {
-    return <ListNavigation />;
-  }
-}
-
-export const ListNavigation = StackNavigator({
-  EventList: { screen: EventScreen },
-  EventDetail: { screen: EventDetailScreen },
-  ownEventDetail: { screen: ownEventDetailScreen },
-  newEvent: { screen: NewEvent },
-});
 
 const styles = StyleSheet.create({
   container: {

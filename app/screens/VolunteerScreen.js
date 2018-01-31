@@ -3,9 +3,11 @@ import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import VolunteerDetailScreen from './VolunteerDetailScreen';
+import Navbar from './Navbar';
 
 
-class VolunteerScreen extends React.Component {
+export default class VolunteerScreen extends React.Component {
+
   render() {
     const { navigate } = this.props.navigation;
 
@@ -23,32 +25,11 @@ class VolunteerScreen extends React.Component {
           onPress={() => navigate('VolunteerDetail', { user: 'AZ Groeninghe' })}
           title="AZ Groeninghe"
         />
+        <Navbar navigate={navigate} />
       </View>
     );
   }
 }
-
-export default class App extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: 'Vrijwilligerswerk',
-    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/icon.png')}
-        style={[styles.icon, {tintColor: tintColor}]}
-      />
-    ),
-  };
-
-  render() {
-    return <ListNavigation />;
-  }
-}
-
-export const ListNavigation = StackNavigator({
-  VolunteerList: { screen: VolunteerScreen },
-  VolunteerDetail: { screen: VolunteerDetailScreen },
-});
 
 const styles = StyleSheet.create({
   container: {

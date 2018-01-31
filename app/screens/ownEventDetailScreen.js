@@ -17,7 +17,7 @@ export default class ownEventDetailScreen extends React.Component {
       const headers = new Headers({
         Authorization: `Bearer ${token}`
       });
-      const url = 'http://192.168.1.5:3000/api/events/' + params._id;
+      const url = 'http://172.20.66.17:3000/api/events/' + params._id;
       console.log(url);
       fetch(url, {method, headers})
         .then(r => {
@@ -32,7 +32,7 @@ export default class ownEventDetailScreen extends React.Component {
 
     const { params } = this.props.navigation.state;
     return (
-      <View>
+      <View style={styles.container}>
         <Text>OWNER</Text>
 
         <Text>Naam:  {params.name}</Text>

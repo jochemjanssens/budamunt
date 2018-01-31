@@ -11,7 +11,7 @@ export default class NewEvent extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
-      <View>
+      <View style={styles.container}>
         <Text>Naam</Text>
       </View>
     );

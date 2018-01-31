@@ -5,17 +5,6 @@ import { Constants, Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
 
 export default class MapScreen extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: 'Map',
-    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/icon.png')}
-        style={[styles.icon, {tintColor: tintColor}]}
-      />
-    ),
-  };
-
   state = {
       location: null,
       errorMessage: null,

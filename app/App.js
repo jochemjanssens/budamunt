@@ -37,7 +37,7 @@ export default class App extends React.Component {
       body.append(`password`, value.password);
       body.append(`audience`, `tweets-frontend`);
 
-    fetch('http://192.168.1.5:3000/api/auth', {
+    fetch('http://172.20.66.17:3000/api/auth', {
       method: 'POST',
       body: body
     })
@@ -53,7 +53,6 @@ export default class App extends React.Component {
 
   render() {
     const { login } = this.state;
-    console.log(login);
 
     if(login === true){
       return <Login />

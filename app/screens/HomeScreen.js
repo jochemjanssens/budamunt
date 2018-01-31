@@ -1,19 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage} from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight} from 'react-native';
+
+import App from '../App';
+import Navbar from './Navbar';
+
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: 'Home',
-    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/icon.png')}
-        style={[styles.icon, {tintColor: tintColor}]}
-      />
-    ),
-  };
 
   state = {
     token: null,
+    logout: false
   };
 
   async componentWillMount() {
@@ -22,7 +17,7 @@ export default class HomeScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.1.5:3000/api/me?isActive=true`, {headers})
+          fetch(`http://172.20.66.17:3000/api/me?isActive=true`, {headers})
             .then(user => {
               const userContent = user._bodyText;
               AsyncStorage.setItem("user", userContent);
@@ -32,10 +27,23 @@ export default class HomeScreen extends React.Component {
 
   }
 
+  handleLogout = () => {
+    console.log('logout');
+    AsyncStorage.setItem("myToken", '');
+    this.setState({ logout: true });
+  }
 
   render() {
-    const { token } = this.state;
+    const { token, logout } = this.state;
 
+    const { navigate } = this.props.navigation;
+
+    console.log(logout);
+    if(logout){
+      return (
+        <App />
+      )
+    }
 
     return (
       <View style={styles.container}>
@@ -43,6 +51,11 @@ export default class HomeScreen extends React.Component {
             token: {token}
         </Text>
         <Text>HOME</Text>
+        <Button
+          title='MELD AF'
+          onPress={this.handleLogout}
+        />
+        <Navbar navigate={navigate}/>
       </View>
     );
   }
@@ -52,11 +65,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
-  },
-  icon: {
-    width: 26,
-    height: 26,
+    alignItems: 'center',
   },
 });

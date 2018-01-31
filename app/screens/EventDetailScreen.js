@@ -2,18 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 
 export default class EventDetailScreen extends React.Component {
-
-  static navigationOptions = ({ navigation }) => ({
-    title: `Event ${navigation.state.params.name}`,
-  });
-
   render() {
     const { navigate } = this.props.navigation;
 
     const { params } = this.props.navigation.state;
     console.log(params);
     return (
-      <View>
+      <View style={styles.container}>
         <Text>Naam:  {params.name}</Text>
         <Text>Waar:  {params.location}</Text>
         <Text>Wanneer:  {params.date}</Text>
