@@ -10,7 +10,7 @@ export default class CommunityScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text>Community</Text>
-        <Navbar navigate={navigate} style={styles.navbar}/>
+        <Navbar navigate={this.props.navigation}/>
       </View>
     );
   }
@@ -18,12 +18,6 @@ export default class CommunityScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  navbar: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',

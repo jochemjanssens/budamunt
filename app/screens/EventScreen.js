@@ -79,7 +79,7 @@ export default class EventScreen extends React.Component {
             title='Maak nieuw event'
             onPress={() => navigate('newEvent')}
           />
-          <Navbar navigate={navigate} />
+          <Navbar navigate={this.props.navigation}/>
         </View>
       );
     }
@@ -88,7 +88,12 @@ export default class EventScreen extends React.Component {
     return (
       <View style={styles.container}>
           <Text>Geen events</Text>
-          <Navbar navigate={navigate} />
+          <Button
+            style={styles.newEvent}
+            title='Maak nieuw event'
+            onPress={() => navigate('newEvent')}
+          />
+          <Navbar navigate={this.props.navigation}/>
       </View>
     );
   }

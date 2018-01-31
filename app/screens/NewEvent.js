@@ -7,8 +7,8 @@ const Form = t.form.Form;
 import DatePicker from 'react-native-datepicker'
 
 const Event = t.struct({
-  naam: t.String,
-  uitleg: t.String,
+  titel: t.String,
+  beschrijving: t.String,
   locatie: t.String
 });
 
@@ -31,7 +31,7 @@ export default class NewEvent extends React.Component {
 
   handleVolgende = () => {
     const value = this._form.getValue();
-
+    console.log(value);
     this.setState({ data: value });
     this.setState({ progress: 2 });
   }
@@ -40,9 +40,9 @@ export default class NewEvent extends React.Component {
     AsyncStorage.getItem("myToken").then((token) => {
       if(token){
         const body = new FormData();
-        body.append(`user`, this.state.user._id);
-        body.append(`name`, this.state.data.naam);
-        body.append(`description`, this.state.data.uitleg);
+        body.append(`user`, this.state.user.email);
+        body.append(`name`, this.state.data.titel);
+        body.append(`description`, this.state.data.beschrijving);
         body.append(`location`, this.state.data.locatie);
         body.append(`date`, this.state.date);
         body.append(`starttime`, this.state.startTime);

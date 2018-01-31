@@ -25,7 +25,7 @@ export default class VolunteerScreen extends React.Component {
           onPress={() => navigate('VolunteerDetail', { user: 'AZ Groeninghe' })}
           title="AZ Groeninghe"
         />
-        <Navbar navigate={navigate} />
+        <Navbar navigate={this.props.navigation}/>
       </View>
     );
   }

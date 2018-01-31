@@ -35,8 +35,8 @@ export default class HomeScreen extends React.Component {
 
   render() {
     const { logout } = this.state;
-
     const { navigate } = this.props.navigation;
+
     if(logout){
       return (
         <App />
@@ -50,7 +50,7 @@ export default class HomeScreen extends React.Component {
           title='MELD AF'
           onPress={this.handleLogout}
         />
-        <Navbar navigate={navigate}/>
+        <Navbar navigate={this.props.navigation}/>
       </View>
     );
   }

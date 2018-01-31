@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Image, TouchableHighlight } from 'react-native';
 
 export default class Navbar extends React.Component {
-  constructor(navigate){
+  constructor(navigation){
     super();
-    console.log("body");
-    this.navigate = navigate;
+    this.navigate = navigation.navigate;
+    this.route = navigation.navigate.state.routeName
   }
 
   render() {
@@ -14,25 +14,28 @@ export default class Navbar extends React.Component {
         <TouchableHighlight onPress={() => this.navigate.navigate('Home')}>
           <Image
             style={styles.button}
-            source={require('../assets/icons/home.png')}
+            source={require('../assets/icons/community.png')}
+
+            source={(this.route === 'Home') ? require('../assets/icons/home-active.png') : require('../assets/icons/home.png')}
           />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.navigate.navigate('Community')}>
           <Image
             style={styles.button}
-            source={require('../assets/icons/community.png')}
+            source={(this.route === 'Community') ? require('../assets/icons/community-active.png') : require('../assets/icons/community.png')}
           />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.navigate.navigate('Vrijwilligerswerk')}>
           <Image
             style={styles.button}
-            source={require('../assets/icons/volunteer.png')}
+            source={(this.route === 'Vrijwilligerswerk') ? require('../assets/icons/volunteer-active.png') : require('../assets/icons/volunteer.png')}
+
           />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.navigate.navigate('Evenementen')}>
           <Image
             style={styles.button}
-            source={require('../assets/icons/events.png')}
+            source={(this.route === 'Evenementen') ? require('../assets/icons/events-active.png') : require('../assets/icons/events.png')}
           />
         </TouchableHighlight>
       </View>
