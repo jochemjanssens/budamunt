@@ -14,7 +14,7 @@ export default class VolunteerDetailScreen extends React.Component {
           title="Terug"
           color="#841584"
         />
-        
+
         <Text>Vrijwilligerswerk {params.user}</Text>
       </View>
     );

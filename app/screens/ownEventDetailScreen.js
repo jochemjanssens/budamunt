@@ -17,7 +17,7 @@ export default class ownEventDetailScreen extends React.Component {
       const headers = new Headers({
         Authorization: `Bearer ${token}`
       });
-      const url = 'http://192.168.1.14:3000/api/events/' + params._id;
+      const url = 'http://172.20.66.12:3000/api/events/' + params._id;
       console.log(url);
       fetch(url, {method, headers})
         .then(r => {
@@ -25,6 +25,12 @@ export default class ownEventDetailScreen extends React.Component {
         })
         .catch(err => console.error(err));
     });
+  }
+
+  changeEvent = () => {
+    const { navigate } = this.props.navigation;
+    const { params } = this.props.navigation.state;
+    navigate('EditEvent', { data: params })
   }
 
   render() {
@@ -44,6 +50,12 @@ export default class ownEventDetailScreen extends React.Component {
         <Text>Waar:  {params.location}</Text>
         <Text>Wanneer:  {params.date}</Text>
         <Text>Wat: {params.description}</Text>
+
+        <Button
+          onPress={this.changeEvent}
+          title="Wijzig event"
+          color="#134D57"
+        />
 
         <Button
           onPress={this.deleteEvent}

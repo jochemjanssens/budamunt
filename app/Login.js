@@ -12,6 +12,7 @@ import VolunteerDetailScreen from './screens/VolunteerDetailScreen';
 import EventDetailScreen from './screens/EventDetailScreen';
 import ownEventDetailScreen from './screens/ownEventDetailScreen';
 import NewEvent from './screens/NewEvent';
+import EditEvent from './screens/EditEvent';
 
 export default class Login extends React.Component {
   render() {
@@ -30,6 +31,7 @@ export const Navigation = StackNavigator({
   EventDetail: { screen: EventDetailScreen },
   ownEventDetail: { screen: ownEventDetailScreen },
   newEvent: { screen: NewEvent },
+  EditEvent: { screen: EditEvent },
 }, {
     // see next line
     headerMode: 'none',

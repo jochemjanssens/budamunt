@@ -12,15 +12,38 @@ const Event = t.struct({
   locatie: t.String
 });
 
-export default class NewEvent extends React.Component {
+export default class EditEvent extends React.Component {
   state = {
     user: null,
     progress: 1,
-    data: null,
-    date: new Date().toJSON().slice(0,10),
-    startTime: '10:00',
-    endTime: '21:00'
+    value: {
+      beschrijving: null,
+      locatie: null,
+      titel: null,
+    },
+    date: null,
+    startTime: null,
+    endTime: null
   };
+
+  constructor(data){
+    super();
+    this.formData = data.navigation.state.params.data;
+
+    this.user = this.formData.user;
+    this.value = {
+      beschrijving: this.formData.description,
+      locatie: this.formData.location,
+      titel: this.formData.name,
+    }
+    this.date = this.formData.date;
+    this.startTime = this.formData.starttime;
+    this.endTime = this.formData.endtime;
+  }
+
+  onChange(value) {
+    this.value = value
+  }
 
   async componentWillMount() {
     AsyncStorage.getItem("user").then(user => {
@@ -31,8 +54,9 @@ export default class NewEvent extends React.Component {
 
   handleVolgende = () => {
     const value = this._form.getValue();
-    console.log(value);
-    this.setState({ data: value });
+    this.value.titel =  value.titel;
+    this.value.beschrijving = value.beschrijving;
+    this.value.locatie = value.locatie;
     this.setState({ progress: 2 });
   }
 
@@ -41,16 +65,29 @@ export default class NewEvent extends React.Component {
       if(token){
         const body = new FormData();
         body.append(`user`, this.state.user.email);
-        body.append(`name`, this.state.data.titel);
-        body.append(`description`, this.state.data.beschrijving);
-        body.append(`location`, this.state.data.locatie);
-        body.append(`date`, this.state.date);
-        body.append(`starttime`, this.state.startTime);
-        body.append(`endtime`, this.state.endTime);
+        body.append(`name`, this.value.titel);
+        body.append(`description`, this.value.beschrijving);
+        body.append(`location`, this.value.locatie);
+        body.append(`date`, this.date);
+        body.append(`starttime`, this.startTime);
+        body.append(`endtime`, this.endTime);
+        body.append(`isActive`, 'true');
+
+        console.log('data---');
+        console.log(body);
 
         const headers = new Headers({
           Authorization: `Bearer ${token}`
         });
+        const url = 'http://172.20.66.12:3000/api/events/' + this.formData._id;
+        fetch(url, {
+          method: 'DELETE',
+          headers
+        })
+          .then(r => {
+            console.log(r);
+          })
+          .catch(err => console.error(err));
 
         fetch('http://172.20.66.12:3000/api/events', {
             method: 'POST',
@@ -58,7 +95,8 @@ export default class NewEvent extends React.Component {
             headers
           })
           .then(r => {
-            this.props.navigation.goBack();
+            console.log(r);
+            this.props.navigation.navigate('Evenementen')
           })
           .catch(err => console.error(err));
       }
@@ -68,6 +106,7 @@ export default class NewEvent extends React.Component {
   }
 
   render() {
+
     const { navigate } = this.props.navigation;
     const { progress } = this.state;
 
@@ -94,6 +133,8 @@ export default class NewEvent extends React.Component {
             <Form
                type={Event}
                ref={c => this._form = c}
+               value={this.value}
+               onChange={this.onChange}
              />
             <Button
               title="Volgende"
@@ -103,6 +144,7 @@ export default class NewEvent extends React.Component {
         </View>
       );
     } else {
+      console.log(this.startTime);
       return (
         <View style={styles.container}>
           <View style={styles.header}>
