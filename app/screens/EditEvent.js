@@ -68,9 +68,9 @@ export default class EditEvent extends React.Component {
         body.append(`name`, this.value.titel);
         body.append(`description`, this.value.beschrijving);
         body.append(`location`, this.value.locatie);
-        body.append(`date`, this.date);
-        body.append(`starttime`, this.startTime);
-        body.append(`endtime`, this.endTime);
+        body.append(`date`, this.state.date);
+        body.append(`starttime`, this.state.startTime);
+        body.append(`endtime`, this.state.endTime);
         body.append(`isActive`, 'true');
 
         console.log('data---');
@@ -144,7 +144,6 @@ export default class EditEvent extends React.Component {
         </View>
       );
     } else {
-      console.log(this.startTime);
       return (
         <View style={styles.container}>
           <View style={styles.header}>

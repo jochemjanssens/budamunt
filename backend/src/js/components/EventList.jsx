@@ -12,9 +12,6 @@ const EventList = ({events, store}) => {
     currentUser
   } = store;
 
-
-  //Sorteer de events op een heel slechte manier
-  // Maar het werkt 🔥
   const eventsArray = [];
   events.map(event => {
     let added = false;

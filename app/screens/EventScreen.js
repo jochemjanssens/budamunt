@@ -59,18 +59,40 @@ export default class EventScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     const { events, user } = this.state;
+
+
     if(events && user){
+      const eventsArray = [];
+      events.map(event => {
+        let added = false;
+        eventsArray.forEach((newEvent, key) => {
+          if (event.date < newEvent.date) {
+            if (added === false) {
+              eventsArray.splice(key, 0, event);
+            }
+            added = true;
+          }
+        });
+        if (added === false) {
+          eventsArray.push(event);
+        }
+      });
+
       return (
         <View style={styles.container}>
           {
-            events.map(
+            eventsArray.map(
               event => (
-                <Button
-                  onPress={() => navigate(`${(user.email === event.user) ? 'ownEventDetail' : "EventDetail"}`, { ...event })}
-                  title={event.name}
-                  key={event._id}
-                  color={(user.email === event.user) ? '#FD9C27' : "#134D57"}
-                />
+                <View key={event._id}>
+                  <Text>{event.name}</Text>
+                  <Text>{event.description}</Text>
+                  <Text>{event.date}</Text>
+                  <Button
+                    onPress={() => navigate(`${(user.email === event.user) ? 'ownEventDetail' : "EventDetail"}`, { ...event })}
+                    title='open'
+                    color={(user.email === event.user) ? '#FD9C27' : "#134D57"}
+                  />
+                </View>
               )
             )
           }
