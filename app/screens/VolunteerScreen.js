@@ -1,31 +1,135 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-import VolunteerDetailScreen from './VolunteerDetailScreen';
 import Navbar from './Navbar';
-
-
 export default class VolunteerScreen extends React.Component {
+  state = {
+    token: null,
+    user: null,
+    volunteers: null,
+  };
+
+  async componentWillMount() {
+    AsyncStorage.getItem("myToken").then((token) => {
+      this.setState({'token': token});
+
+      const headers = new Headers({
+        Authorization: `Bearer ${token}`
+      });
+
+      fetch(`http://172.20.66.12:3000/api/volunteers?isActive=true`, {headers})
+        .then(r => {
+          this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
+        })
+        .catch(err => console.error(err));
+    });
+
+    AsyncStorage.getItem("user").then(user => {
+      this.setState({'user': JSON.parse(user)});
+    });
+  }
+
+  loadVolunteers = () => {
+    AsyncStorage.getItem("myToken").then((token) => {
+      if(token){
+        const headers = new Headers({
+          Authorization: `Bearer ${token}`
+        });
+
+        fetch(`http://172.20.66.12:3000/api/volunteers?isActive=true`, {headers})
+          .then(r => {
+            const { volunteers } = this.state;
+            if(volunteers && r){
+              if(volunteers.length !== JSON.parse(r._bodyText).volunteers.length){
+                  this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
+              }
+            }
+          })
+          .catch(err => console.error(err));
+      }
+    });
+  }
 
   render() {
+    setInterval(this.loadVolunteers, 1000);
     const { navigate } = this.props.navigation;
+
+    const { volunteers, user } = this.state;
+
+    if(volunteers && user){
+      const volunteersArray = [];
+      volunteers.map(volunteer => {
+        //Delete past Events
+        let today = new Date();
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1;
+        const yyyy = today.getFullYear();
+        if (dd < 10) {
+          dd = `0${dd}`;
+        }
+        if (mm < 10) {
+          mm = `0${mm}`;
+        }
+        today = `${yyyy}-${mm}-${dd}`;
+
+        if (today > volunteer.date) {
+          console.log(volunteer);
+        }
+
+        let added = false;
+        volunteersArray.forEach((newEvent, key) => {
+          if (volunteer.date < newEvent.date) {
+            if (added === false) {
+              volunteersArray.splice(key, 0, volunteer);
+            }
+            added = true;
+          }
+        });
+        if (added === false) {
+          volunteersArray.push(volunteer);
+        }
+      });
+
+      return (
+        <View style={styles.container}>
+          {
+            volunteersArray.map(
+              volunteer => (
+                <View key={volunteer._id}>
+                  <Text>{volunteer.name}</Text>
+                  <Text>{volunteer.description}</Text>
+                  <Text>{volunteer.date}</Text>
+                  <Text>{volunteer.userType}</Text>
+                  <Button
+                    onPress={() => navigate(`${(user.email === volunteer.user) ? 'ownVolunteerDetail' : "VolunteerDetail"}`, { ...volunteer })}
+                    title='open'
+                    color={(user.email === volunteer.user) ? '#FD9C27' : "#134D57"}
+                  />
+                </View>
+              )
+            )
+          }
+          <Button
+            style={styles.newEvent}
+            title='Maak nieuwe aanvraag'
+            onPress={() => navigate('newVolunteer')}
+          />
+          <Navbar navigate={this.props.navigation}/>
+        </View>
+      );
+    }
+
 
     return (
       <View style={styles.container}>
-        <Button
-          onPress={() => navigate('VolunteerDetail', { user: 'H. Hart' })}
-          title="H. Hart"
-        />
-        <Button
-          onPress={() => navigate('VolunteerDetail', { user: 'Budascoop' })}
-          title="Budascoop"
-        />
-        <Button
-          onPress={() => navigate('VolunteerDetail', { user: 'AZ Groeninghe' })}
-          title="AZ Groeninghe"
-        />
-        <Navbar navigate={this.props.navigation}/>
+          <Text>Geen aanvragen</Text>
+          <Button
+            style={styles.newEvent}
+            title='Maak nieuwe aanvraag'
+            onPress={() => navigate('newVolunteer')}
+          />
+          <Navbar navigate={this.props.navigation}/>
       </View>
     );
   }
@@ -38,8 +142,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  newEvent: {
+    marginTop: 100,
+  },
   icon: {
     width: 26,
     height: 26,
+  },
+  own: {
+    color: '#ff0',
+  },
+  other: {
+    backgroundColor: '#0f0',
   },
 });

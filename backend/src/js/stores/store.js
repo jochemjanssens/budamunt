@@ -187,7 +187,7 @@ class Store {
   }
 
   addVolunteer = (name, description, location, date, starttime, endtime, munten) => {
-    volunteersAPI.insert(this.currentUser, name, description, location, date, starttime, endtime, munten, this.token)
+    volunteersAPI.insert(this.currentUser, name, description, location, date, starttime, endtime, munten, this.userInformation.scope, this.token)
       .then(d => {
         console.log(d);
         this.volunteerAdded = true;

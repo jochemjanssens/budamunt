@@ -14,7 +14,6 @@ export default class EventScreen extends React.Component {
     AsyncStorage.getItem("myToken").then((token) => {
       this.setState({'token': token});
 
-      //Get Events
       const headers = new Headers({
         Authorization: `Bearer ${token}`
       });
@@ -28,7 +27,6 @@ export default class EventScreen extends React.Component {
 
     AsyncStorage.getItem("user").then(user => {
       this.setState({'user': JSON.parse(user)});
-      console.log(user);
     });
   }
 
@@ -53,7 +51,6 @@ export default class EventScreen extends React.Component {
     });
   }
 
-
   render() {
     setInterval(this.loadEvents, 1000);
     const { navigate } = this.props.navigation;
@@ -64,6 +61,23 @@ export default class EventScreen extends React.Component {
     if(events && user){
       const eventsArray = [];
       events.map(event => {
+        //Delete past Events
+        let today = new Date();
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1;
+        const yyyy = today.getFullYear();
+        if (dd < 10) {
+          dd = `0${dd}`;
+        }
+        if (mm < 10) {
+          mm = `0${mm}`;
+        }
+        today = `${yyyy}-${mm}-${dd}`;
+
+        if (today > event.date) {
+          console.log(event);
+        }
+
         let added = false;
         eventsArray.forEach((newEvent, key) => {
           if (event.date < newEvent.date) {

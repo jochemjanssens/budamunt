@@ -9,54 +9,30 @@ import DatePicker from 'react-native-datepicker'
 const Event = t.struct({
   titel: t.String,
   beschrijving: t.String,
-  locatie: t.String
+  locatie: t.String,
+  munten: t.Number
 });
 
-export default class EditEvent extends React.Component {
+export default class NewVolunteer extends React.Component {
   state = {
     user: null,
     progress: 1,
-    value: {
-      beschrijving: null,
-      locatie: null,
-      titel: null,
-    },
-    date: null,
-    startTime: null,
-    endTime: null
+    data: null,
+    date: new Date().toJSON().slice(0,10),
+    startTime: '10:00',
+    endTime: '21:00'
   };
-
-  constructor(data){
-    super();
-    this.formData = data.navigation.state.params.data;
-
-    this.user = this.formData.user;
-    this.value = {
-      beschrijving: this.formData.description,
-      locatie: this.formData.location,
-      titel: this.formData.name,
-    }
-    this.date = this.formData.date;
-    this.startTime = this.formData.starttime;
-    this.endTime = this.formData.endtime;
-  }
-
-  onChange(value) {
-    this.value = value
-  }
 
   async componentWillMount() {
     AsyncStorage.getItem("user").then(user => {
       this.setState({'user': JSON.parse(user)});
-      console.log(user);
     });
   }
 
   handleVolgende = () => {
     const value = this._form.getValue();
-    this.value.titel =  value.titel;
-    this.value.beschrijving = value.beschrijving;
-    this.value.locatie = value.locatie;
+    console.log(value);
+    this.setState({ data: value });
     this.setState({ progress: 2 });
   }
 
@@ -65,35 +41,27 @@ export default class EditEvent extends React.Component {
       if(token){
         const body = new FormData();
         body.append(`user`, this.state.user.email);
-        body.append(`name`, this.value.titel);
-        body.append(`description`, this.value.beschrijving);
-        body.append(`location`, this.value.locatie);
+        body.append(`name`, this.state.data.titel);
+        body.append(`description`, this.state.data.beschrijving);
+        body.append(`location`, this.state.data.locatie);
+        body.append(`munten`, this.state.data.munten);
         body.append(`date`, this.state.date);
         body.append(`starttime`, this.state.startTime);
         body.append(`endtime`, this.state.endTime);
-        body.append(`isActive`, 'true');
-        
+        body.append(`userType`, this.state.user.scope);
+
         const headers = new Headers({
           Authorization: `Bearer ${token}`
         });
-        const url = 'http://172.20.66.12:3000/api/events/' + this.formData._id;
-        fetch(url, {
-          method: 'DELETE',
-          headers
-        })
-          .then(r => {
-            console.log(r);
-          })
-          .catch(err => console.error(err));
 
-        fetch('http://172.20.66.12:3000/api/events', {
+        fetch('http://172.20.66.12:3000/api/volunteers', {
             method: 'POST',
             body,
             headers
           })
           .then(r => {
             console.log(r);
-            this.props.navigation.navigate('Evenementen')
+            this.props.navigation.goBack();
           })
           .catch(err => console.error(err));
       }
@@ -103,7 +71,6 @@ export default class EditEvent extends React.Component {
   }
 
   render() {
-
     const { navigate } = this.props.navigation;
     const { progress } = this.state;
 
@@ -130,8 +97,6 @@ export default class EditEvent extends React.Component {
             <Form
                type={Event}
                ref={c => this._form = c}
-               value={this.value}
-               onChange={this.onChange}
              />
             <Button
               title="Volgende"

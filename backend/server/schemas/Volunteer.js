@@ -50,6 +50,12 @@ const schema = {
   munten: {
     type: Number,
     required: true,
+    validation: Joi.number()
+  },
+
+  userType: {
+    type: String,
+    required: true,
     validation: Joi.string()
   }
 

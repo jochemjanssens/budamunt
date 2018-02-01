@@ -2,7 +2,7 @@ const url = `/api/volunteers`;
 
 export default {
 
-  insert: (user, name, description, location, date, starttime, endtime, munten, token = ``) => {
+  insert: (user, name, description, location, date, starttime, endtime, munten, userType, token = ``) => {
 
     const method = `POST`;
     const body = new FormData();
@@ -15,6 +15,7 @@ export default {
     body.append(`starttime`, starttime);
     body.append(`endtime`, endtime);
     body.append(`munten`, munten);
+    body.append(`userType`, userType);
 
     const headers = new Headers({
       Authorization: `Bearer ${token}`
