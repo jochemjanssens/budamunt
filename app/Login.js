@@ -1,44 +1,97 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
 
-import HomeScreen from './screens/HomeScreen';
-import MapScreen from './screens/MapScreen';
-import PaymentScreen from './screens/PaymentScreen';
-import CommunityScreen from './screens/CommunityScreen';
+import t from 'tcomb-form-native';
 
-import VolunteerScreen from './screens/VolunteerScreen';
-import VolunteerDetailScreen from './screens/VolunteerDetailScreen';
-import ownVolunteerDetailScreen from './screens/ownVolunteerDetailScreen';
-import NewVolunteer from './screens/NewVolunteer';
+import LoggedIn from './LoggedIn';
 
-import EventScreen from './screens/EventScreen';
-import EventDetailScreen from './screens/EventDetailScreen';
-import ownEventDetailScreen from './screens/ownEventDetailScreen';
-import NewEvent from './screens/NewEvent';
-import EditEvent from './screens/EditEvent';
+
+const Form = t.form.Form;
+
+const User = t.struct({
+  email: t.String,
+  password: t.String
+});
+
+var options = {
+  fields: {
+    password: {
+      password: true,
+      secureTextEntry: true
+    }
+  }
+};
 
 export default class Login extends React.Component {
+
+  state = {
+    login: false
+  };
+
+  async componentWillMount() {
+    AsyncStorage.getItem("myToken").then((token) => {
+      if(token){
+        this.setState({ login: true });
+      }
+    });
+  }
+
+  handleSubmit = () => {
+    const value = this._form.getValue(); // use that ref to get the form value);
+    const body = new FormData();
+      body.append(`login`, value.email);
+      body.append(`password`, value.password);
+      body.append(`audience`, `tweets-frontend`);
+    fetch('http://10.17.6.197:3000/api/auth', {
+      method: 'POST',
+      body: body
+    })
+    .then(r => {
+      console.log(r);
+      token = JSON.parse(r._bodyText).token;
+      AsyncStorage.setItem("myToken", token);
+      this.setState({ login: true });
+    })
+    .catch(
+      err => console.error(err)
+    );
+  }
+
   render() {
-    return <Navigation />
+    const { login } = this.state;
+    const { navigate } = this.props.navigation;
+
+    if(login === true){
+      return <LoggedIn />
+    }else{
+      return (
+        <View style={styles.container}>
+          <Text>Login</Text>
+          <Form
+             type={User}
+             ref={c => this._form = c}
+             options={options}
+           />
+          <Button
+            title="meld aan"
+            onPress={this.handleSubmit}
+          />
+
+          <Button
+            title='Nog geen account'
+            onPress={() => navigate('Register')}
+          />
+        </View>
+      );
+    }
   }
 }
 
-export const Navigation = StackNavigator({
-  Home: { screen: HomeScreen },
-  Kaart: { screen: MapScreen },
-  Betalen: { screen: PaymentScreen },
-  Vrijwilligerswerk: { screen: VolunteerScreen },
-  VolunteerDetail: { screen: VolunteerDetailScreen },
-  ownVolunteerDetail: { screen: ownVolunteerDetailScreen },
-  newVolunteer: { screen: NewVolunteer },
-  Community: { screen: CommunityScreen },
-  Evenementen: { screen: EventScreen },
-  EventDetail: { screen: EventDetailScreen },
-  ownEventDetail: { screen: ownEventDetailScreen },
-  newEvent: { screen: NewEvent },
-  EditEvent: { screen: EditEvent },
-}, {
-    // see next line
-    headerMode: 'none',
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: 300,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
 });

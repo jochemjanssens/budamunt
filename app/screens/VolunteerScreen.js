@@ -18,7 +18,7 @@ export default class VolunteerScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://172.20.66.12:3000/api/volunteers?isActive=true`, {headers})
+      fetch(`http://10.17.6.197:3000/api/volunteers?isActive=true`, {headers})
         .then(r => {
           this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
         })
@@ -37,7 +37,7 @@ export default class VolunteerScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch(`http://172.20.66.12:3000/api/volunteers?isActive=true`, {headers})
+        fetch(`http://10.17.6.197:3000/api/volunteers?isActive=true`, {headers})
           .then(r => {
             const { volunteers } = this.state;
             if(volunteers && r){

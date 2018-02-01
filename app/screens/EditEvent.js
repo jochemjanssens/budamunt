@@ -72,11 +72,11 @@ export default class EditEvent extends React.Component {
         body.append(`starttime`, this.state.startTime);
         body.append(`endtime`, this.state.endTime);
         body.append(`isActive`, 'true');
-        
+
         const headers = new Headers({
           Authorization: `Bearer ${token}`
         });
-        const url = 'http://172.20.66.12:3000/api/events/' + this.formData._id;
+        const url = 'http://10.17.6.197:3000/api/events/' + this.formData._id;
         fetch(url, {
           method: 'DELETE',
           headers
@@ -86,7 +86,7 @@ export default class EditEvent extends React.Component {
           })
           .catch(err => console.error(err));
 
-        fetch('http://172.20.66.12:3000/api/events', {
+        fetch('http://10.17.6.197:3000/api/events', {
             method: 'POST',
             body,
             headers

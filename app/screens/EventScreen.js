@@ -18,7 +18,7 @@ export default class EventScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://172.20.66.12:3000/api/events?isActive=true`, {headers})
+      fetch(`http://10.17.6.197:3000/api/events?isActive=true`, {headers})
         .then(r => {
           this.setState({'events': JSON.parse(r._bodyText).events});
         })
@@ -37,7 +37,7 @@ export default class EventScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch(`http://172.20.66.12:3000/api/events?isActive=true`, {headers})
+        fetch(`http://10.17.6.197:3000/api/events?isActive=true`, {headers})
           .then(r => {
             const { events } = this.state;
             if(events && r){
