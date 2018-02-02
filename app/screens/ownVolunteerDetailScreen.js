@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
 
+import Navbar from './Navbar';
+
 export default class ownVolunteerDetailScreen extends React.Component {
 
   deleteVolunteer = () => {
@@ -56,6 +58,8 @@ export default class ownVolunteerDetailScreen extends React.Component {
           title="Verwijder vrijwilligerswerk"
           color="#841584"
         />
+
+        <Navbar navigate={this.props.navigation}/>
       </View>
     );
   }

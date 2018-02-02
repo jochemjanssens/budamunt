@@ -9,6 +9,15 @@ export default class Navbar extends React.Component {
   }
 
   render() {
+    //Fix subpaginas
+    let page = this.route;
+    if(page === 'VolunteerPersonalScreen' || page === 'VolunteerDetail' || page === 'ownVolunteerDetail'){
+      page = 'Vrijwilligerswerk';
+    }
+    if(page === 'ownEventDetail' || page === 'EventDetail'){
+      page = 'Evenementen';
+    }
+
     return (
       <View style={styles.navbar}>
         <TouchableHighlight onPress={() => this.navigate.navigate('Home')}>
@@ -16,26 +25,26 @@ export default class Navbar extends React.Component {
             style={styles.button}
             source={require('../assets/icons/community.png')}
 
-            source={(this.route === 'Home') ? require('../assets/icons/home-active.png') : require('../assets/icons/home.png')}
+            source={(page === 'Home') ? require('../assets/icons/home-active.png') : require('../assets/icons/home.png')}
           />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.navigate.navigate('Community')}>
           <Image
             style={styles.button}
-            source={(this.route === 'Community') ? require('../assets/icons/community-active.png') : require('../assets/icons/community.png')}
+            source={(page === 'Community') ? require('../assets/icons/community-active.png') : require('../assets/icons/community.png')}
           />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.navigate.navigate('Vrijwilligerswerk')}>
           <Image
             style={styles.button}
-            source={(this.route === 'Vrijwilligerswerk') ? require('../assets/icons/volunteer-active.png') : require('../assets/icons/volunteer.png')}
+            source={(page === 'Vrijwilligerswerk') ? require('../assets/icons/volunteer-active.png') : require('../assets/icons/volunteer.png')}
 
           />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.navigate.navigate('Evenementen')}>
           <Image
             style={styles.button}
-            source={(this.route === 'Evenementen') ? require('../assets/icons/events-active.png') : require('../assets/icons/events.png')}
+            source={(page === 'Evenementen') ? require('../assets/icons/events-active.png') : require('../assets/icons/events.png')}
           />
         </TouchableHighlight>
       </View>

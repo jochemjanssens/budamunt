@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
 
+import Navbar from './Navbar';
+
 export default class ownEventDetailScreen extends React.Component {
 
   deleteEvent = () => {
@@ -55,6 +57,8 @@ export default class ownEventDetailScreen extends React.Component {
           title="Verwijder event"
           color="#841584"
         />
+
+        <Navbar navigate={this.props.navigation}/>
       </View>
     );
   }
