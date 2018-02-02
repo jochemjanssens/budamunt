@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-nativ
 import { StackNavigator } from 'react-navigation';
 
 import Navbar from './Navbar';
-export default class VolunteerScreen extends React.Component {
+export default class VolunteerPersonalScreen extends React.Component {
   state = {
     token: null,
     user: null,
@@ -78,7 +78,7 @@ export default class VolunteerScreen extends React.Component {
         }
 
         //Check type
-        if(volunteer.userType === 'ORGANISATIE'){
+        if(volunteer.userType === 'USER'){
           let added = false;
           volunteersArray.forEach((newEvent, key) => {
             if (volunteer.date < newEvent.date) {
@@ -93,14 +93,15 @@ export default class VolunteerScreen extends React.Component {
           }
         }
       });
+
       if(volunteersArray.length !== 0){
         return (
           <View style={styles.container}>
-            <Text>Vrijwilligerswerk organisatorisch</Text>
+            <Text>Vrijwilligerswerk persoonlijk</Text>
             <Button
               style={styles.newEvent}
-              title='Bekijk persoonlijk aanbod'
-              onPress={() => navigate('VolunteerPersonalScreen')}
+              title='Bekijk organisatorisch aanbod'
+              onPress={() => navigate('Vrijwilligerswerk')}
             />
             {
               volunteersArray.map(
@@ -129,11 +130,11 @@ export default class VolunteerScreen extends React.Component {
       } else {
         return (
           <View style={styles.container}>
-              <Text>Vrijwilligerswerk organisatorisch</Text>
+              <Text>Vrijwilligerswerk persoonlijk</Text>
               <Button
                 style={styles.newEvent}
-                title='Bekijk persoonlijk aanbod'
-                onPress={() => navigate('VolunteerPersonalScreen')}
+                title='Bekijk organisatorisch aanbod'
+                onPress={() => navigate('Vrijwilligerswerk')}
               />
               <Text>Geen aanvragen</Text>
               <Button
@@ -147,14 +148,13 @@ export default class VolunteerScreen extends React.Component {
       }
     }
 
-
     return (
       <View style={styles.container}>
-          <Text>Vrijwilligerswerk organisatorisch</Text>
+          <Text>Vrijwilligerswerk persoonlijk</Text>
           <Button
             style={styles.newEvent}
-            title='Bekijk persoonlijk aanbod'
-            onPress={() => navigate('VolunteerPersonalScreen')}
+            title='Bekijk organisatorisch aanbod'
+            onPress={() => navigate('Vrijwilligerswerk')}
           />
           <Text>Geen aanvragen</Text>
           <Button

@@ -32,8 +32,10 @@ export default class NewVolunteer extends React.Component {
   handleVolgende = () => {
     const value = this._form.getValue();
     console.log(value);
-    this.setState({ data: value });
-    this.setState({ progress: 2 });
+    if(value){
+      this.setState({ data: value });
+      this.setState({ progress: 2 });
+    }
   }
 
   handleSubmit = () => {
@@ -54,7 +56,7 @@ export default class NewVolunteer extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://10.17.6.197:3000/api/volunteers', {
+        fetch('http://192.168.0.233:3000/api/volunteers', {
             method: 'POST',
             body,
             headers

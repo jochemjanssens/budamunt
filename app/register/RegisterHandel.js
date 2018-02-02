@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
 
-import LoggedIn from './LoggedIn';
-
 export default class RegisterHandel extends React.Component {
   render() {
     const { navigate } = this.props.navigation;

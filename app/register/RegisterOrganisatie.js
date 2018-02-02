@@ -1,21 +1,78 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
 
-import LoggedIn from './LoggedIn';
-
 export default class RegisterOrganisatie extends React.Component {
+  state = {
+    progress: 1,
+  };
+
+  handleBack() {
+    //Progress--;
+  }
+
   render() {
     const { navigate } = this.props.navigation;
-    return (
-      <View style={styles.container}>
-        <Text>Organisatie</Text>
+    const { progress } = this.state;
 
-        <Button
-          title="Terug"
-          onPress={() => this.props.navigation.goBack()}
-        />
-      </View>
-    );
+    if(progress === 1){
+      return (
+        <View style={styles.container}>
+          <Text>Maak een account</Text>
+          <Text>1/4</Text>
+
+          <Button
+            title="Terug"
+            onPress={() => this.props.navigation.goBack()}
+          />
+        </View>
+      );
+    }else if (progress === 2){
+      return (
+        <View style={styles.container}>
+          <Text>Maak een account</Text>
+          <Text>2/4</Text>
+
+
+
+          <Button
+            title="Terug"
+            onPress={() => this.handleBack()}
+          />
+        </View>
+      );
+    }else if (progress === 3){
+      return (
+        <View style={styles.container}>
+          <Text>Maak een account</Text>
+          <Text>3/4</Text>
+
+
+
+          <Button
+            title="Terug"
+            onPress={() => this.handleBack()}
+          />
+        </View>
+      );
+    }else{
+      return (
+        <View style={styles.container}>
+          <Text>Maak een account</Text>
+          <Text>4/4</Text>
+
+          <Text>
+            Bedankt voor je registratie
+            Onze verantwoordelijke kijkt je regestratie na
+            en dan kan je beginnen met vrijwilligerswerk aan te bieden.
+          </Text>
+
+          <Button
+            title="Terug"
+            onPress={() => this.handleBack()}
+          />
+        </View>
+      );
+    }
   }
 }
 

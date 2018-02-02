@@ -11,7 +11,7 @@ export default class ownVolunteerDetailScreen extends React.Component {
       const headers = new Headers({
         Authorization: `Bearer ${token}`
       });
-      const url = 'http://10.17.6.197:30000/api/volunteers/' + params._id;
+      const url = 'http://192.168.0.233:3000/api/volunteers/' + params._id;
       fetch(url, {method, headers})
         .then(r => {
           this.props.navigation.goBack()

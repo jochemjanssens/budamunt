@@ -8,6 +8,7 @@ import PaymentScreen from './screens/PaymentScreen';
 import CommunityScreen from './screens/CommunityScreen';
 
 import VolunteerScreen from './screens/VolunteerScreen';
+import VolunteerPersonalScreen from './screens/VolunteerPersonalScreen';
 import VolunteerDetailScreen from './screens/VolunteerDetailScreen';
 import ownVolunteerDetailScreen from './screens/ownVolunteerDetailScreen';
 import NewVolunteer from './screens/NewVolunteer';
@@ -29,6 +30,7 @@ export const Navigation = StackNavigator({
   Kaart: { screen: MapScreen },
   Betalen: { screen: PaymentScreen },
   Vrijwilligerswerk: { screen: VolunteerScreen },
+  VolunteerPersonalScreen: { screen: VolunteerPersonalScreen },
   VolunteerDetail: { screen: VolunteerDetailScreen },
   ownVolunteerDetail: { screen: ownVolunteerDetailScreen },
   newVolunteer: { screen: NewVolunteer },

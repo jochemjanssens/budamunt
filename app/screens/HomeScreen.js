@@ -17,7 +17,7 @@ export default class HomeScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://10.17.6.197:3000/api/me?isActive=true`, {headers})
+          fetch(`http://192.168.0.233:3000/api/me?isActive=true`, {headers})
             .then(user => {
               const userContent = user._bodyText;
               AsyncStorage.setItem("user", userContent);
