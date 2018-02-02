@@ -51,6 +51,24 @@ export default class EventScreen extends React.Component {
     });
   }
 
+  deleteEvent = event => {
+    console.log("body");
+    console.log(event._id);
+
+    AsyncStorage.getItem("myToken").then(token => {
+      const method = `DELETE`;
+      const headers = new Headers({
+        Authorization: `Bearer ${token}`
+      });
+      const url = 'http://192.168.0.233:3000/api/events/' + event._id;
+      fetch(url, {method, headers})
+        .then(r => {
+          this.props.navigation.goBack()
+        })
+        .catch(err => console.error(err));
+    });
+  }
+
   render() {
     setInterval(this.loadEvents, 1000);
     const { navigate } = this.props.navigation;
@@ -61,6 +79,7 @@ export default class EventScreen extends React.Component {
     if(events && user){
       const eventsArray = [];
       events.map(event => {
+
         //Delete past Events
         let today = new Date();
         let dd = today.getDate();
@@ -75,7 +94,7 @@ export default class EventScreen extends React.Component {
         today = `${yyyy}-${mm}-${dd}`;
 
         if (today > event.date) {
-          console.log(event);
+          this.deleteEvent(event);
         }
 
         let added = false;
@@ -97,7 +116,7 @@ export default class EventScreen extends React.Component {
           {
             eventsArray.map(
               event => (
-                <View key={event._id}>
+                <View key={event._id}  style={styles.item}>
                   <Text>{event.name}</Text>
                   <Text>{event.description}</Text>
                   <Text>{event.date}</Text>
@@ -148,6 +167,11 @@ const styles = StyleSheet.create({
   icon: {
     width: 26,
     height: 26,
+  },
+  item: {
+    borderColor: '#000',
+    borderWidth: 1,
+    padding: 10,
   },
   own: {
     color: '#ff0',

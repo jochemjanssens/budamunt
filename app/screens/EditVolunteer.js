@@ -13,29 +13,55 @@ const Volunteer = t.struct({
   munten: t.Number
 });
 
-export default class NewVolunteer extends React.Component {
+export default class EditVolunteer extends React.Component {
   state = {
     user: null,
     progress: 1,
-    data: null,
-    date: new Date().toJSON().slice(0,10),
-    startTime: '10:00',
-    endTime: '21:00'
+    value: {
+      beschrijving: null,
+      locatie: null,
+      titel: null,
+      munten: null,
+    },
+    date: null,
+    startTime: null,
+    endTime: null
   };
+
+  constructor(data){
+    super();
+    this.formData = data.navigation.state.params.data;
+
+    this.user = this.formData.user;
+    this.value = {
+      beschrijving: this.formData.description,
+      locatie: this.formData.location,
+      titel: this.formData.name,
+      munten: this.formData.munten,
+    }
+    this.date = this.formData.date;
+    this.startTime = this.formData.starttime;
+    this.endTime = this.formData.endtime;
+  }
+
+  onChange(value) {
+    this.value = value
+  }
 
   async componentWillMount() {
     AsyncStorage.getItem("user").then(user => {
       this.setState({'user': JSON.parse(user)});
+      console.log(user);
     });
   }
 
   handleVolgende = () => {
     const value = this._form.getValue();
-    console.log(value);
-    if(value){
-      this.setState({ data: value });
-      this.setState({ progress: 2 });
-    }
+    this.value.titel =  value.titel;
+    this.value.beschrijving = value.beschrijving;
+    this.value.locatie = value.locatie;
+    this.value.munten = value.munten;
+    this.setState({ progress: 2 });
   }
 
   handleSubmit = () => {
@@ -43,18 +69,28 @@ export default class NewVolunteer extends React.Component {
       if(token){
         const body = new FormData();
         body.append(`user`, this.state.user.email);
-        body.append(`name`, this.state.data.titel);
-        body.append(`description`, this.state.data.beschrijving);
-        body.append(`location`, this.state.data.locatie);
-        body.append(`munten`, this.state.data.munten);
+        body.append(`name`, this.value.titel);
+        body.append(`description`, this.value.beschrijving);
+        body.append(`location`, this.value.locatie);
+        body.append(`munten`, this.value.munten);
         body.append(`date`, this.state.date);
         body.append(`starttime`, this.state.startTime);
         body.append(`endtime`, this.state.endTime);
         body.append(`userType`, this.state.user.scope);
+        body.append(`isActive`, 'true');
 
         const headers = new Headers({
           Authorization: `Bearer ${token}`
         });
+        const url = 'http://192.168.0.233:3000/api/volunteers/' + this.value._id;
+        fetch(url, {
+          method: 'DELETE',
+          headers
+        })
+          .then(r => {
+            console.log(r);
+          })
+          .catch(err => console.error(err));
 
         fetch('http://192.168.0.233:3000/api/volunteers', {
             method: 'POST',
@@ -63,7 +99,7 @@ export default class NewVolunteer extends React.Component {
           })
           .then(r => {
             console.log(r);
-            this.props.navigation.goBack();
+            this.props.navigation.navigate('Vrijwilligerswerk')
           })
           .catch(err => console.error(err));
       }
@@ -73,10 +109,14 @@ export default class NewVolunteer extends React.Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation;
-    const { progress } = this.state;
 
-    var date = new Date().toJSON().slice(0,10);
+    const { navigate } = this.props.navigation;
+    const { progress, date, startTime, endTime} = this.state;
+    this.setState({date: this.date});
+    this.setState({startTime: this.startTime});
+    this.setState({endTime: this.endTime});
+
+    var currentDate = new Date().toJSON().slice(0,10);
 
     if(progress === 1){
       return (
@@ -87,18 +127,20 @@ export default class NewVolunteer extends React.Component {
               title="Terug"
               color="#841584"
             />
-            <Text>Aanvraag vrijwilligerswerk</Text>
+            <Text>Aanvraag Wijzigen</Text>
           </View>
           <View style={styles.form}>
             <Text>1/2</Text>
             <Text>
               Om een vrijwilliger aan te vragen moet je snel even dit form invullen
-               na het invullen wordt jouw aanvraag geplaatst en kunnen andere mensen
-               erop reageren.
+              na het invullen wordt jouw aanvraag geplaatst
+              en kunnen andere mensen erop reageren.
             </Text>
             <Form
                type={Volunteer}
                ref={c => this._form = c}
+               value={this.value}
+               onChange={this.onChange}
              />
             <Button
               title="Volgende"
@@ -116,16 +158,15 @@ export default class NewVolunteer extends React.Component {
               title="Terug"
               color="#841584"
             />
-            <Text>Aanvraag vrijwilligerswerk</Text>
+            <Text>Event Aanmaken</Text>
           </View>
           <View style={styles.form}>
             <Text>2/2</Text>
-
             <DatePicker
               mode="date"
-              date={this.state.date}
+              date={date}
               format="YYYY-MM-DD"
-              minDate={date}
+              minDate={currentDate}
               showIcon= {false}
               confirmBtnText="Bevestig"
               cancelBtnText="Terug"
@@ -133,7 +174,7 @@ export default class NewVolunteer extends React.Component {
             />
             <DatePicker
               mode="time"
-              date={this.state.startTime}
+              date={startTime}
               showIcon= {false}
               format="HH:mm"
               confirmBtnText="Bevestig"
@@ -142,8 +183,8 @@ export default class NewVolunteer extends React.Component {
             />
             <DatePicker
               mode="time"
-              date={this.state.endTime}
-              minDate={this.state.startTime}
+              date={endTime}
+              minDate={startTime}
               showIcon= {false}
               format="HH:mm"
               confirmBtnText="Bevestig"
@@ -151,7 +192,7 @@ export default class NewVolunteer extends React.Component {
               onDateChange={(endTime) => {this.setState({endTime: endTime})}}
             />
             <Button
-              title="Kies deze datum"
+              title="Bevestig"
               onPress={this.handleSubmit}
             />
           </View>

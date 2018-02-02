@@ -38,23 +38,25 @@ export default class Login extends React.Component {
 
   handleSubmit = () => {
     const value = this._form.getValue(); // use that ref to get the form value);
-    const body = new FormData();
+    if(value){
+      const body = new FormData();
       body.append(`login`, value.email);
       body.append(`password`, value.password);
       body.append(`audience`, `tweets-frontend`);
-    fetch('http://192.168.0.233:3000/api/auth', {
-      method: 'POST',
-      body: body
-    })
-    .then(r => {
-      console.log(r);
-      token = JSON.parse(r._bodyText).token;
-      AsyncStorage.setItem("myToken", token);
-      this.setState({ login: true });
-    })
-    .catch(
-      err => console.error(err)
-    );
+      fetch('http://192.168.0.233:3000/api/auth', {
+        method: 'POST',
+        body: body
+      })
+      .then(r => {
+        console.log(r);
+        token = JSON.parse(r._bodyText).token;
+        AsyncStorage.setItem("myToken", token);
+        this.setState({ login: true });
+      })
+      .catch(
+        err => console.error(err)
+      );
+    }
   }
 
   render() {

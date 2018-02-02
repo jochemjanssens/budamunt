@@ -23,13 +23,12 @@ export default class EditEvent extends React.Component {
     },
     date: null,
     startTime: null,
-    endTime: null
+    endTime: null,
   };
 
   constructor(data){
     super();
     this.formData = data.navigation.state.params.data;
-
     this.user = this.formData.user;
     this.value = {
       beschrijving: this.formData.description,
@@ -48,7 +47,6 @@ export default class EditEvent extends React.Component {
   async componentWillMount() {
     AsyncStorage.getItem("user").then(user => {
       this.setState({'user': JSON.parse(user)});
-      console.log(user);
     });
   }
 
@@ -98,16 +96,17 @@ export default class EditEvent extends React.Component {
           .catch(err => console.error(err));
       }
     });
-
-
   }
 
   render() {
 
     const { navigate } = this.props.navigation;
-    const { progress } = this.state;
+    const { progress, date, startTime, endTime} = this.state;
+    this.setState({date: this.date});
+    this.setState({startTime: this.startTime});
+    this.setState({endTime: this.endTime});
 
-    var date = new Date().toJSON().slice(0,10);
+    var currentDate = new Date().toJSON().slice(0,10);
 
     if(progress === 1){
       return (
@@ -155,9 +154,9 @@ export default class EditEvent extends React.Component {
             <Text>2/2</Text>
             <DatePicker
               mode="date"
-              date={this.state.date}
+              date={date}
               format="YYYY-MM-DD"
-              minDate={date}
+              minDate={currentDate}
               showIcon= {false}
               confirmBtnText="Bevestig"
               cancelBtnText="Terug"
@@ -165,7 +164,7 @@ export default class EditEvent extends React.Component {
             />
             <DatePicker
               mode="time"
-              date={this.state.startTime}
+              date={startTime}
               showIcon= {false}
               format="HH:mm"
               confirmBtnText="Bevestig"
@@ -174,8 +173,8 @@ export default class EditEvent extends React.Component {
             />
             <DatePicker
               mode="time"
-              date={this.state.endTime}
-              minDate={this.state.startTime}
+              date={endTime}
+              minDate={startTime}
               showIcon= {false}
               format="HH:mm"
               confirmBtnText="Bevestig"

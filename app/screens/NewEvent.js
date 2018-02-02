@@ -32,8 +32,10 @@ export default class NewEvent extends React.Component {
   handleVolgende = () => {
     const value = this._form.getValue();
     console.log(value);
-    this.setState({ data: value });
-    this.setState({ progress: 2 });
+    if(value){
+      this.setState({ data: value });
+      this.setState({ progress: 2 });
+    }
   }
 
   handleSubmit = () => {
