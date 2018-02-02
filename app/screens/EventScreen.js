@@ -52,9 +52,6 @@ export default class EventScreen extends React.Component {
   }
 
   deleteEvent = event => {
-    console.log("body");
-    console.log(event._id);
-
     AsyncStorage.getItem("myToken").then(token => {
       const method = `DELETE`;
       const headers = new Headers({

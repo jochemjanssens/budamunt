@@ -51,6 +51,21 @@ export default class VolunteerScreen extends React.Component {
     });
   }
 
+  deleteVolunteer = volunteer => {
+    AsyncStorage.getItem("myToken").then(token => {
+      const method = `DELETE`;
+      const headers = new Headers({
+        Authorization: `Bearer ${token}`
+      });
+      const url = 'http://192.168.0.233:3000/api/volunteers/' + volunteer._id;
+      fetch(url, {method, headers})
+        .then(r => {
+          this.props.navigation.goBack()
+        })
+        .catch(err => console.error(err));
+    });
+  }
+
   render() {
     setInterval(this.loadVolunteers, 1000);
     const { navigate } = this.props.navigation;
@@ -74,7 +89,7 @@ export default class VolunteerScreen extends React.Component {
         today = `${yyyy}-${mm}-${dd}`;
 
         if (today > volunteer.date) {
-          console.log(volunteer);
+          this.deleteVolunteer(volunteer);
         }
 
         //Check type
