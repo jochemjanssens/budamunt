@@ -1,14 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 
-export default class ReceiveScreen extends React.Component {
-
-  static navigationOptions = ({ navigation }) => ({
-    title: `Ontvang`,
-  });
+export default class TransactionsScreen extends React.Component {
 
   render() {
-    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <Button
@@ -16,13 +11,7 @@ export default class ReceiveScreen extends React.Component {
           title="Terug"
           color="#841584"
         />
-        
-        <Text>ik wil 1 munt ontvangen</Text>
-
-        <Button
-          onPress={() => navigate('QRScreen')}
-          title="oke"
-        />
+        <Text>TransactionsScreen</Text>
       </View>
     );
   }

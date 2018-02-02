@@ -46,6 +46,19 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text>HOME</Text>
+
+        <Button
+          title='Transacties'
+          onPress={() => navigate('Transactions')}
+        />
+        <Button
+          title='Betalen'
+          onPress={() => navigate('Pay')}
+        />
+        <Button
+          title='Ontvangen'
+          onPress={() => navigate('Receive')}
+        />
         <Button
           title='MELD AF'
           onPress={this.handleLogout}

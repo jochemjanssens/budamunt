@@ -4,8 +4,12 @@ import { StackNavigator } from 'react-navigation';
 
 import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
-import PaymentScreen from './screens/PaymentScreen';
 import CommunityScreen from './screens/CommunityScreen';
+
+import PayScreen from './screens/PayScreen';
+import ReceiveScreen from './screens/ReceiveScreen';
+import TransactionsScreen from './screens/TransactionsScreen';
+import QRScreen from './screens/QRScreen';
 
 import VolunteerScreen from './screens/VolunteerScreen';
 import VolunteerPersonalScreen from './screens/VolunteerPersonalScreen';
@@ -29,14 +33,21 @@ export default class LoggedIn extends React.Component {
 export const Navigation = StackNavigator({
   Home: { screen: HomeScreen },
   Kaart: { screen: MapScreen },
-  Betalen: { screen: PaymentScreen },
+
+  Pay: { screen: PayScreen },
+  Receive: { screen: ReceiveScreen },
+  Transactions: { screen: TransactionsScreen },
+  QRScreen: { screen: QRScreen },
+
   Vrijwilligerswerk: { screen: VolunteerScreen },
   VolunteerPersonalScreen: { screen: VolunteerPersonalScreen },
   VolunteerDetail: { screen: VolunteerDetailScreen },
   EditVolunteer: { screen: EditVolunteer },
   ownVolunteerDetail: { screen: ownVolunteerDetailScreen },
   newVolunteer: { screen: NewVolunteer },
+
   Community: { screen: CommunityScreen },
+  
   Evenementen: { screen: EventScreen },
   EventDetail: { screen: EventDetailScreen },
   ownEventDetail: { screen: ownEventDetailScreen },

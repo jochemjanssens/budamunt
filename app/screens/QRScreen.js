@@ -5,7 +5,7 @@ export default class QRScreen extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text>toonQR</Text>
       </View>
     );
