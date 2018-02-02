@@ -2,12 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-import Login from './Login';
-import Register from './Register';
-import RegisterGebruiker from './RegisterGebruiker';
-import RegisterKeuze from './RegisterKeuze';
-import RegisterHandel from './RegisterHandel';
-import RegisterOrganisatie from './RegisterOrganisatie';
+import Login from './register/Login';
+import Register from './register/Register';
+import RegisterGebruiker from './register/RegisterGebruiker';
+import RegisterKeuze from './register/RegisterKeuze';
+import RegisterHandel from './register/RegisterHandel';
+import RegisterOrganisatie from './register/RegisterOrganisatie';
 
 export default class App extends React.Component {
   render() {
