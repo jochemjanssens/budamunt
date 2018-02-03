@@ -18,7 +18,7 @@ export default class PayScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
-    user: null
+    user: null,
   };
 
   async componentWillMount() {
@@ -31,39 +31,57 @@ export default class PayScreen extends React.Component {
   }
 
   onBarCodeRead = data => {
-    const qrData = JSON.parse(data.data);
-    if(qrData.type === 'Budamunt'){
-      const body = new FormData();
-      body.append(`payingId`, this.state.user._id);
-      body.append(`receivingId`, qrData.data.receiveId);
-      body.append(`munten`, qrData.data.munten);
+      const qrData = JSON.parse(data.data);
+      if(qrData.type === 'Budamunt'){
+        const body = new FormData();
+        body.append(`payingId`, this.state.user._id);
+        body.append(`receivingId`, qrData.data.receiveId);
+        body.append(`munten`, qrData.data.munten);
 
-      console.log(body);
+        AsyncStorage.getItem("myToken").then(token => {
+          const headers = new Headers({
+            Authorization: `Bearer ${token}`
+          });
 
-      AsyncStorage.getItem("myToken").then(token => {
-        const headers = new Headers({
-          Authorization: `Bearer ${token}`
+          fetch('http://192.168.0.233:3000/api/transactions', {
+              method: 'POST',
+              body,
+              headers
+            })
+            .then(r => {
+              fetch(`http://192.168.0.233:3000/api/balances?userId=${this.state.user._id}`, {
+                  method: 'GET',
+                  headers
+                })
+                .then(responseGET => {
+                  console.log("DAATAAA-----");
+                  const userBalance = JSON.parse(responseGET._bodyText).balances[0];
+                  console.log(userBalance);
+                  fetch(`http://192.168.0.233:3000/api/balances/${userBalance._id}`, {
+                      method: 'DELETE',
+                      headers
+                    })
+                    .then(d => {
+                      const newMunten = userBalance.munten - qrData.data.munten;
+                      const balance = new FormData();
+                      balance.append(`userId`, userBalance._id);
+                      balance.append(`munten`, newMunten);
+                      fetch(`http://192.168.0.233:3000/api/balances`, {
+                          method: 'POST',
+                          body: balance,
+                          headers
+                        })
+                        .then(r => {
+                          this.props.navigation.navigate('AfterpayScreen');
+                        })
+                        .catch(err => console.error(err));
+                    })
+                    .catch(err => console.error(err));
+                })
+                .catch(err => console.error(err));
+            })
+            .catch(err => console.error(err));
         });
-
-        fetch('http://192.168.0.233:3000/api/transactions', {
-            method: 'POST',
-            body,
-            headers
-          })
-          .then(r => {
-            fetch('http://192.168.0.233:3000/api/users', {
-                method: 'POST',
-                body,
-                headers
-              })
-              .then(r => {
-                this.props.navigation.navigate('AfterpayScreen');
-              })
-              .catch(err => console.error(err));
-            this.props.navigation.navigate('AfterpayScreen');
-          })
-          .catch(err => console.error(err));
-      });
     }
   }
 

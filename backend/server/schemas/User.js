@@ -32,12 +32,6 @@ const schema = {
     projection: false
   },
 
-  munten: {
-    type: Number,
-    required: true,
-    validation: Joi.number()
-  },
-
   scope: {
     type: String,
     default: Scopes.USER,

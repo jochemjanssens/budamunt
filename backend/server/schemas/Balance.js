@@ -5,7 +5,7 @@ const Joi = require(`joi`);
 
 const schema = {
 
-  _id: {
+  userId: {
     type: String,
     required: true,
     validation: Joi.string()

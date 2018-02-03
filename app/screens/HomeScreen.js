@@ -21,10 +21,21 @@ export default class HomeScreen extends React.Component {
             .then(user => {
               const userContent = user._bodyText;
               AsyncStorage.setItem("user", userContent);
+              fetch(`http://192.168.0.233:3000/api/balances`, {headers})
+                .then(r => {
+                  const balances = JSON.parse(r._bodyText).balances;
+                  balances.forEach(balance => {
+                    console.log("body---");
+                    console.log(balance);
+                    if(balance.isActive){
+                      this.setState({ munten: balance.munten});
+                    }
+                  });
+                })
+                .catch(err => console.error(err));
             })
             .catch(err => console.error(err));
     }).done();
-
   }
 
   handleLogout = () => {
@@ -34,7 +45,7 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    const { logout } = this.state;
+    const { logout, munten } = this.state;
     const { navigate } = this.props.navigation;
 
     if(logout){
@@ -46,6 +57,8 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text>HOME</Text>
+
+        <Text>Munten: {munten}</Text>
 
         <Button
           title='Transacties'

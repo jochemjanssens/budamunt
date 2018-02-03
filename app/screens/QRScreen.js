@@ -1,11 +1,32 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
 import QRCode from 'react-native-qrcode';
 
 export default class QRScreen extends React.Component {
 
+  checkPayments() {
+    AsyncStorage.getItem("myToken").then(token => {
+      const headers = new Headers({
+        Authorization: `Bearer ${token}`
+      });
+
+      fetch('http://192.168.0.233:3000/api/transactions', {
+        method: 'GET',
+        headers
+      })
+      .then(r => {
+        console.log("loaded");
+        console.log(r._bodyText);
+      })
+      .catch(err => console.error(err));
+    });
+  }
+
   render() {
     const { params } = this.props.navigation.state;
+
+    setInterval(this.checkPayments, 1000);
+
 
     const data =
     `

@@ -41,19 +41,39 @@ export default class RegisterGebruiker extends React.Component {
         method: 'POST',
         body: body
       })
-      .then(r => {
+      .then(u => {
         const login = new FormData();
         login.append(`login`, value.emailadres);
         login.append(`password`, value.paswoord);
         login.append(`audience`, `tweets-frontend`);
+
         fetch('http://192.168.0.233:3000/api/auth', {
           method: 'POST',
-          body: body
+          body: login
         })
         .then(r => {
+
           token = JSON.parse(r._bodyText).token;
           AsyncStorage.setItem("myToken", token);
-          this.setState({ login: true });
+          const balance = new FormData();
+          balance.append(`userId`, JSON.parse(u._bodyText)._id);
+          balance.append(`munten`, "0");
+
+          const headers = new Headers({
+            Authorization: `Bearer ${token}`
+          });
+
+          fetch('http://192.168.0.233:3000/api/balances', {
+            method: 'POST',
+            body: balance,
+            headers
+          })
+          .then(r => {
+            this.setState({ login: true });
+          })
+          .catch(
+            err => console.error(err)
+          );
         })
         .catch(
           err => console.error(err)
