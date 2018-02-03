@@ -11,6 +11,7 @@ import ReceiveScreen from './screens/ReceiveScreen';
 import TransactionsScreen from './screens/TransactionsScreen';
 import QRScreen from './screens/QRScreen';
 import AfterpayScreen from './screens/AfterpayScreen';
+import ErrorScreen from './screens/ErrorScreen';
 
 import VolunteerScreen from './screens/VolunteerScreen';
 import VolunteerPersonalScreen from './screens/VolunteerPersonalScreen';
@@ -40,6 +41,7 @@ export const Navigation = StackNavigator({
   Transactions: { screen: TransactionsScreen },
   QRScreen: { screen: QRScreen },
   AfterpayScreen: { screen: AfterpayScreen },
+  ErrorScreen: { screen: ErrorScreen },
 
   Vrijwilligerswerk: { screen: VolunteerScreen },
   VolunteerPersonalScreen: { screen: VolunteerPersonalScreen },

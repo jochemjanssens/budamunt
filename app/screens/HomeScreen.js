@@ -25,10 +25,12 @@ export default class HomeScreen extends React.Component {
                 .then(r => {
                   const balances = JSON.parse(r._bodyText).balances;
                   balances.forEach(balance => {
-                    console.log("body---");
-                    console.log(balance);
                     if(balance.isActive){
-                      this.setState({ munten: balance.munten});
+                      if(JSON.parse(userContent)._id === balance.userId){
+                        this.setState({ munten: balance.munten});
+                        AsyncStorage.setItem("muntenId", balance._id);
+                        AsyncStorage.setItem("munten", balance.munten);
+                      }
                     }
                   });
                 })

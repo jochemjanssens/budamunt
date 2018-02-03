@@ -1,15 +1,15 @@
-import React from 'react';
-import { StyleSheet, Image, Text, View, TouchableOpacity, Button, AsyncStorage } from 'react-native';
-import { Camera, Permissions } from 'expo';
-import { StackNavigator } from 'react-navigation';
+import React from "react";
+import { StyleSheet, Image, Text, View, TouchableOpacity, Button, AsyncStorage } from "react-native";
+import { Camera, Permissions } from "expo";
+import { StackNavigator } from "react-navigation";
 
 export default class PayScreen extends React.Component {
   static navigationOptions = {
-    tabBarLabel: 'Betalen',
+    tabBarLabel: "Betalen",
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={require('../assets/icon.png')}
+        source={require("../assets/icon.png")}
         style={[styles.icon, {tintColor: tintColor}]}
       />
     ),
@@ -23,16 +23,20 @@ export default class PayScreen extends React.Component {
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    this.setState({ hasCameraPermission: status === "granted" });
 
     AsyncStorage.getItem("user").then(user => {
-      this.setState({'user': JSON.parse(user)});
+      this.setState({"user": JSON.parse(user)});
     });
   }
 
+  scanned = false;
+
   onBarCodeRead = data => {
+    if(this.scanned === false){
+      this.scanned = true;
       const qrData = JSON.parse(data.data);
-      if(qrData.type === 'Budamunt'){
+      if(qrData.type === "Budamunt"){
         const body = new FormData();
         body.append(`payingId`, this.state.user._id);
         body.append(`receivingId`, qrData.data.receiveId);
@@ -42,46 +46,61 @@ export default class PayScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-
-          fetch('http://192.168.0.233:3000/api/transactions', {
-              method: 'POST',
-              body,
-              headers
-            })
-            .then(r => {
-              fetch(`http://192.168.0.233:3000/api/balances?userId=${this.state.user._id}`, {
-                  method: 'GET',
+          fetch("http://192.168.0.233:3000/api/transactions", {
+            method: "POST",
+            body,
+            headers
+          })
+          .then(r => {
+            AsyncStorage.getItem("muntenId").then(muntenId => {
+              fetch(`http://192.168.0.233:3000/api/balances/${muntenId}`, {
+                  method: "DELETE",
                   headers
-                })
-                .then(responseGET => {
-                  console.log("DAATAAA-----");
-                  const userBalance = JSON.parse(responseGET._bodyText).balances[0];
-                  console.log(userBalance);
-                  fetch(`http://192.168.0.233:3000/api/balances/${userBalance._id}`, {
-                      method: 'DELETE',
+              })
+              .then(d => {
+                console.log("PAY57: Deleteresponse");
+                console.log(d);
+                AsyncStorage.getItem("munten").then(munten => {
+                  console.log("PAY60: Munten");
+                  console.log(munten);
+                  console.log(qrData.data.munten);
+                  if(munten > qrData.data.munten){
+                    const newMunten = munten - qrData.data.munten;
+                    const balance = new FormData();
+                    balance.append(`userId`, this.state.user._id);
+                    balance.append(`munten`, newMunten);
+                    fetch(`http://192.168.0.233:3000/api/balances`, {
+                      method: "POST",
+                      body: balance,
                       headers
                     })
-                    .then(d => {
-                      const newMunten = userBalance.munten - qrData.data.munten;
-                      const balance = new FormData();
-                      balance.append(`userId`, userBalance._id);
-                      balance.append(`munten`, newMunten);
-                      fetch(`http://192.168.0.233:3000/api/balances`, {
-                          method: 'POST',
-                          body: balance,
-                          headers
-                        })
-                        .then(r => {
-                          this.props.navigation.navigate('AfterpayScreen');
-                        })
-                        .catch(err => console.error(err));
+                    .then(r => {
+                      console.log("response");
+                      console.log(r);
+                      this.props.navigation.navigate("AfterpayScreen");
                     })
                     .catch(err => console.error(err));
+                  } else {
+                    const balance = new FormData();
+                    balance.append(`userId`, this.state.user._id);
+                    balance.append(`munten`, munten);
+                    fetch(`http://192.168.0.233:3000/api/balances`, {
+                      method: "POST",
+                      body: balance,
+                      headers
+                    }).then( r => {
+                      this.props.navigation.navigate("ErrorScreen");
+                    })
+                    .catch(err => console.error(err));
+                  }
                 })
-                .catch(err => console.error(err));
+              })
+              .catch(err => console.error(err));
             })
-            .catch(err => console.error(err));
-        });
+          })
+          .catch(err => console.error(err));
+        })
+      }
     }
   }
 
@@ -100,27 +119,7 @@ export default class PayScreen extends React.Component {
             color="#841584"
           />
           <Camera style={{ flex: 1 }} type={this.state.type} onBarCodeRead={this.onBarCodeRead}>
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: 'transparent',
-                flexDirection: 'row',
-              }}>
-              <TouchableOpacity
-                style={{
-                  flex: 0.1,
-                  alignSelf: 'flex-end',
-                  alignItems: 'center',
-                }}
-                onPress={() => {
-                  this.setState({
-                    type: this.state.type === Camera.Constants.Type.back
-                      ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back,
-                  });
-                }}>
-              </TouchableOpacity>
-            </View>
+
           </Camera>
         </View>
       );
@@ -131,9 +130,9 @@ export default class PayScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   icon: {
     width: 26,
