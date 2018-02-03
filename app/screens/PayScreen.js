@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, Text, View, TouchableOpacity, Button, AsyncStorage } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import { StackNavigator } from 'react-navigation';
 
@@ -18,15 +18,53 @@ export default class PayScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
+    user: null
   };
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
+
+    AsyncStorage.getItem("user").then(user => {
+      this.setState({'user': JSON.parse(user)});
+    });
   }
 
   onBarCodeRead = data => {
-    console.log(data.data);
+    const qrData = JSON.parse(data.data);
+    if(qrData.type === 'Budamunt'){
+      const body = new FormData();
+      body.append(`payingId`, this.state.user._id);
+      body.append(`receivingId`, qrData.data.receiveId);
+      body.append(`munten`, qrData.data.munten);
+
+      console.log(body);
+
+      AsyncStorage.getItem("myToken").then(token => {
+        const headers = new Headers({
+          Authorization: `Bearer ${token}`
+        });
+
+        fetch('http://192.168.0.233:3000/api/transactions', {
+            method: 'POST',
+            body,
+            headers
+          })
+          .then(r => {
+            fetch('http://192.168.0.233:3000/api/users', {
+                method: 'POST',
+                body,
+                headers
+              })
+              .then(r => {
+                this.props.navigation.navigate('AfterpayScreen');
+              })
+              .catch(err => console.error(err));
+            this.props.navigation.navigate('AfterpayScreen');
+          })
+          .catch(err => console.error(err));
+      });
+    }
   }
 
   render() {
@@ -38,6 +76,11 @@ export default class PayScreen extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
+          <Button
+            onPress={() => this.props.navigation.goBack()}
+            title="Terug"
+            color="#841584"
+          />
           <Camera style={{ flex: 1 }} type={this.state.type} onBarCodeRead={this.onBarCodeRead}>
             <View
               style={{

@@ -1,14 +1,37 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+
+import t from 'tcomb-form-native';
+const Form = t.form.Form;
+const Munten = t.struct({
+  munten: t.Number
+});
 
 export default class ReceiveScreen extends React.Component {
 
-  static navigationOptions = ({ navigation }) => ({
-    title: `Ontvang`,
-  });
+  state = {
+    user: null
+  };
+
+  async componentWillMount() {
+    AsyncStorage.getItem("user").then(user => {
+      this.setState({'user': JSON.parse(user)});
+    });
+  }
+
+  handleClick = () => {
+    const value = this._form.getValue();
+    if(value){
+      this.props.navigation.navigate('QRScreen', {
+        munten: value.munten,
+        user: this.state.user._id
+      })
+    }
+  }
 
   render() {
     const { navigate } = this.props.navigation;
+
     return (
       <View style={styles.container}>
         <Button
@@ -16,12 +39,13 @@ export default class ReceiveScreen extends React.Component {
           title="Terug"
           color="#841584"
         />
-        
-        <Text>ik wil 1 munt ontvangen</Text>
-
+        <Form
+           type={Munten}
+           ref={c => this._form = c}
+         />
         <Button
-          onPress={() => navigate('QRScreen')}
-          title="oke"
+          title="Ontvang"
+          onPress={this.handleClick}
         />
       </View>
     );

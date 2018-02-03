@@ -35,7 +35,6 @@ export default class RegisterGebruiker extends React.Component {
       body.append(`name`, value.achternaam);
       body.append(`email`, value.emailadres);
       body.append(`password`, value.paswoord);
-      body.append(`munten`, 0);
       body.append(`scope`, 'USER');
 
       fetch('http://192.168.0.233:3000/api/users', {

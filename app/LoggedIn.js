@@ -10,6 +10,7 @@ import PayScreen from './screens/PayScreen';
 import ReceiveScreen from './screens/ReceiveScreen';
 import TransactionsScreen from './screens/TransactionsScreen';
 import QRScreen from './screens/QRScreen';
+import AfterpayScreen from './screens/AfterpayScreen';
 
 import VolunteerScreen from './screens/VolunteerScreen';
 import VolunteerPersonalScreen from './screens/VolunteerPersonalScreen';
@@ -38,6 +39,7 @@ export const Navigation = StackNavigator({
   Receive: { screen: ReceiveScreen },
   Transactions: { screen: TransactionsScreen },
   QRScreen: { screen: QRScreen },
+  AfterpayScreen: { screen: AfterpayScreen },
 
   Vrijwilligerswerk: { screen: VolunteerScreen },
   VolunteerPersonalScreen: { screen: VolunteerPersonalScreen },
@@ -47,7 +49,7 @@ export const Navigation = StackNavigator({
   newVolunteer: { screen: NewVolunteer },
 
   Community: { screen: CommunityScreen },
-  
+
   Evenementen: { screen: EventScreen },
   EventDetail: { screen: EventDetailScreen },
   ownEventDetail: { screen: ownEventDetailScreen },
