@@ -40,32 +40,29 @@ export default class PayScreen extends React.Component {
       if(qrData.type === "Budamunt"){
         const body = new FormData();
         body.append(`payingId`, this.state.user._id);
+        body.append(`payingName`, this.state.user.firstname);
         body.append(`receivingId`, qrData.data.receiveId);
+        body.append(`receivingName`, qrData.data.receiveName);
         body.append(`munten`, qrData.data.munten);
 
-        AsyncStorage.getItem("myToken").then(token => {
-          const headers = new Headers({
-            Authorization: `Bearer ${token}`
-          });
-          fetch("http://192.168.0.233:3000/api/opentransactions", {
-            method: "POST",
-            body,
-            headers
-          })
-          .then(r => {
-            AsyncStorage.getItem("muntenId").then(muntenId => {
-              fetch(`http://192.168.0.233:3000/api/balances/${muntenId}`, {
-                  method: "DELETE",
-                  headers
+        AsyncStorage.getItem("munten").then(munten => {
+          if(parseInt(munten) > parseInt(qrData.data.munten)){
+            AsyncStorage.getItem("myToken").then(token => {
+              const headers = new Headers({
+                Authorization: `Bearer ${token}`
+              });
+              fetch("http://192.168.0.233:3000/api/opentransactions", {
+                method: "POST",
+                body,
+                headers
               })
-              .then(d => {
-                console.log("PAY57: Deleteresponse");
-                console.log(d);
-                AsyncStorage.getItem("munten").then(munten => {
-                  console.log("PAY60: Munten");
-                  console.log(munten);
-                  console.log(qrData.data.munten);
-                  if(parseInt(munten) > parseInt(qrData.data.munten)){
+              .then(r => {
+                AsyncStorage.getItem("muntenId").then(muntenId => {
+                  fetch(`http://192.168.0.233:3000/api/balances/${muntenId}`, {
+                      method: "DELETE",
+                      headers
+                  })
+                  .then(d => {
                     const newMunten = munten - qrData.data.munten;
                     const balance = new FormData();
                     balance.append(`userId`, this.state.user._id);
@@ -81,25 +78,13 @@ export default class PayScreen extends React.Component {
                       this.props.navigation.navigate("AfterpayScreen");
                     })
                     .catch(err => console.error(err));
-                  } else {
-                    const balance = new FormData();
-                    balance.append(`userId`, this.state.user._id);
-                    balance.append(`munten`, munten);
-                    fetch(`http://192.168.0.233:3000/api/balances`, {
-                      method: "POST",
-                      body: balance,
-                      headers
-                    }).then( r => {
-                      this.props.navigation.navigate("ErrorScreen");
-                    })
-                    .catch(err => console.error(err));
-                  }
+                  })
+                  .catch(err => console.error(err));
                 })
               })
               .catch(err => console.error(err));
             })
-          })
-          .catch(err => console.error(err));
+          }
         })
       }
     }

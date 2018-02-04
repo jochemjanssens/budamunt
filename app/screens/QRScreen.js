@@ -4,7 +4,11 @@ import QRCode from 'react-native-qrcode';
 
 export default class QRScreen extends React.Component {
 
-  checkPayments() {
+  state = {
+    complete: false
+  };
+
+  checkPayments = () => {
     AsyncStorage.getItem("myToken").then(token => {
       const headers = new Headers({
         Authorization: `Bearer ${token}`
@@ -20,6 +24,8 @@ export default class QRScreen extends React.Component {
           JSON.parse(r._bodyText).opentransactions.forEach( transaction => {
             if(userId === transaction.receivingId){
               handlePayment(headers, transaction, userId);
+              this.setState({ complete: true });
+              clearInterval(this.interval);
             }
           });
         });
@@ -28,9 +34,12 @@ export default class QRScreen extends React.Component {
     });
   }
 
+  interval = setInterval(this.checkPayments, 1000);
+
   render() {
     const { params } = this.props.navigation.state;
-    setInterval(this.checkPayments, 1000);
+    const { navigate } = this.props.navigation;
+    const { complete } = this.state;
 
     const data =
     `
@@ -38,26 +47,39 @@ export default class QRScreen extends React.Component {
         "type": "Budamunt",
         "data": {
           "munten": "${params.munten}",
-          "receiveId": "${params.user}"
+          "receiveId": "${params.user._id}",
+          "receiveName": "${params.user.firstname}"
         }
       }
     `;
 
-    return (
-      <View style={styles.container}>
-        <Button
-          onPress={() => this.props.navigation.goBack()}
-          title="Terug"
-          color="#841584"
-        />
+    if(complete === true){
+      return (
+        <View style={styles.container}>
+          <Text style={styles.title}>Scanned</Text>
+          <Button
+            title='Go home'
+            onPress={() => navigate('Home')}
+          />
+        </View>
+      );
+    }else{
+      return (
+        <View style={styles.container}>
+          <Button
+            onPress={() => this.props.navigation.goBack()}
+            title="Terug"
+            color="#841584"
+          />
 
-        <Text style={styles.title}>Scan deze code</Text>
-        <QRCode
-         value={data}
-         size={220}
-       />
-      </View>
-    );
+          <Text style={styles.title}>Scan deze code</Text>
+          <QRCode
+           value={data}
+           size={220}
+         />
+        </View>
+      );
+    }
   }
 }
 
@@ -74,7 +96,6 @@ const styles = StyleSheet.create({
 });
 
 const handlePayment = (headers, transaction, userId) => {
-  console.log('payment');
   AsyncStorage.getItem("user").then(user => {
     const userId = JSON.parse(user)._id;
     AsyncStorage.getItem("myToken").then(token => {

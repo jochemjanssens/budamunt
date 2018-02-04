@@ -24,7 +24,7 @@ export default class ReceiveScreen extends React.Component {
     if(value){
       this.props.navigation.navigate('QRScreen', {
         munten: value.munten,
-        user: this.state.user._id
+        user: this.state.user
       })
     }
   }

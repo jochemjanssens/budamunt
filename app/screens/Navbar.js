@@ -17,6 +17,9 @@ export default class Navbar extends React.Component {
     if(page === 'ownEventDetail' || page === 'EventDetail'){
       page = 'Evenementen';
     }
+    if(page === 'Transactions'){
+      page = 'Home';
+    }
 
     return (
       <View style={styles.navbar}>

@@ -11,7 +11,19 @@ const schema = {
     validation: Joi.string()
   },
 
+  payingName: {
+    type: String,
+    required: true,
+    validation: Joi.string()
+  },
+
   receivingId: {
+    type: String,
+    required: true,
+    validation: Joi.string()
+  },
+
+  receivingName: {
     type: String,
     required: true,
     validation: Joi.string()
