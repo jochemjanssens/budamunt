@@ -33,6 +33,7 @@ export default class PayScreen extends React.Component {
   scanned = false;
 
   onBarCodeRead = data => {
+    console.log(this.scanned);
     if(this.scanned === false){
       this.scanned = true;
       const qrData = JSON.parse(data.data);
@@ -46,7 +47,7 @@ export default class PayScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch("http://192.168.0.233:3000/api/transactions", {
+          fetch("http://192.168.0.233:3000/api/opentransactions", {
             method: "POST",
             body,
             headers
@@ -64,7 +65,7 @@ export default class PayScreen extends React.Component {
                   console.log("PAY60: Munten");
                   console.log(munten);
                   console.log(qrData.data.munten);
-                  if(munten > qrData.data.munten){
+                  if(parseInt(munten) > parseInt(qrData.data.munten)){
                     const newMunten = munten - qrData.data.munten;
                     const balance = new FormData();
                     balance.append(`userId`, this.state.user._id);
