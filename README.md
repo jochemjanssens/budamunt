@@ -4,7 +4,13 @@ Bachelorproef voor de opleiding Digital Design & Development aan Howest Kortrijk
 ## Onderdelen
 
 ### App
-- Een Native-app met React-Native
+Een Native-app met React-Native
+
+#### Onderdelen
+- Je kan betalen en ontvangen met de app
+- Op een kaart kan je zien welke winkels er in de buurt er zijn
+- Een communitypagina waarbij je kan stemmen
+- Je kan events en vrijwilligers bekijken
 
 ### Webapp
 - Een Web-app met React-Native
@@ -14,8 +20,3 @@ Bachelorproef voor de opleiding Digital Design & Development aan Howest Kortrijk
 
 ### Site
 - Een site met HTML - CSS - JS
-
----
-
-## TODO
-- Issues voor webapp/backend

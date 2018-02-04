@@ -51,14 +51,14 @@ export default class PayScreen extends React.Component {
               const headers = new Headers({
                 Authorization: `Bearer ${token}`
               });
-              fetch("http://192.168.0.233:3000/api/opentransactions", {
+              fetch("http://10.17.7.3:3000/api/transactions", {
                 method: "POST",
                 body,
                 headers
               })
               .then(r => {
                 AsyncStorage.getItem("muntenId").then(muntenId => {
-                  fetch(`http://192.168.0.233:3000/api/balances/${muntenId}`, {
+                  fetch(`http://10.17.7.3:3000/api/balances/${muntenId}`, {
                       method: "DELETE",
                       headers
                   })
@@ -67,7 +67,7 @@ export default class PayScreen extends React.Component {
                     const balance = new FormData();
                     balance.append(`userId`, this.state.user._id);
                     balance.append(`munten`, newMunten);
-                    fetch(`http://192.168.0.233:3000/api/balances`, {
+                    fetch(`http://10.17.7.3:3000/api/balances`, {
                       method: "POST",
                       body: balance,
                       headers
