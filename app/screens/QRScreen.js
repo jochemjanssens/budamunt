@@ -19,10 +19,7 @@ export default class QRScreen extends React.Component {
           const userId = JSON.parse(user)._id;
           JSON.parse(r._bodyText).opentransactions.forEach( transaction => {
             if(userId === transaction.receivingId){
-              const status = handlePayment(headers, transaction, userId);
-              if(status === 'succes'){
-                this.props.navigation.navigate("AfterpayScreen");
-              }
+              handlePayment(headers, transaction, userId);
             }
           });
         });
@@ -33,7 +30,6 @@ export default class QRScreen extends React.Component {
 
   render() {
     const { params } = this.props.navigation.state;
-
     setInterval(this.checkPayments, 1000);
 
     const data =
@@ -78,6 +74,7 @@ const styles = StyleSheet.create({
 });
 
 const handlePayment = (headers, transaction, userId) => {
+  console.log('payment');
   AsyncStorage.getItem("user").then(user => {
     const userId = JSON.parse(user)._id;
     AsyncStorage.getItem("myToken").then(token => {
@@ -116,12 +113,16 @@ const handlePayment = (headers, transaction, userId) => {
                       headers
                     })
                     .then(d => {
-                      return 'succes';
+                      console.log('succes');
                     })
+                    .catch(err => console.error(err));
                   })
+                  .catch(err => console.error(err));
                 })
+                .catch(err => console.error(err));
               })
             })
+            .catch(err => console.error(err));
           })
         })
   });
