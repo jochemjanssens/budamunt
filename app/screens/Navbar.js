@@ -20,6 +20,9 @@ export default class Navbar extends React.Component {
     if(page === 'Transactions'){
       page = 'Home';
     }
+    if(page === 'CommunityDetail'){
+      page = 'Community';
+    }
 
     return (
       <View style={styles.navbar}>

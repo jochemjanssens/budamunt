@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
 import CommunityScreen from './screens/CommunityScreen';
+import CommunityDetailScreen from './screens/CommunityDetailScreen';
 
 import PayScreen from './screens/PayScreen';
 import ReceiveScreen from './screens/ReceiveScreen';
@@ -51,6 +52,7 @@ export const Navigation = StackNavigator({
   newVolunteer: { screen: NewVolunteer },
 
   Community: { screen: CommunityScreen },
+  CommunityDetail: { screen: CommunityDetailScreen },
 
   Evenementen: { screen: EventScreen },
   EventDetail: { screen: EventDetailScreen },
