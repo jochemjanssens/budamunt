@@ -5,16 +5,21 @@ import QRCode from 'react-native-qrcode';
 export default class QRScreen extends React.Component {
 
   state = {
-    complete: false
+    complete: null
   };
 
+  async componentWillMount() {
+    this.setState({'complete': false});
+  }
+
   checkPayments = () => {
+    console.log("check");
     AsyncStorage.getItem("myToken").then(token => {
       const headers = new Headers({
         Authorization: `Bearer ${token}`
       });
 
-      fetch('http://10.17.7.3:3000/api/transactions', {
+      fetch('http://192.168.1.40:3000/api/transactions', {
         method: 'GET',
         headers
       })
@@ -24,7 +29,7 @@ export default class QRScreen extends React.Component {
           JSON.parse(r._bodyText).transactions.forEach( transaction => {
             if(userId === transaction.receivingId){
               handlePayment(headers, transaction, userId);
-              this.setState({ complete: true });
+              this.setState({'complete': true});
               clearInterval(this.interval);
             }
           });
@@ -39,6 +44,7 @@ export default class QRScreen extends React.Component {
   render() {
     const { params } = this.props.navigation.state;
     const { navigate } = this.props.navigation;
+
     const { complete } = this.state;
 
     const data =
@@ -52,6 +58,9 @@ export default class QRScreen extends React.Component {
         }
       }
     `;
+
+    console.log("complete:");
+    console.log(complete);
 
     if(complete === true){
       return (
@@ -103,7 +112,7 @@ const handlePayment = (headers, transaction, userId) => {
             Authorization: `Bearer ${token}`
           });
           AsyncStorage.getItem("muntenId").then(muntenId => {
-            fetch(`http://10.17.7.3:3000/api/balances/${muntenId}`, {
+            fetch(`http://192.168.1.40:3000/api/balances/${muntenId}`, {
                 method: "DELETE",
                 headers
             })
@@ -113,13 +122,13 @@ const handlePayment = (headers, transaction, userId) => {
                 const balance = new FormData();
                 balance.append(`userId`, userId);
                 balance.append(`munten`, newMunten);
-                fetch(`http://10.17.7.3:3000/api/balances`, {
+                fetch(`http://192.168.1.40:3000/api/balances`, {
                   method: "POST",
                   body: balance,
                   headers
                 })
                 .then(r => {
-                  fetch(`http://10.17.7.3:3000/api/transactions/${transaction._id}`, {
+                  fetch(`http://192.168.1.40:3000/api/transactions/${transaction._id}`, {
                       method: "DELETE",
                       headers
                   })
@@ -128,13 +137,13 @@ const handlePayment = (headers, transaction, userId) => {
                     balance.append(`payingId`, transaction.payingId);
                     balance.append(`receivingId`, transaction.receivingId);
                     balance.append(`munten`, transaction.munten);
-                    fetch(`http://10.17.7.3:3000/api/balances`, {
+                    fetch(`http://192.168.1.40:3000/api/balances`, {
                       method: "POST",
                       body: balance,
                       headers
                     })
                     .then(d => {
-                      console.log('succes');
+                      console.log('Scan - succes');
                     })
                     .catch(err => console.error(err));
                   })

@@ -26,7 +26,7 @@ export default class NewEvent extends React.Component {
     AsyncStorage.getItem("user").then(user => {
       this.setState({'user': JSON.parse(user)});
       console.log(user);
-    });
+    });w
   }
 
   handleVolgende = () => {
@@ -54,7 +54,7 @@ export default class NewEvent extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://10.17.7.3:3000/api/events', {
+        fetch('http://192.168.1.40:3000/api/events', {
             method: 'POST',
             body,
             headers
