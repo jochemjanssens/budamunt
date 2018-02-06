@@ -29,11 +29,11 @@ export default class HomeScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.1.45:3000/api/me?isActive=true`, {headers})
+          fetch(`http://192.168.1.49:3000/api/me?isActive=true`, {headers})
             .then(user => {
               const userContent = user._bodyText;
               AsyncStorage.setItem("user", userContent);
-              fetch(`http://192.168.1.45:3000/api/balances`, {headers})
+              fetch(`http://192.168.1.49:3000/api/balances`, {headers})
                 .then(r => {
                   const balances = JSON.parse(r._bodyText).balances;
                   balances.forEach(balance => {
@@ -42,7 +42,7 @@ export default class HomeScreen extends React.Component {
                         this.setState({ munten: balance.munten});
                         AsyncStorage.setItem("muntenId", balance._id);
                         AsyncStorage.setItem("munten", balance.munten);
-                        fetch(`http://192.168.1.45:3000/api/volunteers?isActive=true`, {headers})
+                        fetch(`http://192.168.1.49:3000/api/volunteers?isActive=true`, {headers})
                           .then(r => {
                             this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
                           })
@@ -138,7 +138,6 @@ export default class HomeScreen extends React.Component {
     } else {
       if(volunteers){
         const volunteer = volunteers[volunteers.length-1];
-        console.log(volunteer);
 
         return (
           <View style={styles.container}>
@@ -221,5 +220,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 50,
+    width: 300
   }
 });

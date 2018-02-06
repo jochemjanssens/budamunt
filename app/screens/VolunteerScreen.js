@@ -18,7 +18,7 @@ export default class VolunteerScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.45:3000/api/volunteers?isActive=true`, {headers})
+      fetch(`http://192.168.1.49:3000/api/volunteers?isActive=true`, {headers})
         .then(r => {
           this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
         })
@@ -37,7 +37,7 @@ export default class VolunteerScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch(`http://192.168.1.45:3000/api/volunteers?isActive=true`, {headers})
+        fetch(`http://192.168.1.49:3000/api/volunteers?isActive=true`, {headers})
           .then(r => {
             const { volunteers } = this.state;
             if(volunteers && r){
@@ -57,7 +57,7 @@ export default class VolunteerScreen extends React.Component {
       const headers = new Headers({
         Authorization: `Bearer ${token}`
       });
-      const url = 'http://192.168.1.45:3000/api/volunteers/' + volunteer._id;
+      const url = 'http://192.168.1.49:3000/api/volunteers/' + volunteer._id;
       fetch(url, {method, headers})
         .then(r => {
           this.props.navigation.goBack()
@@ -111,6 +111,18 @@ export default class VolunteerScreen extends React.Component {
       if(volunteersArray.length !== 0){
         return (
           <View style={styles.container}>
+            <View style={styles.header}>
+              <Button
+                onPress={() => this.props.navigation.goBack()}
+                title="Terug"
+                color="#841584"
+              />
+              <Text>Vrijwilligers</Text>
+              <Button
+                title='Berichten'
+                onPress={() => navigate('Messages')}
+              />
+            </View>
             <Text>Vrijwilligerswerk organisatorisch</Text>
             <Button
               style={styles.newEvent}
@@ -144,6 +156,18 @@ export default class VolunteerScreen extends React.Component {
       } else {
         return (
           <View style={styles.container}>
+            <View style={styles.header}>
+              <Button
+                onPress={() => this.props.navigation.goBack()}
+                title="Terug"
+                color="#841584"
+              />
+              <Text>Vrijwilligers</Text>
+              <Button
+                title='Berichten'
+                onPress={() => navigate('Messages')}
+              />
+            </View>
               <Text>Vrijwilligerswerk organisatorisch</Text>
               <Button
                 style={styles.newEvent}
@@ -165,6 +189,18 @@ export default class VolunteerScreen extends React.Component {
 
     return (
       <View style={styles.container}>
+        <View style={styles.header}>
+          <Button
+            onPress={() => this.props.navigation.goBack()}
+            title="Terug"
+            color="#841584"
+          />
+          <Text>Vrijwilligers</Text>
+          <Button
+            title='Berichten'
+            onPress={() => navigate('Messages')}
+          />
+        </View>
           <Text>Vrijwilligerswerk organisatorisch</Text>
           <Button
             style={styles.newEvent}
@@ -192,6 +228,14 @@ const styles = StyleSheet.create({
   },
   newEvent: {
     marginTop: 100,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    position: 'absolute',
+    alignItems: 'center',
+    top: 50,
+    width: 300
   },
   icon: {
     width: 26,

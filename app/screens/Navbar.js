@@ -11,7 +11,7 @@ export default class Navbar extends React.Component {
   render() {
     //Fix subpaginas
     let page = this.route;
-    if(page === 'VolunteerPersonalScreen' || page === 'VolunteerDetail' || page === 'ownVolunteerDetail'){
+    if(page === 'VolunteerPersonalScreen' || page === 'VolunteerDetail' || page === 'ownVolunteerDetail' || page === 'Messages'){
       page = 'Vrijwilligerswerk';
     }
     if(page === 'ownEventDetail' || page === 'EventDetail'){

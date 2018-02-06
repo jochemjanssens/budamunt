@@ -56,7 +56,7 @@ export default class NewVolunteer extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.45:3000/api/volunteers', {
+        fetch('http://192.168.1.49:3000/api/volunteers', {
             method: 'POST',
             body,
             headers

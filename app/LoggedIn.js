@@ -6,6 +6,7 @@ import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
 import CommunityScreen from './screens/CommunityScreen';
 import CommunityDetailScreen from './screens/CommunityDetailScreen';
+import MessagesScreen from './screens/MessagesScreen';
 
 import PayScreen from './screens/PayScreen';
 import ReceiveScreen from './screens/ReceiveScreen';
@@ -55,6 +56,7 @@ export const Navigation = StackNavigator({
 
   Community: { screen: CommunityScreen },
   CommunityDetail: { screen: CommunityDetailScreen },
+  Messages: { screen: MessagesScreen },
 
   Evenementen: { screen: EventScreen },
   EventDetail: { screen: EventDetailScreen },

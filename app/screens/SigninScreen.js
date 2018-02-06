@@ -1,12 +1,43 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
 
 import Navbar from './Navbar';
 
 export default class SigninScreen extends React.Component {
   signIn = params => {
-    console.log('SIGNIN CODE');
-    console.log(params);
+    AsyncStorage.getItem("myToken").then((token) => {
+      AsyncStorage.getItem("user").then(user => {
+        const body = new FormData();
+        body.append(`volunteerId`, params._id);
+        body.append(`userId`, JSON.parse(user)._id);
+
+        const headers = new Headers({
+          Authorization: `Bearer ${token}`
+        });
+
+        fetch('http://192.168.1.49:3000/api/applications', {
+            method: 'POST',
+            body,
+            headers
+          })
+          .then(r => {
+            const message = new FormData();
+            message.append(`sendId`, params._id);
+            message.append(`receiveId`, JSON.parse(user)._id);
+            message.append(`content`, 'start');
+            fetch('http://192.168.1.49:3000/api/messages', {
+                method: 'POST',
+                body: message,
+                headers
+              })
+              .then(r => {
+                this.props.navigation.navigate('VolunteerPersonalScreen');
+              })
+              .catch(err => console.error(err));
+          })
+          .catch(err => console.error(err));
+        }).done();
+    }).done();
   }
 
   render() {

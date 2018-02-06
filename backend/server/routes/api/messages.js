@@ -1,7 +1,7 @@
 //**** CHANGE ******************************************************//
 
 // pick the correct model (only change 'Tweet')
-const {Application: Model} = require(`mongoose`).models;
+const {Message: Model} = require(`mongoose`).models;
 
 //******************************************************************//
 //******************************************************************//
