@@ -3,10 +3,17 @@ import { StyleSheet, Text, View, Button, Image } from 'react-native';
 
 import Navbar from './Navbar';
 
-export default class VolunteerDetailScreen extends React.Component {
+export default class SigninScreen extends React.Component {
+  signIn = params => {
+    console.log('SIGNIN CODE');
+    console.log(params);
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     const { params } = this.props.navigation.state;
+
+    this.signIn(params);
 
     return (
       <View style={styles.container}>
@@ -15,15 +22,16 @@ export default class VolunteerDetailScreen extends React.Component {
           title="Terug"
           color="#841584"
         />
-        <Text>Naam:  {params.name}</Text>
-        <Text>Waar:  {params.location}</Text>
-        <Text>Wanneer:  {params.date}</Text>
-        <Text>Wat: {params.description}</Text>
-        <Text>Munten: {params.munten}</Text>
-
+        <Text>VRIJWILLIGERS</Text>
+        <Text>INSCHRIJVING VOLTOOID</Text>
+        <Text>
+          Bedankt voor je registratie.
+          De verantwoordelijk zal zo snel mogelijk
+          contact met je opnemen
+        </Text>
         <Button
-          title='Inschrijven'
-          onPress={() => navigate('Inschrijven', { ...params })}
+          title='Terug naar Home'
+          onPress={() => navigate('Home')}
         />
 
         <Navbar navigate={this.props.navigation}/>
