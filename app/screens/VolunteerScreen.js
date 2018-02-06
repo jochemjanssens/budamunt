@@ -8,6 +8,7 @@ export default class VolunteerScreen extends React.Component {
     token: null,
     user: null,
     volunteers: null,
+    applications: null
   };
 
   async componentWillMount() {
@@ -21,6 +22,11 @@ export default class VolunteerScreen extends React.Component {
       fetch(`http://192.168.1.49:3000/api/volunteers?isActive=true`, {headers})
         .then(r => {
           this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
+          fetch(`http://192.168.1.49:3000/api/applications`, {headers})
+            .then(r => {
+              this.setState({'applications': JSON.parse(r._bodyText).applications});
+            })
+            .catch(err => console.error(err));
         })
         .catch(err => console.error(err));
     });
@@ -45,6 +51,16 @@ export default class VolunteerScreen extends React.Component {
                   this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
               }
             }
+            fetch(`http://192.168.1.49:3000/api/applications`, {headers})
+              .then(r => {
+                const { applications } = this.state;
+                if(applications && r){
+                  if(applications.length !== JSON.parse(r._bodyText).applications.length){
+                      this.setState({'applications': JSON.parse(r._bodyText).applications});
+                  }
+                }
+              })
+              .catch(err => console.error(err));
           })
           .catch(err => console.error(err));
       }
@@ -70,9 +86,9 @@ export default class VolunteerScreen extends React.Component {
     setInterval(this.loadVolunteers, 1000);
     const { navigate } = this.props.navigation;
 
-    const { volunteers, user } = this.state;
+    const { volunteers, user, applications } = this.state;
 
-    if(volunteers && user){
+    if(volunteers && user && applications){
       const volunteersArray = [];
       volunteers.map(volunteer => {
         //Delete past Events
@@ -133,6 +149,17 @@ export default class VolunteerScreen extends React.Component {
               volunteersArray.map(
                 volunteer => (
                   <View key={volunteer._id} style={styles.item}>
+                    <Text>{
+                      applications.map(
+                        application => {
+                          if(application.volunteerId === volunteer._id){
+                            return(
+                              'AL INGESCHREVEN'
+                            );
+                          }
+                        })
+                      }
+                    </Text>
                     <Text>{volunteer.name}</Text>
                     <Text>{volunteer.description}</Text>
                     <Text>{volunteer.date}</Text>

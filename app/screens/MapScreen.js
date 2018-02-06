@@ -78,18 +78,6 @@ export default class MapScreen extends React.Component {
     }
 
     if(stores){
-      stores.forEach(store=>{
-        geocoder = new google.maps.Geocoder();
-        if (geocoder) {
-            geocoder.geocode({
-                'address': `${store.street} ,${store.city}`
-            }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    callback(results[0]);
-                }
-            });
-        }
-      });
 
       return (
         <View style={styles.container}>
