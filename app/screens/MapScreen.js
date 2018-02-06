@@ -1,16 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, Platform } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, Platform, AsyncStorage } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 
 import MapView from 'react-native-maps';
+import {Marker} from 'react-native-maps';
+
+import Navbar from './MapNavbar';
 
 export default class MapScreen extends React.Component {
   state = {
-      location: null,
-      errorMessage: null,
-    };
+    location: null,
+    errorMessage: null,
+    stores: null
+  };
 
-    componentWillMount() {
+  componentWillMount() {
     if (Platform.OS === 'android' && !Constants.isDevice) {
       this.setState({
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
@@ -18,6 +22,21 @@ export default class MapScreen extends React.Component {
     } else {
       this._getLocationAsync();
     }
+
+    AsyncStorage.getItem("myToken").then((token) => {
+      this.setState({'token': token});
+
+      const headers = new Headers({
+        Authorization: `Bearer ${token}`
+      });
+
+      fetch(`http://192.168.1.49:3000/api/stores`, {headers})
+        .then(r => {
+          this.setState({'stores': JSON.parse(r._bodyText).stores});
+          console.log(JSON.parse(r._bodyText).stores);
+        })
+        .catch(err => console.error(err));
+    });
   }
 
   _getLocationAsync = async () => {
@@ -34,6 +53,7 @@ export default class MapScreen extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
+    const { stores } = this.state;
 
     let text = 'GPS nog niet beschikbaar';
     let data = 'empty';
@@ -57,21 +77,87 @@ export default class MapScreen extends React.Component {
       }
     }
 
-    return (
-      <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          region={{
-            latitude: currentLatitude,
-            longitude: currentLongitude,
-            latitudeDelta: 0.004,
-            longitudeDelta: 0.004,
-          }}
-        >
-        </MapView>
-        <Text style={styles.paragraph}>{text}</Text>
-      </View>
-    );
+    if(stores){
+      stores.forEach(store=>{
+        geocoder = new google.maps.Geocoder();
+        if (geocoder) {
+            geocoder.geocode({
+                'address': `${store.street} ,${store.city}`
+            }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    callback(results[0]);
+                }
+            });
+        }
+      });
+
+      return (
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Button
+              onPress={() => this.props.navigation.goBack()}
+              title="Terug"
+              color="#841584"
+            />
+            <Text>Kaart</Text>
+          </View>
+          <MapView
+            style={styles.map}
+            region={{
+              latitude: currentLatitude,
+              longitude: currentLongitude,
+              latitudeDelta: 0.004,
+              longitudeDelta: 0.004,
+            }}
+          >
+
+            {stores.map(store => (
+              <Marker
+                key={store._id}
+                coordinate = {{
+                  latitude: 50.829835,
+                  longitude: 3.264949,
+                  latitudeDelta: 0.004,
+                  longitudeDelta: 0.004,
+                }}
+                title={store.stores}
+                description={store.street}
+              />
+            ))}
+
+
+          </MapView>
+          <Text style={styles.paragraph}>{text}</Text>
+          <Navbar navigate={this.props.navigation}/>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Button
+              onPress={() => this.props.navigation.goBack()}
+              title="Terug"
+              color="#841584"
+            />
+            <Text>Kaart</Text>
+          </View>
+          <MapView
+            style={styles.map}
+            region={{
+              latitude: currentLatitude,
+              longitude: currentLongitude,
+              latitudeDelta: 0.004,
+              longitudeDelta: 0.004,
+            }}
+          >
+
+          </MapView>
+          <Text style={styles.paragraph}>{text}</Text>
+          <Navbar navigate={this.props.navigation}/>
+        </View>
+      );
+    }
 
   }
 }
@@ -79,10 +165,18 @@ export default class MapScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-   alignItems: 'center',
-   justifyContent: 'center',
-   paddingTop: Constants.statusBarHeight,
-   backgroundColor: '#ecf0f1',
+    backgroundColor: '#ecf0f1',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  header: {
+    paddingTop: Constants.statusBarHeight,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    zIndex: 3,
+    backgroundColor: '#fff',
   },
   paragraph: {
     margin: 24,

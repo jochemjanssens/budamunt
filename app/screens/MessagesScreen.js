@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight } from 'react-native';
 
 import Navbar from './Navbar';
 
@@ -31,42 +31,71 @@ export default class MessagesScreen extends React.Component {
     const { navigate } = this.props.navigation;
     const { messages, user } = this.state;
 
+    console.log(messages);
     if(messages){
       if(messages.length !== 0){
         const messagesArray = [];
         messages.map(message => {
-          if(user._id === message.receiveId){
-            messagesArray.push(message);
+          if(user.name === message.receiveId){
+            messagesArray.push({
+              type: 'receive',
+              content: message
+            });
           }
-          if(user._id === message.sendId){
-            messagesArray.push(message);
+          if(user.name === message.sendId){
+            messagesArray.push({
+              type: 'send',
+              content: message
+            });
           }
-          console.log(messagesArray);
         });
 
-        return (
-          <View style={styles.container}>
-            <View style={styles.header}>
-              <Button
-                onPress={() => this.props.navigation.goBack()}
-                title="Terug"
-                color="#841584"
-              />
-              <Text>Berichten</Text>
+        messagesArray.map(message=>{
+          console.log(message);
+        });
+
+        if(messagesArray.length !== 0){
+          return (
+            <View style={styles.container}>
+              <View style={styles.header}>
+                <Button
+                  onPress={() => this.props.navigation.goBack()}
+                  title="Terug"
+                  color="#841584"
+                />
+                <Text>Berichten</Text>
+              </View>
               {
                 messagesArray.map(
                   message => (
-                    <View key={message._id}>
-                      <Text>{message.content}</Text>
-                    </View>
+                    <TouchableHighlight key={message.content._id} style={styles.message} onPress={() => navigate(`MessageDetail`, { ...message })}>
+                      <View>
+                        <Text>{(message.type === 'receive') ? `van ${message.content.sendId}` : `aan ${message.content.recieveId}`} </Text>
+                        <Text>{message.content.content}</Text>
+                      </View>
+                    </TouchableHighlight>
                   )
                 )
               }
+              <Navbar navigate={this.props.navigation}/>
             </View>
-            <Text>Berichten</Text>
-            <Navbar navigate={this.props.navigation}/>
-          </View>
-        );
+          );
+        } else {
+          return (
+            <View style={styles.container}>
+              <View style={styles.header}>
+                <Button
+                  onPress={() => this.props.navigation.goBack()}
+                  title="Terug"
+                  color="#841584"
+                />
+                <Text>Berichten</Text>
+              </View>
+              <Text>Nog geen berichten</Text>
+              <Navbar navigate={this.props.navigation}/>
+            </View>
+          );
+        }
       } else {
         return (
           <View style={styles.container}>
@@ -115,7 +144,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     top: 50,
-    width: 300
+    width: 300,
+  },
+  message: {
+    borderColor: '#000',
+    borderWidth: 1,
+    padding: 10,
   },
   title: {
     paddingBottom: 30,

@@ -22,9 +22,9 @@ export default class SigninScreen extends React.Component {
           })
           .then(r => {
             const message = new FormData();
-            message.append(`sendId`, params._id);
-            message.append(`receiveId`, JSON.parse(user)._id);
-            message.append(`content`, 'start');
+            message.append(`sendId`, params.user);
+            message.append(`receiveId`, JSON.parse(user).name);
+            message.append(`content`, 'Hallo');
             fetch('http://192.168.1.49:3000/api/messages', {
                 method: 'POST',
                 body: message,

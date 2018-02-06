@@ -10,20 +10,7 @@ export default class Navbar extends React.Component {
 
   render() {
     //Fix subpaginas
-    let page = this.route;
-    if(page === 'VolunteerPersonalScreen' || page === 'VolunteerDetail' || page === 'ownVolunteerDetail' || page === 'Messages'){
-      page = 'Vrijwilligerswerk';
-    }
-    if(page === 'ownEventDetail' || page === 'EventDetail'){
-      page = 'Evenementen';
-    }
-    if(page === 'Transactions'){
-      page = 'Home';
-    }
-    if(page === 'CommunityDetail'){
-      page = 'Community';
-    }
-
+    let page = 'Home';
     return (
       <View style={styles.navbar}>
         <TouchableHighlight onPress={() => this.navigate.navigate('Home')}>
@@ -66,9 +53,8 @@ const styles = StyleSheet.create({
   navbar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    position: 'absolute',
-    bottom: 0,
-    width: 300,
+    alignSelf: 'stretch',
     backgroundColor: '#fff',
+    padding: 4,
   },
 });
