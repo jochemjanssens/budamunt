@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, Platform, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, Platform, AsyncStorage, ScrollView } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
+
+import geolib from 'geolib';
 
 import Navbar from './MapNavbar';
 
@@ -11,7 +13,8 @@ export default class MapScreen extends React.Component {
   state = {
     location: null,
     errorMessage: null,
-    stores: null
+    stores: null,
+    previewCount: 2
   };
 
   componentWillMount() {
@@ -50,11 +53,19 @@ export default class MapScreen extends React.Component {
    this.setState({ location });
  };
 
+   showMore = () => {
+     if(this.state.previewCount === 2){
+       this.setState({previewCount: 5});
+     } else {
+       this.setState({previewCount: 2});
+     }
+  };
+
 
 
   render() {
     const { navigate } = this.props.navigation;
-    const { stores } = this.state;
+    const { stores, previewCount } = this.state;
 
     let text = 'GPS nog niet beschikbaar';
     let data = 'empty';
@@ -70,16 +81,49 @@ export default class MapScreen extends React.Component {
     let currentLatitude = 50.830668;
     let currentLongitude = 3.266142;
 
+    let ownLatitude = false;
+    let ownLongitude = false;
+
+    const storesArray = [];
+    let nearbyStores;
+
     if(data !== 'empty'){
       //check aanwezig op buda
       if(data.latitude > 50.829535 && data.latitude < 50.830430 && data.longitude > 3.264559 && data.longitude < 3.265707){
         currentLatitude = data.latitude;
         currentLongitude = data.longitude;
       }
+      ownLatitude = data.latitude;
+      ownLongitude = data.longitude;
+
+      if(stores){
+        stores.map(store => {
+          let added = false;
+          storesArray.forEach((newStore, key) => {
+            const storeDistance = geolib.getDistanceSimple(
+              {latitude: JSON.parse(store.location)[0].latitude, longitude: JSON.parse(store.location)[0].longitude},
+              {latitude: ownLatitude, longitude: ownLongitude}
+            );
+            const newstoreDistance = geolib.getDistanceSimple(
+              {latitude: JSON.parse(newStore.location)[0].latitude, longitude: JSON.parse(newStore.location)[0].longitude},
+              {latitude: ownLatitude, longitude: ownLongitude}
+            );
+            if (storeDistance < newstoreDistance) {
+              if (added === false) {
+                storesArray.splice(key, 0, store);
+              }
+              added = true;
+            }
+          });
+          if (added === false) {
+            storesArray.push(store);
+          }
+        });
+        nearbyStores = storesArray.slice(0, previewCount);
+      }
     }
 
-    if(stores){
-
+    if(storesArray.length !== 0 && nearbyStores.length !== 0){
       return (
         <View style={styles.container}>
           <View style={styles.header}>
@@ -95,31 +139,51 @@ export default class MapScreen extends React.Component {
             region={{
               latitude: currentLatitude,
               longitude: currentLongitude,
-              latitudeDelta: 0.004,
-              longitudeDelta: 0.004,
+              latitudeDelta: 0.005,
+              longitudeDelta: 0.005,
             }}
           >
-
-            {stores.map(store => (
+            {storesArray.map(store => (
               <Marker
                 key={store._id}
                 coordinate = {{
                   latitude: JSON.parse(store.location)[0].latitude,
                   longitude: JSON.parse(store.location)[0].longitude,
-                  latitudeDelta: 0.004,
-                  longitudeDelta: 0.004,
                 }}
                 title={store.store}
                 description={store.street}
-                onPress={() => {
-                  navigate(`MapDetail`, { ...store });
-                }}
               />
             ))}
 
           </MapView>
+
           <Text style={styles.paragraph}>{text}</Text>
-          <Navbar navigate={this.props.navigation}/>
+          <View style={styles.bottom}>
+            <Button
+              style={styles.newEvent}
+              title='Pijltje boven'
+              onPress={() => this.showMore()}
+            />
+            <View style={styles.list}>
+              {nearbyStores.map(store => (
+                <Text
+                  key={store._id}
+                  style={styles.listItem}
+                  onPress={() => {
+                    navigate(`MapDetail`, { ...store });
+                  }}
+                >
+                  {store.store} - {
+                      geolib.getDistanceSimple(
+                        {latitude: JSON.parse(store.location)[0].latitude, longitude: JSON.parse(store.location)[0].longitude},
+                        {latitude: ownLatitude, longitude: ownLongitude}
+                      )
+                  }m
+                </Text>
+              ))}
+            </View>
+            <Navbar navigate={this.props.navigation}/>
+          </View>
         </View>
       );
     } else {
@@ -177,6 +241,18 @@ const styles = StyleSheet.create({
   icon: {
     width: 26,
     height: 26,
+  },
+  bottom: {
+    alignSelf: 'stretch',
+  },
+  list: {
+    backgroundColor: '#fff',
+  },
+  listItem: {
+    padding: 8,
+    borderBottomColor: '#47315a',
+    borderBottomWidth: 1,
+    textAlign: 'center',
   },
   map: {
     ...StyleSheet.absoluteFillObject,

@@ -36,10 +36,7 @@ export default class HomeScreen extends React.Component {
               fetch(`http://192.168.1.59:3000/api/balances?isActive=true`, {headers})
                 .then(r => {
                   const balances = JSON.parse(r._bodyText).balances;
-                  console.log(balances.length);
-                  console.log(JSON.parse(userContent)._id);
                   balances.forEach(balance => {
-                    console.log(balance.userId);
                     if(JSON.parse(userContent)._id === balance.userId){
                       console.log("found");
                       this.setState({ munten: balance.munten});

@@ -25,14 +25,19 @@ export default class CommunityScreen extends React.Component {
             fetch(`http://192.168.1.59:3000/api/questions`, {headers})
             .then(r => {
               const questions = JSON.parse(r._bodyText).questions;
+              console.log(questions);
               fetch(`http://192.168.1.59:3000/api/answers`, {headers})
               .then(r => {
                 const answers = JSON.parse(r._bodyText).answers;
-                answers.forEach(answer => {
-                  if(JSON.parse(user)._id !== answer.userId){
-                    this.setState({'question': questions[questions.length-1]});
-                  }
-                });
+                if(answers.length !== 0){
+                  answers.forEach(answer => {
+                    if(JSON.parse(user)._id !== answer.userId){
+                      this.setState({'question': questions[questions.length-1]});
+                    }
+                  });
+                } else {
+                  this.setState({'question': questions[questions.length-1]});
+                }
               })
               .catch(err => console.error(err));
             })
@@ -47,6 +52,7 @@ export default class CommunityScreen extends React.Component {
   render() {
     const { artist, question } = this.state;
     const { navigate } = this.props.navigation;
+    console.log(question);
     if(question !== null){
       if(artist && question){
         return (
@@ -80,7 +86,7 @@ export default class CommunityScreen extends React.Component {
         );
       }
     } else {
-      if(artist && question){
+      if(artist){
         return (
           <View style={styles.container}>
             <Text>Community</Text>
