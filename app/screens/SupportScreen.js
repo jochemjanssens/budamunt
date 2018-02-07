@@ -10,7 +10,7 @@ const Question = t.struct({
 
 export default class SupportScreen extends React.Component {
 
-  handleSubmit(){
+  handleSubmit = () => {
     const value = this._form.getValue(); // use that ref to get the form value);
     if(value){
     AsyncStorage.getItem("myToken").then((token) => {
@@ -22,13 +22,14 @@ export default class SupportScreen extends React.Component {
             Authorization: `Bearer ${token}`
           });
 
-          fetch('http://192.168.1.59:3000/api/volunteers', {
+          fetch('http://192.168.1.59:3000/api/FAQS', {
               method: 'POST',
               body,
               headers
             })
             .then(r => {
               console.log(r);
+              this.props.navigation.navigate('Home')
             })
             .catch(err => console.error(err));
         }
