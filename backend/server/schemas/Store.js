@@ -37,6 +37,12 @@ const schema = {
     validation: Joi.string().min(3),
   },
 
+  location: {
+    type: String,
+    required: true,
+    validation: Joi.string().min(3),
+  },
+
 };
 
 module.exports = {schema};

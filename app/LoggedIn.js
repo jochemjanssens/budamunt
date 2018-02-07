@@ -4,6 +4,8 @@ import { StackNavigator } from 'react-navigation';
 
 import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
+import MapdetailScreen from './screens/MapdetailScreen';
+
 import CommunityScreen from './screens/CommunityScreen';
 import CommunityDetailScreen from './screens/CommunityDetailScreen';
 import MessagesScreen from './screens/MessagesScreen';
@@ -39,6 +41,7 @@ export default class LoggedIn extends React.Component {
 export const Navigation = StackNavigator({
   Home: { screen: HomeScreen },
   Kaart: { screen: MapScreen },
+  MapDetail: { screen: MapdetailScreen },
 
   Pay: { screen: PayScreen },
   Receive: { screen: ReceiveScreen },

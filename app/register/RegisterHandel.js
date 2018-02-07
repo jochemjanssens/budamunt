@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, AsyncStorage, Picker } from 'react-native';
 
+import { Constants, Location, Permissions } from 'expo';
+
 import LoggedIn from '../LoggedIn';
 
 import t from 'tcomb-form-native';
@@ -38,7 +40,8 @@ export default class RegisterHandel extends React.Component {
     categorie: "cafe",
     data: null,
     progress: 1,
-    login:  false
+    login:  false,
+    location: null
   };
 
   handleNextOne = () => {
@@ -62,10 +65,25 @@ export default class RegisterHandel extends React.Component {
         straat: value.straat,
         stad: value.stad
       }
+      const adres = `${value.straat}, ${value.stad};`
+      this._getLocationAsync(adres);
       const newProgress = this.state.progress + 1;
       this.setState({progress: newProgress});
     }
   }
+
+  _getLocationAsync = async (adress) => {
+   let { status } = await Permissions.askAsync(Permissions.LOCATION);
+   if (status !== 'granted') {
+     this.setState({
+       errorMessage: 'Permission to access location was denied',
+     });
+   }
+
+   let location = await Location.geocodeAsync(adress);
+   this.setState({ location });
+ };
+
 
   handleNextThree = () => {
     const value = this._form.getValue(); // use that ref to get the form value);
@@ -122,6 +140,9 @@ export default class RegisterHandel extends React.Component {
           shopData.append(`type`, this.state.data.categorie);
           shopData.append(`street`, this.state.data.straat);
           shopData.append(`city`, this.state.data.stad);
+          shopData.append(`location`, JSON.stringify(this.state.location));
+
+          console.log(shopData);
 
           fetch('http://192.168.1.49:3000/api/stores', {
             method: 'POST',
@@ -129,6 +150,7 @@ export default class RegisterHandel extends React.Component {
             headers
           })
           .then(r => {
+            console.log(r);
             const balance = new FormData();
             balance.append(`userId`, JSON.parse(u._bodyText)._id);
             balance.append(`munten`, "0");

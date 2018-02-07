@@ -33,7 +33,6 @@ export default class MapScreen extends React.Component {
       fetch(`http://192.168.1.49:3000/api/stores`, {headers})
         .then(r => {
           this.setState({'stores': JSON.parse(r._bodyText).stores});
-          console.log(JSON.parse(r._bodyText).stores);
         })
         .catch(err => console.error(err));
     });
@@ -50,6 +49,8 @@ export default class MapScreen extends React.Component {
    let location = await Location.getCurrentPositionAsync({});
    this.setState({ location });
  };
+
+
 
   render() {
     const { navigate } = this.props.navigation;
@@ -103,16 +104,18 @@ export default class MapScreen extends React.Component {
               <Marker
                 key={store._id}
                 coordinate = {{
-                  latitude: 50.829835,
-                  longitude: 3.264949,
+                  latitude: JSON.parse(store.location)[0].latitude,
+                  longitude: JSON.parse(store.location)[0].longitude,
                   latitudeDelta: 0.004,
                   longitudeDelta: 0.004,
                 }}
-                title={store.stores}
+                title={store.store}
                 description={store.street}
+                onPress={() => {
+                  navigate(`MapDetail`, { ...store });
+                }}
               />
             ))}
-
 
           </MapView>
           <Text style={styles.paragraph}>{text}</Text>
