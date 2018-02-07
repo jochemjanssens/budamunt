@@ -15,7 +15,7 @@ export default class SigninScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.49:3000/api/applications', {
+        fetch('http://192.168.1.59:3000/api/applications', {
             method: 'POST',
             body,
             headers
@@ -25,7 +25,7 @@ export default class SigninScreen extends React.Component {
             message.append(`sendId`, params.user);
             message.append(`receiveId`, JSON.parse(user).name);
             message.append(`content`, 'Hallo');
-            fetch('http://192.168.1.49:3000/api/messages', {
+            fetch('http://192.168.1.59:3000/api/messages', {
                 method: 'POST',
                 body: message,
                 headers

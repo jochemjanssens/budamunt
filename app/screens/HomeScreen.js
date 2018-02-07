@@ -29,25 +29,27 @@ export default class HomeScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.1.49:3000/api/me?isActive=true`, {headers})
+          fetch(`http://192.168.1.59:3000/api/me?isActive=true`, {headers})
             .then(user => {
               const userContent = user._bodyText;
               AsyncStorage.setItem("user", userContent);
-              fetch(`http://192.168.1.49:3000/api/balances`, {headers})
+              fetch(`http://192.168.1.59:3000/api/balances?isActive=true`, {headers})
                 .then(r => {
                   const balances = JSON.parse(r._bodyText).balances;
+                  console.log(balances.length);
+                  console.log(JSON.parse(userContent)._id);
                   balances.forEach(balance => {
-                    if(balance.isActive){
-                      if(JSON.parse(userContent)._id === balance.userId){
-                        this.setState({ munten: balance.munten});
-                        AsyncStorage.setItem("muntenId", balance._id);
-                        AsyncStorage.setItem("munten", balance.munten);
-                        fetch(`http://192.168.1.49:3000/api/volunteers?isActive=true`, {headers})
-                          .then(r => {
-                            this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
-                          })
-                          .catch(err => console.error(err));
-                      }
+                    console.log(balance.userId);
+                    if(JSON.parse(userContent)._id === balance.userId){
+                      console.log("found");
+                      this.setState({ munten: balance.munten});
+                      AsyncStorage.setItem("muntenId", balance._id);
+                      AsyncStorage.setItem("munten", balance.munten);
+                      fetch(`http://192.168.1.59:3000/api/volunteers?isActive=true`, {headers})
+                        .then(r => {
+                          this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
+                        })
+                        .catch(err => console.error(err));
                     }
                   });
                 })
@@ -85,7 +87,7 @@ export default class HomeScreen extends React.Component {
       text = this.state.errorMessage;
     } else if (this.state.location) {
       let data = this.state.location.coords;
-      if(data.latitude > 50.829535 && data.latitude < 50.830430 && data.longitude > 3.264549 && data.longitude < 3.265707){
+      if(data.latitude > 50.829535 && data.latitude < 50.830430 && data.longitude > 3.264559 && data.longitude < 3.265707){
         currentLatitude = data.latitude;
         currentLongitude = data.longitude;
         onBuda = true;
@@ -110,6 +112,10 @@ export default class HomeScreen extends React.Component {
             <Button
               title='MELD AF'
               onPress={this.handleLogout}
+            />
+            <Button
+              title='HELP'
+              onPress={() => navigate('Support')}
             />
             <Button
               title='Kaart'
@@ -138,48 +144,86 @@ export default class HomeScreen extends React.Component {
     } else {
       if(volunteers){
         const volunteer = volunteers[volunteers.length-1];
+        if(volunteer){
+          return (
+            <View style={styles.container}>
+              <View style={styles.header}>
+                <Text>{munten} CARPELS</Text>
+                <Button
+                  title='MELD AF'
+                  onPress={this.handleLogout}
+                />
+                <Button
+                  title='HELP'
+                  onPress={() => navigate('Support')}
+                />
+                <Button
+                  title='Kaart'
+                  onPress={() => navigate('Kaart')}
+                />
+              </View>
+              <View style={styles.cta}>
+                <Text>Vrijwilligerswerk</Text>
 
-        return (
-          <View style={styles.container}>
-            <View style={styles.header}>
-              <Text>{munten} CARPELS</Text>
-              <Button
-                title='MELD AF'
-                onPress={this.handleLogout}
-              />
-              <Button
-                title='Kaart'
-                onPress={() => navigate('Kaart')}
-              />
-            </View>
-            <View style={styles.cta}>
-              <Text>Vrijwilligerswerk</Text>
-
-              <View key={volunteer._id} style={styles.item}>
-                <Text>{volunteer.name}</Text>
-                <Text>{volunteer.location} | {volunteer.starttime}-{volunteer.endtime} | {volunteer.date}</Text>
-                <Text>{volunteer.description}</Text>
+                <View key={volunteer._id} style={styles.item}>
+                  <Text>{volunteer.name}</Text>
+                  <Text>{volunteer.location} | {volunteer.starttime}-{volunteer.endtime} | {volunteer.date}</Text>
+                  <Text>{volunteer.description}</Text>
+                </View>
+                <Button
+                  title='Bekijk meer'
+                  onPress={() => navigate('Vrijwilligerswerk')}
+                />
               </View>
               <Button
-                title='Bekijk meer'
-                onPress={() => navigate('Vrijwilligerswerk')}
+                title='Bekijk Transacties'
+                onPress={() => navigate('Transactions')}
               />
+              <Button
+                title='Betalen'
+                onPress={() => navigate('Pay')}
+              />
+              <Button
+                title='Ontvangen'
+                onPress={() => navigate('Receive')}
+              />
+              <Navbar navigate={this.props.navigation}/>
             </View>
-            <Button
-              title='Bekijk Transacties'
-              onPress={() => navigate('Transactions')}
-            />
-            <Button
-              title='Betalen'
-              onPress={() => navigate('Pay')}
-            />
-            <Button
-              title='Ontvangen'
-              onPress={() => navigate('Receive')}
-            />
-            <Navbar navigate={this.props.navigation}/>
-          </View>
-        );
+          );
+        } else {
+          return (
+            <View style={styles.container}>
+              <View style={styles.header}>
+                <Text>{munten} CARPELS</Text>
+                <Button
+                  title='MELD AF'
+                  onPress={this.handleLogout}
+                />
+                <Button
+                  title='HELP'
+                  onPress={() => navigate('Support')}
+                />
+                <Button
+                  title='Kaart'
+                  onPress={() => navigate('Kaart')}
+                />
+              </View>
+              <Button
+                title='Bekijk Transacties'
+                onPress={() => navigate('Transactions')}
+              />
+              <Button
+                title='Betalen'
+                onPress={() => navigate('Pay')}
+              />
+              <Button
+                title='Ontvangen'
+                onPress={() => navigate('Receive')}
+              />
+              <Navbar navigate={this.props.navigation}/>
+            </View>
+          );
+        }
       } else {
         return (
           <View style={styles.container}>
@@ -188,6 +232,10 @@ export default class HomeScreen extends React.Component {
               <Button
                 title='MELD AF'
                 onPress={this.handleLogout}
+              />
+              <Button
+                title='HELP'
+                onPress={() => navigate('Support')}
               />
               <Button
                 title='Kaart'

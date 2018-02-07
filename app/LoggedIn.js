@@ -6,6 +6,9 @@ import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
 import MapdetailScreen from './screens/MapdetailScreen';
 
+import SupportScreen from './screens/SupportScreen';
+import SupportDetailScreen from './screens/SupportDetailScreen';
+
 import CommunityScreen from './screens/CommunityScreen';
 import CommunityDetailScreen from './screens/CommunityDetailScreen';
 import MessagesScreen from './screens/MessagesScreen';
@@ -42,6 +45,9 @@ export const Navigation = StackNavigator({
   Home: { screen: HomeScreen },
   Kaart: { screen: MapScreen },
   MapDetail: { screen: MapdetailScreen },
+
+  Support: { screen: SupportScreen },
+  SupportDetail: { screen: SupportDetailScreen },
 
   Pay: { screen: PayScreen },
   Receive: { screen: ReceiveScreen },

@@ -18,14 +18,14 @@ export default class CommunityScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.1.49:3000/api/artists`, {headers})
+          fetch(`http://192.168.1.59:3000/api/artists`, {headers})
           .then(r => {
             const artists = JSON.parse(r._bodyText).artists;
             this.setState({'artist': artists[artists.length-1]});
-            fetch(`http://192.168.1.49:3000/api/questions`, {headers})
+            fetch(`http://192.168.1.59:3000/api/questions`, {headers})
             .then(r => {
               const questions = JSON.parse(r._bodyText).questions;
-              fetch(`http://192.168.1.49:3000/api/answers`, {headers})
+              fetch(`http://192.168.1.59:3000/api/answers`, {headers})
               .then(r => {
                 const answers = JSON.parse(r._bodyText).answers;
                 answers.forEach(answer => {

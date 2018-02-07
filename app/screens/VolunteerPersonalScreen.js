@@ -19,10 +19,10 @@ export default class VolunteerPersonalScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.49:3000/api/volunteers?isActive=true`, {headers})
+      fetch(`http://192.168.1.59:3000/api/volunteers?isActive=true`, {headers})
         .then(r => {
           this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
-          fetch(`http://192.168.1.49:3000/api/applications`, {headers})
+          fetch(`http://192.168.1.59:3000/api/applications`, {headers})
             .then(r => {
               this.setState({'applications': JSON.parse(r._bodyText).applications});
             })
@@ -43,7 +43,7 @@ export default class VolunteerPersonalScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch(`http://192.168.1.49:3000/api/volunteers?isActive=true`, {headers})
+        fetch(`http://192.168.1.59:3000/api/volunteers?isActive=true`, {headers})
           .then(r => {
             const { volunteers } = this.state;
             if(volunteers && r){
@@ -51,7 +51,7 @@ export default class VolunteerPersonalScreen extends React.Component {
                   this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
               }
             }
-            fetch(`http://192.168.1.49:3000/api/applications`, {headers})
+            fetch(`http://192.168.1.59:3000/api/applications`, {headers})
               .then(r => {
                 const { applications } = this.state;
                 if(applications && r){
@@ -80,7 +80,6 @@ export default class VolunteerPersonalScreen extends React.Component {
     console.log("---X---");*/
 
     if(volunteers && user && applications){
-      console.log(applications);
       const volunteersArray = [];
       volunteers.map(volunteer => {
         //Delete past Events

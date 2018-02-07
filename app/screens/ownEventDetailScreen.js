@@ -13,7 +13,7 @@ export default class ownEventDetailScreen extends React.Component {
       const headers = new Headers({
         Authorization: `Bearer ${token}`
       });
-      const url = 'http://192.168.1.49:3000/api/events/' + params._id;
+      const url = 'http://192.168.1.59:3000/api/events/' + params._id;
       fetch(url, {method, headers})
         .then(r => {
           this.props.navigation.goBack()
