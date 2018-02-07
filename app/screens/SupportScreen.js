@@ -1,7 +1,40 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+
+import t from 'tcomb-form-native';
+const Form = t.form.Form;
+
+const Question = t.struct({
+  vraag: t.String
+});
 
 export default class SupportScreen extends React.Component {
+
+  handleSubmit(){
+    const value = this._form.getValue(); // use that ref to get the form value);
+    if(value){
+    AsyncStorage.getItem("myToken").then((token) => {
+      if(token){
+          const body = new FormData();
+          body.append(`question`, value.vraag);
+
+          const headers = new Headers({
+            Authorization: `Bearer ${token}`
+          });
+
+          fetch('http://192.168.1.59:3000/api/volunteers', {
+              method: 'POST',
+              body,
+              headers
+            })
+            .then(r => {
+              console.log(r);
+            })
+            .catch(err => console.error(err));
+        }
+      });
+    }
+  }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -33,6 +66,18 @@ export default class SupportScreen extends React.Component {
           <Text style={styles.question}>Hoe ontvang ik de Carpel:</Text>
           <Text style={styles.answer}>Door de code op je GSM te laten scannen door een andere persoon.</Text>
         </View>
+        <View style={styles.form}>
+          <Form
+             type={Question}
+             ref={c => this._form = c}
+           />
+           <Button
+             title="Stel vraag"
+             style={styles.button}
+             onPress={this.handleSubmit}
+           />
+          </View>
+
       </View>
     );
   }
@@ -58,5 +103,9 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingBottom: 30,
+  },
+  form: {
+    alignSelf: 'stretch',
+    paddingHorizontal: 30,
   },
 });

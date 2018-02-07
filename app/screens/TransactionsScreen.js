@@ -36,41 +36,56 @@ export default class TransactionsScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     if(transactions){
-      const ownTransactions = [];
-      transactions.forEach(transaction=>{
-        if(transaction.payingId === user._id){
-          ownTransactions.push({
-            _id: transaction._id,
-            role: 'pay',
-            munten: transaction.munten,
-            person: transaction.receivingName
-          });
-        }
-        if(transaction.receivingId === user._id){
-          ownTransactions.push({
-            _id: transaction._id,
-            role: 'receive',
-            munten: transaction.munten,
-            person: transaction.payingName
-          });
-        }
-      });
-
-      return (
-        <View style={styles.container}>
-          {
-            ownTransactions.map(
-              transaction => (
-                <View key={transaction._id}>
-                  <Text>Je {(transaction.role === 'receive') ? 'ontving' : 'betaalde'} {transaction.munten} munten {(transaction.role === 'receive') ? 'van' : 'aan'} {transaction.person}</Text>
-                </View>
-              )
-            )
+      if(transactions.length !== 0){
+        const ownTransactions = [];
+        transactions.forEach(transaction=>{
+          if(transaction.payingId === user._id){
+            ownTransactions.push({
+              _id: transaction._id,
+              role: 'pay',
+              munten: transaction.munten,
+              person: transaction.receivingName
+            });
           }
-          <Navbar navigate={this.props.navigation}/>
-        </View>
-      );
-    }else{
+          if(transaction.receivingId === user._id){
+            ownTransactions.push({
+              _id: transaction._id,
+              role: 'receive',
+              munten: transaction.munten,
+              person: transaction.payingName
+            });
+          }
+        });
+
+        return (
+          <View style={styles.container}>
+            {
+              ownTransactions.map(
+                transaction => (
+                  <View key={transaction._id}>
+                    <Text>Je {(transaction.role === 'receive') ? 'ontving' : 'betaalde'} {transaction.munten} munten {(transaction.role === 'receive') ? 'van' : 'aan'} {transaction.person}</Text>
+                  </View>
+                )
+              )
+            }
+            <Navbar navigate={this.props.navigation}/>
+          </View>
+        );
+      }else{
+        return (
+          <View style={styles.container}>
+            <Button
+              onPress={() => this.props.navigation.goBack()}
+              title="Terug"
+              color="#841584"
+            />
+            <Text>Er zijn nog geen transacties</Text>
+            <Navbar navigate={this.props.navigation}/>
+
+          </View>
+        );
+      }
+    }else {
       return (
         <View style={styles.container}>
           <Button
@@ -78,12 +93,13 @@ export default class TransactionsScreen extends React.Component {
             title="Terug"
             color="#841584"
           />
-          <Text>TransactionsScreen</Text>
+          <Text>Er zijn nog geen transacties</Text>
           <Navbar navigate={this.props.navigation}/>
 
         </View>
       );
     }
+
   }
 }
 

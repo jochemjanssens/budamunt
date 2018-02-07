@@ -7,7 +7,6 @@ import MapScreen from './screens/MapScreen';
 import MapdetailScreen from './screens/MapdetailScreen';
 
 import SupportScreen from './screens/SupportScreen';
-import SupportDetailScreen from './screens/SupportDetailScreen';
 
 import CommunityScreen from './screens/CommunityScreen';
 import CommunityDetailScreen from './screens/CommunityDetailScreen';
@@ -47,7 +46,6 @@ export const Navigation = StackNavigator({
   MapDetail: { screen: MapdetailScreen },
 
   Support: { screen: SupportScreen },
-  SupportDetail: { screen: SupportDetailScreen },
 
   Pay: { screen: PayScreen },
   Receive: { screen: ReceiveScreen },
