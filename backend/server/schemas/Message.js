@@ -23,7 +23,11 @@ const schema = {
     validation: Joi.string()
   },
 
-
+  conversation: {
+    type: String,
+    required: true,
+    validation: Joi.string()
+  },
 
 
 };

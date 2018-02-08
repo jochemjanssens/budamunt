@@ -31,27 +31,27 @@ export default class MessagesScreen extends React.Component {
     const { navigate } = this.props.navigation;
     const { messages, user } = this.state;
 
-    console.log(messages);
     if(messages){
+      console.log("-|-|-");
+      console.log(messages);
+      console.log(user);
       if(messages.length !== 0){
         const messagesArray = [];
         messages.map(message => {
-          if(user.name === message.receiveId){
-            messagesArray.push({
-              type: 'receive',
-              content: message
-            });
+          if(message.conversation === 'first'){
+            if(user.email === message.receiveId){
+              messagesArray.push({
+                type: 'receive',
+                content: message
+              });
+            }
+            if(user.email === message.sendId){
+              messagesArray.push({
+                type: 'send',
+                content: message
+              });
+            }
           }
-          if(user.name === message.sendId){
-            messagesArray.push({
-              type: 'send',
-              content: message
-            });
-          }
-        });
-
-        messagesArray.map(message=>{
-          console.log(message);
         });
 
         if(messagesArray.length !== 0){
@@ -67,14 +67,17 @@ export default class MessagesScreen extends React.Component {
               </View>
               {
                 messagesArray.map(
-                  message => (
-                    <TouchableHighlight key={message.content._id} style={styles.message} onPress={() => navigate(`MessageDetail`, { ...message })}>
-                      <View>
-                        <Text>{(message.type === 'receive') ? `van ${message.content.sendId}` : `aan ${message.content.recieveId}`} </Text>
-                        <Text>{message.content.content}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  )
+                  message => {
+                    console.log(message.content);
+                    return(
+                      <TouchableHighlight key={message.content._id} style={styles.message} onPress={() => navigate(`MessageDetail`, { ...message })}>
+                        <View>
+                          <Text>{(message.type === 'receive') ? `van ${message.content.sendId}` : `aan ${message.content.recieveId}`} </Text>
+                          <Text>{message.content.content}</Text>
+                        </View>
+                      </TouchableHighlight>
+                    );
+                  }
                 )
               }
               <Navbar navigate={this.props.navigation}/>

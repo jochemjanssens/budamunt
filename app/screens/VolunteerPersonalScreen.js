@@ -144,7 +144,7 @@ export default class VolunteerPersonalScreen extends React.Component {
                     <Text>{
                       applications.map(
                         application => {
-                          if(application.volunteerId === volunteer._id){
+                          if(application.volunteerId === volunteer._id && user._id === application.userId){
                             return(
                               'AL INGESCHREVEN'
                             );

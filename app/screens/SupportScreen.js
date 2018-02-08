@@ -28,7 +28,6 @@ export default class SupportScreen extends React.Component {
               headers
             })
             .then(r => {
-              console.log(r);
               this.props.navigation.navigate('Home')
             })
             .catch(err => console.error(err));
@@ -77,8 +76,7 @@ export default class SupportScreen extends React.Component {
              style={styles.button}
              onPress={this.handleSubmit}
            />
-          </View>
-
+        </View>
       </View>
     );
   }

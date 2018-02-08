@@ -23,15 +23,16 @@ export default class SigninScreen extends React.Component {
           .then(r => {
             const message = new FormData();
             message.append(`sendId`, params.user);
-            message.append(`receiveId`, JSON.parse(user).name);
-            message.append(`content`, 'Hallo');
+            message.append(`receiveId`, JSON.parse(user).email);
+            message.append(`content`, 'Bedankt voor je registraties. De verantwoordelijke zal contact met jou opnemen');
+            message.append(`conversation`, 'first');
+
             fetch('http://192.168.1.59:3000/api/messages', {
                 method: 'POST',
                 body: message,
                 headers
               })
               .then(r => {
-                this.props.navigation.navigate('VolunteerPersonalScreen');
               })
               .catch(err => console.error(err));
           })
