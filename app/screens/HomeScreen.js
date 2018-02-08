@@ -29,11 +29,11 @@ export default class HomeScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.1.4:3000/api/me?isActive=true`, {headers})
+          fetch(`http://192.168.0.233:3000/api/me?isActive=true`, {headers})
             .then(user => {
               const userContent = user._bodyText;
               AsyncStorage.setItem("user", userContent);
-              fetch(`http://192.168.1.4:3000/api/balances?isActive=true`, {headers})
+              fetch(`http://192.168.0.233:3000/api/balances?isActive=true`, {headers})
                 .then(r => {
                   const balances = JSON.parse(r._bodyText).balances;
                   balances.forEach(balance => {
@@ -42,7 +42,7 @@ export default class HomeScreen extends React.Component {
                       this.setState({ munten: balance.munten});
                       AsyncStorage.setItem("muntenId", balance._id);
                       AsyncStorage.setItem("munten", balance.munten);
-                      fetch(`http://192.168.1.4:3000/api/volunteers?isActive=true`, {headers})
+                      fetch(`http://192.168.0.233:3000/api/volunteers?isActive=true`, {headers})
                         .then(r => {
                           this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
                         })

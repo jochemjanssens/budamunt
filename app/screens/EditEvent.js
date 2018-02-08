@@ -74,7 +74,7 @@ export default class EditEvent extends React.Component {
         const headers = new Headers({
           Authorization: `Bearer ${token}`
         });
-        const url = 'http://192.168.1.4:3000/api/events/' + this.formData._id;
+        const url = 'http://192.168.0.233:3000/api/events/' + this.formData._id;
         fetch(url, {
           method: 'DELETE',
           headers
@@ -84,7 +84,7 @@ export default class EditEvent extends React.Component {
           })
           .catch(err => console.error(err));
 
-        fetch('http://192.168.1.4:3000/api/events', {
+        fetch('http://192.168.0.233:3000/api/events', {
             method: 'POST',
             body,
             headers

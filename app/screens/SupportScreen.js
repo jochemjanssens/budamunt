@@ -22,7 +22,7 @@ export default class SupportScreen extends React.Component {
             Authorization: `Bearer ${token}`
           });
 
-          fetch('http://192.168.1.4:3000/api/FAQS', {
+          fetch('http://192.168.0.233:3000/api/FAQS', {
               method: 'POST',
               body,
               headers

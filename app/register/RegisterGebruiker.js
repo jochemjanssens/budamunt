@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
-
+import { StyleSheet, Text, View, Button, AsyncStorage, KeyboardAvoidingView } from 'react-native';
+import { Constants } from 'expo';
 import LoggedIn from '../LoggedIn';
 
 import t from 'tcomb-form-native';
@@ -37,7 +37,7 @@ export default class RegisterGebruiker extends React.Component {
       body.append(`password`, value.paswoord);
       body.append(`scope`, 'USER');
 
-      fetch('http://192.168.1.4:3000/api/users', {
+      fetch('http://192.168.0.233:3000/api/users', {
         method: 'POST',
         body: body
       })
@@ -47,7 +47,7 @@ export default class RegisterGebruiker extends React.Component {
         login.append(`password`, value.paswoord);
         login.append(`audience`, `tweets-frontend`);
 
-        fetch('http://192.168.1.4:3000/api/auth', {
+        fetch('http://192.168.0.233:3000/api/auth', {
           method: 'POST',
           body: login
         })
@@ -63,7 +63,7 @@ export default class RegisterGebruiker extends React.Component {
             Authorization: `Bearer ${token}`
           });
 
-          fetch('http://192.168.1.4:3000/api/balances', {
+          fetch('http://192.168.0.233:3000/api/balances', {
             method: 'POST',
             body: balance,
             headers
@@ -93,7 +93,10 @@ export default class RegisterGebruiker extends React.Component {
       return <LoggedIn />
     }else{
       return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior="padding"
+        >
           <Text>Maak een account</Text>
           <Form
              type={Register}
@@ -109,7 +112,7 @@ export default class RegisterGebruiker extends React.Component {
             title="Ik heb al een account"
             onPress={() => this.props.navigation.goBack()}
           />
-        </View>
+        </KeyboardAvoidingView>
       );
     }
   }
@@ -121,5 +124,6 @@ const styles = StyleSheet.create({
     width: 300,
     backgroundColor: '#fff',
     justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight,
   },
 });

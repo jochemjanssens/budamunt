@@ -1064,6 +1064,10 @@ color@^2.0.1:
     color-convert "^1.9.1"
     color-string "^1.5.2"
 
+colors@*:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
+
 combined-stream@^1.0.5, combined-stream@~1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.5.tgz#938370a57b4a51dea2c77c15d5c5fdf895164009"
@@ -1208,6 +1212,14 @@ create-react-class@^15.5.2:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+create-react-class@^15.6.0:
+  version "15.6.3"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 cross-spawn@^5.0.1, cross-spawn@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
@@ -1316,6 +1328,10 @@ detect-libc@^1.0.2:
 detect-newline@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-2.1.0.tgz#f41f1c10be4b00e87b5f13da680759f2c5bfd3e2"
+
+dijkstrajs@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/dijkstrajs/-/dijkstrajs-1.0.1.tgz#d3cd81221e3ea40742cfcde556d4e99e98ddc71b"
 
 dom-walk@^0.1.0:
   version "0.1.1"
@@ -1703,6 +1719,10 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
+geolib@^2.0.24:
+  version "2.0.24"
+  resolved "https://registry.yarnpkg.com/geolib/-/geolib-2.0.24.tgz#eb3d7fbc65f5ea3354a5af6054563ebe9f33e5f4"
+
 get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
@@ -2084,6 +2104,10 @@ isarray@0.0.1:
 isarray@1.0.0, isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
+
+isarray@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/isarray/-/isarray-2.0.2.tgz#5aa99638daf2248b10b9598b763a045688ece3ee"
 
 isexe@^2.0.0:
   version "2.0.0"
@@ -2578,7 +2602,7 @@ minimist@~0.0.1:
   dependencies:
     minimist "0.0.8"
 
-moment@^2.20.1:
+moment@2.x.x, moment@^2.20.1:
   version "2.20.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
 
@@ -2949,6 +2973,10 @@ plist@^1.2.0:
     xmlbuilder "4.0.0"
     xmldom "0.1.x"
 
+pngjs@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-2.3.1.tgz#11d1e12b9cb64d63e30c143a330f4c1f567da85f"
+
 pouchdb-collections@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/pouchdb-collections/-/pouchdb-collections-1.0.1.tgz#fe63a17da977611abef7cb8026cb1a9553fd8359"
@@ -3001,6 +3029,19 @@ pseudomap@^1.0.2:
 punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
+
+qr.js@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
+
+qrcode@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/qrcode/-/qrcode-0.9.0.tgz#4bdc1d21ad655c3101b5bb29e2e4c9d6416825fb"
+  dependencies:
+    colors "*"
+    dijkstrajs "^1.0.1"
+    isarray "^2.0.1"
+    pngjs "^2.3.1"
 
 qs@4.0.0:
   version "4.0.0"
@@ -3065,6 +3106,12 @@ react-native-branch@2.0.0-beta.3:
   version "2.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.0.0-beta.3.tgz#2167af86bbc9f964bd45bd5f37684e5b54965e32"
 
+react-native-datepicker@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.6.0.tgz#3a40dc9b112023c49d60ba2a0789d440b7e3d97c"
+  dependencies:
+    moment "2.x.x"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -3090,6 +3137,10 @@ react-native-elements@^0.19.0:
     opencollective "^1.0.3"
     prop-types "^15.5.8"
 
+react-native-geocoder@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-geocoder/-/react-native-geocoder-0.5.0.tgz#ff4b9c55d5768a4784eefccb411761c82e067579"
+
 react-native-gesture-handler@1.0.0-alpha.39:
   version "1.0.0-alpha.39"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.0-alpha.39.tgz#e87851d5efc49d2d91ebf76ad59b7b5d1fd356f5"
@@ -3098,15 +3149,49 @@ react-native-gesture-handler@1.0.0-alpha.39:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-iphone-x-helper@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.0.2.tgz#7dbca530930f7c1ce8633cc8fd13ba94102992e1"
+
+react-native-keyboard-aware-scroll-view@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.4.3.tgz#206e197730902ce01d026910ff8409a2a363e1ac"
+  dependencies:
+    prop-types "^15.6.0"
+    react-native-iphone-x-helper "^1.0.1"
+
 react-native-maps@0.19.0, react-native-maps@^0.19.0:
   version "0.19.0"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.19.0.tgz#ce94fad1cf360e335cb4338a68c95f791e869074"
+
+react-native-qrcode-svg@^5.0.6:
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-qrcode-svg/-/react-native-qrcode-svg-5.0.6.tgz#4e054788d1bf1bafe6a229056cde576644d059db"
+  dependencies:
+    prop-types "^15.5.10"
+    qrcode "^0.9.0"
+
+react-native-qrcode@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/react-native-qrcode/-/react-native-qrcode-0.2.6.tgz#dd92f151c118860092af9fa5bc0995f2f9dddb16"
+  dependencies:
+    create-react-class "^15.6.0"
+    prop-types "^15.5.10"
+    qr.js "0.0.0"
 
 react-native-safe-module@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-module/-/react-native-safe-module-1.2.0.tgz#a23824ca24edc2901913694a76646475113d570d"
   dependencies:
     dedent "^0.6.0"
+
+react-native-svg@^6.0.1-rc.3:
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-6.1.3.tgz#cd69a554105d49b1071ddae5509e56ce8aaf5034"
+  dependencies:
+    color "^2.0.1"
+    lodash "^4.16.6"
+    pegjs "^0.10.0"
 
 "react-native-svg@https://github.com/expo/react-native-svg/archive/5.5.1-exp.1.tar.gz":
   version "5.5.1"

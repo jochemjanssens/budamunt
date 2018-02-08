@@ -82,7 +82,7 @@ export default class EditVolunteer extends React.Component {
         const headers = new Headers({
           Authorization: `Bearer ${token}`
         });
-        const url = 'http://192.168.1.4:3000/api/volunteers/' + this.value._id;
+        const url = 'http://192.168.0.233:3000/api/volunteers/' + this.value._id;
         fetch(url, {
           method: 'DELETE',
           headers
@@ -92,7 +92,7 @@ export default class EditVolunteer extends React.Component {
           })
           .catch(err => console.error(err));
 
-        fetch('http://192.168.1.4:3000/api/volunteers', {
+        fetch('http://192.168.0.233:3000/api/volunteers', {
             method: 'POST',
             body,
             headers
