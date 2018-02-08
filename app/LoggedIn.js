@@ -24,6 +24,7 @@ import VolunteerScreen from './screens/VolunteerScreen';
 import VolunteerPersonalScreen from './screens/VolunteerPersonalScreen';
 import VolunteerDetailScreen from './screens/VolunteerDetailScreen';
 import ownVolunteerDetailScreen from './screens/ownVolunteerDetailScreen';
+import chosenVolunteerDetailScreen from './screens/ChosenVolunteerDetailScreen';
 import NewVolunteer from './screens/NewVolunteer';
 import EditVolunteer from './screens/EditVolunteer';
 import SigninScreen from './screens/SigninScreen';
@@ -59,6 +60,7 @@ export const Navigation = StackNavigator({
   VolunteerDetail: { screen: VolunteerDetailScreen },
   EditVolunteer: { screen: EditVolunteer },
   ownVolunteerDetail: { screen: ownVolunteerDetailScreen },
+  chosenVolunteerDetail: { screen: chosenVolunteerDetailScreen },
   newVolunteer: { screen: NewVolunteer },
   Inschrijven: { screen: SigninScreen },
 

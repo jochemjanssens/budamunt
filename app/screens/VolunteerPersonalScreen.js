@@ -73,12 +73,6 @@ export default class VolunteerPersonalScreen extends React.Component {
 
     const { volunteers, user, applications } = this.state;
 
-  /*  console.log("---|---");
-    console.log(volunteers);
-    console.log(user);
-    console.log(applications);
-    console.log("---X---");*/
-
     if(volunteers && user && applications){
       const volunteersArray = [];
       volunteers.map(volunteer => {
@@ -139,29 +133,39 @@ export default class VolunteerPersonalScreen extends React.Component {
             />
             {
               volunteersArray.map(
-                volunteer => (
-                  <View key={volunteer._id} style={styles.item}>
-                    <Text>{
-                      applications.map(
-                        application => {
-                          if(application.volunteerId === volunteer._id && user._id === application.userId){
-                            return(
-                              'AL INGESCHREVEN'
-                            );
-                          }
-                        })
+                volunteer => {
+                  let match = false;
+                  applications.map(
+                    application => {
+                      if(application.volunteerId === volunteer._id && user._id === application.userId){
+                        console.log(match);
+                        match = true;
                       }
-                    </Text>
-                    <Text>{volunteer.name}</Text>
-                    <Text>{volunteer.description}</Text>
-                    <Text>{volunteer.date}</Text>
-                    <Button
-                      onPress={() => navigate(`${(user.email === volunteer.user) ? 'ownVolunteerDetail' : "VolunteerDetail"}`, { ...volunteer })}
-                      title='open'
-                      color={(user.email === volunteer.user) ? '#FD9C27' : "#134D57"}
-                    />
-                  </View>
-                )
+                    }
+                  )
+                  let button = null;
+                   if (match) {
+                     button = <Button onPress={() => navigate(`chosenVolunteerDetail`, { ...volunteer })} title='open' color="#134D57"/>;
+                   } else {
+                     if(user.email === volunteer.user){
+                        button =  <Button onPress={() => navigate(`ownVolunteerDetail`, { ...volunteer })} title='open' color="#134D57"/>;
+                     } else {
+                        button = <Button onPress={() => navigate(`VolunteerDetail`, { ...volunteer })} title='open' color="#134D57"/>;
+                     }
+                   }
+
+                  return(
+                    <View key={volunteer._id} style={styles.item}>
+                      <Text>
+                        {`${(match === true) ? 'AL INGESCHREVEN' : "NIET INGESCHREVEN"}`}
+                      </Text>
+                      <Text>{volunteer.name}</Text>
+                      <Text>{volunteer.description}</Text>
+                      <Text>{volunteer.date}</Text>
+                      {button}
+                    </View>
+                  );
+                }
               )
             }
             <Button

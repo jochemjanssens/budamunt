@@ -21,13 +21,33 @@ export default class SigninScreen extends React.Component {
             headers
           })
           .then(r => {
-            const message = new FormData();
-            message.append(`sendId`, params.user);
-            message.append(`receiveId`, JSON.parse(user).email);
-            message.append(`content`, 'Bedankt voor je registraties. De verantwoordelijke zal contact met jou opnemen');
-            message.append(`conversation`, 'first');
+            fetch(`http://192.168.1.4:3000/api/messages`, {headers})
+            .then(r => {
+              let match = false;
+              const messages = JSON.parse(r._bodyText).messages;
+              messages.forEach(message=>{
+                if(message.receiveId === params.user || message.sendId === params.user){
+                  if(message.receiveId === JSON.parse(user).email || message.sendId === JSON.parse(user).email){
+                    match = message._id;
+                  }
+                }
+              });
 
-            fetch('http://192.168.1.4:3000/api/messages', {
+              const message = new FormData();
+              if(match !== false){
+                message.append(`sendId`, params.user);
+                message.append(`receiveId`, JSON.parse(user).email);
+                message.append(`content`, 'Bedankt voor je registraties. De verantwoordelijke zal contact met jou opnemen');
+                message.append(`conversation`, match);
+              }else{
+                message.append(`sendId`, params.user);
+                message.append(`receiveId`, JSON.parse(user).email);
+                message.append(`content`, 'Bedankt voor je registraties. De verantwoordelijke zal contact met jou opnemen');
+                message.append(`conversation`, 'first');
+              }
+
+
+              fetch('http://192.168.1.4:3000/api/messages', {
                 method: 'POST',
                 body: message,
                 headers
@@ -35,6 +55,8 @@ export default class SigninScreen extends React.Component {
               .then(r => {
               })
               .catch(err => console.error(err));
+            })
+            .catch(err => console.error(err));
           })
           .catch(err => console.error(err));
         }).done();
