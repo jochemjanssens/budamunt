@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
 import t from 'tcomb-form-native';
 
 import LoggedIn from '../LoggedIn';
-
+import LoggedInHandelaar from '../LoggedInHandelaar';
 
 const Form = t.form.Form;
 
@@ -31,7 +31,13 @@ export default class Login extends React.Component {
   async componentWillMount() {
     AsyncStorage.getItem("myToken").then((token) => {
       if(token){
-        this.setState({ login: true });
+        AsyncStorage.getItem("user").then((user) => {
+          if(JSON.parse(user).scope === 'HANDELAAR'){
+            this.setState({ login: 'handelaar' });
+          }else{
+            this.setState({ login: true });
+          }
+        });
       }
     });
   }
@@ -43,7 +49,7 @@ export default class Login extends React.Component {
       body.append(`login`, value.email);
       body.append(`password`, value.password);
       body.append(`audience`, `tweets-frontend`);
-      fetch('http://192.168.1.59:3000/api/auth', {
+      fetch('http://192.168.1.4:3000/api/auth', {
         method: 'POST',
         body: body
       })
@@ -65,6 +71,8 @@ export default class Login extends React.Component {
 
     if(login === true){
       return <LoggedIn />
+    }else if (login === 'handelaar'){
+      return <LoggedInHandelaar />
     }else{
       return (
         <View style={styles.container}>

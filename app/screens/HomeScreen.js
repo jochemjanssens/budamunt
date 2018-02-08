@@ -29,11 +29,11 @@ export default class HomeScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.1.59:3000/api/me?isActive=true`, {headers})
+          fetch(`http://192.168.1.4:3000/api/me?isActive=true`, {headers})
             .then(user => {
               const userContent = user._bodyText;
               AsyncStorage.setItem("user", userContent);
-              fetch(`http://192.168.1.59:3000/api/balances?isActive=true`, {headers})
+              fetch(`http://192.168.1.4:3000/api/balances?isActive=true`, {headers})
                 .then(r => {
                   const balances = JSON.parse(r._bodyText).balances;
                   balances.forEach(balance => {
@@ -42,7 +42,7 @@ export default class HomeScreen extends React.Component {
                       this.setState({ munten: balance.munten});
                       AsyncStorage.setItem("muntenId", balance._id);
                       AsyncStorage.setItem("munten", balance.munten);
-                      fetch(`http://192.168.1.59:3000/api/volunteers?isActive=true`, {headers})
+                      fetch(`http://192.168.1.4:3000/api/volunteers?isActive=true`, {headers})
                         .then(r => {
                           this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
                         })
@@ -84,14 +84,12 @@ export default class HomeScreen extends React.Component {
       text = this.state.errorMessage;
     } else if (this.state.location) {
       let data = this.state.location.coords;
-      if(data.latitude > 50.829535 && data.latitude < 50.830430 && data.longitude > 3.264559 && data.longitude < 3.265707){
+      if(data.latitude > 50.829535 && data.latitude < 50.830430 && data.longitude > 3.26454 && data.longitude < 3.265707){
         currentLatitude = data.latitude;
         currentLongitude = data.longitude;
         onBuda = true;
         console.log(currentLatitude);
         console.log(currentLongitude);
-      }else{
-        console.log("notOnBuda");
       }
     }
 

@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-nativ
 
 import Navbar from './Navbar';
 
-export default class ownEventDetailScreen extends React.Component {
+export default class ownVolunteerDetailScreen extends React.Component {
 
-  deleteEvent = () => {
+  deleteVolunteer = () => {
     const { params } = this.props.navigation.state;
 
     AsyncStorage.getItem("myToken").then(token => {
@@ -13,7 +13,7 @@ export default class ownEventDetailScreen extends React.Component {
       const headers = new Headers({
         Authorization: `Bearer ${token}`
       });
-      const url = 'http://192.168.1.4:3000/api/events/' + params._id;
+      const url = 'http://192.168.1.59:3000/api/volunteers/' + params._id;
       fetch(url, {method, headers})
         .then(r => {
           this.props.navigation.goBack()
@@ -22,10 +22,10 @@ export default class ownEventDetailScreen extends React.Component {
     });
   }
 
-  changeEvent = () => {
+  changeVolunteer = () => {
     const { navigate } = this.props.navigation;
     const { params } = this.props.navigation.state;
-    navigate('EditEvent', { data: params })
+    navigate('EditVolunteer', { data: params })
   }
 
   render() {
@@ -45,16 +45,17 @@ export default class ownEventDetailScreen extends React.Component {
         <Text>Waar:  {params.location}</Text>
         <Text>Wanneer:  {params.date}</Text>
         <Text>Wat: {params.description}</Text>
+        <Text>Munten: {params.munten}</Text>
 
         <Button
-          onPress={this.changeEvent}
-          title="Wijzig event"
+          onPress={this.changeVolunteer}
+          title="Wijzig vrijwilligerswerk"
           color="#134D57"
         />
 
         <Button
-          onPress={this.deleteEvent}
-          title="Verwijder event"
+          onPress={this.deleteVolunteer}
+          title="Verwijder vrijwilligerswerk"
           color="#841584"
         />
 

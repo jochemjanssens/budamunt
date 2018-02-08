@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, AsyncStorage, Picker } from 'react-nati
 
 import { Constants, Location, Permissions } from 'expo';
 
-import LoggedIn from '../LoggedIn';
+import LoggedIn from '../LoggedInHandelaar';
 
 import t from 'tcomb-form-native';
 const Form = t.form.Form;

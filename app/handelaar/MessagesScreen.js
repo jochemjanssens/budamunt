@@ -15,7 +15,7 @@ export default class MessagesScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.4:3000/api/messages`, {headers})
+      fetch(`http://192.168.1.59:3000/api/messages`, {headers})
         .then(r => {
           this.setState({'messages': JSON.parse(r._bodyText).messages});
         })
@@ -32,6 +32,9 @@ export default class MessagesScreen extends React.Component {
     const { messages, user } = this.state;
 
     if(messages){
+      console.log("-|-|-");
+      console.log(messages);
+      console.log(user);
       if(messages.length !== 0){
         const messagesArray = [];
         messages.map(message => {
@@ -69,7 +72,7 @@ export default class MessagesScreen extends React.Component {
                     return(
                       <TouchableHighlight key={message.content._id} style={styles.message} onPress={() => navigate(`MessageDetail`, { ...message })}>
                         <View>
-                          <Text>{(message.type === 'receive') ? `van ${message.content.sendId}` : `aan ${message.content.receiveId}`} </Text>
+                          <Text>{(message.type === 'receive') ? `van ${message.content.sendId}` : `aan ${message.content.recieveId}`} </Text>
                           <Text>{message.content.content}</Text>
                         </View>
                       </TouchableHighlight>

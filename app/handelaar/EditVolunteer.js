@@ -6,13 +6,14 @@ const Form = t.form.Form;
 
 import DatePicker from 'react-native-datepicker'
 
-const Event = t.struct({
+const Volunteer = t.struct({
   titel: t.String,
   beschrijving: t.String,
-  locatie: t.String
+  locatie: t.String,
+  munten: t.Number
 });
 
-export default class EditEvent extends React.Component {
+export default class EditVolunteer extends React.Component {
   state = {
     user: null,
     progress: 1,
@@ -20,20 +21,23 @@ export default class EditEvent extends React.Component {
       beschrijving: null,
       locatie: null,
       titel: null,
+      munten: null,
     },
     date: null,
     startTime: null,
-    endTime: null,
+    endTime: null
   };
 
   constructor(data){
     super();
     this.formData = data.navigation.state.params.data;
+
     this.user = this.formData.user;
     this.value = {
       beschrijving: this.formData.description,
       locatie: this.formData.location,
       titel: this.formData.name,
+      munten: this.formData.munten,
     }
     this.date = this.formData.date;
     this.startTime = this.formData.starttime;
@@ -47,6 +51,7 @@ export default class EditEvent extends React.Component {
   async componentWillMount() {
     AsyncStorage.getItem("user").then(user => {
       this.setState({'user': JSON.parse(user)});
+      console.log(user);
     });
   }
 
@@ -55,6 +60,7 @@ export default class EditEvent extends React.Component {
     this.value.titel =  value.titel;
     this.value.beschrijving = value.beschrijving;
     this.value.locatie = value.locatie;
+    this.value.munten = value.munten;
     this.setState({ progress: 2 });
   }
 
@@ -66,15 +72,17 @@ export default class EditEvent extends React.Component {
         body.append(`name`, this.value.titel);
         body.append(`description`, this.value.beschrijving);
         body.append(`location`, this.value.locatie);
+        body.append(`munten`, this.value.munten);
         body.append(`date`, this.state.date);
         body.append(`starttime`, this.state.startTime);
         body.append(`endtime`, this.state.endTime);
+        body.append(`userType`, this.state.user.scope);
         body.append(`isActive`, 'true');
 
         const headers = new Headers({
           Authorization: `Bearer ${token}`
         });
-        const url = 'http://192.168.1.4:3000/api/events/' + this.formData._id;
+        const url = 'http://192.168.1.59:3000/api/volunteers/' + this.value._id;
         fetch(url, {
           method: 'DELETE',
           headers
@@ -84,18 +92,20 @@ export default class EditEvent extends React.Component {
           })
           .catch(err => console.error(err));
 
-        fetch('http://192.168.1.4:3000/api/events', {
+        fetch('http://192.168.1.59:3000/api/volunteers', {
             method: 'POST',
             body,
             headers
           })
           .then(r => {
             console.log(r);
-            this.props.navigation.navigate('Evenementen')
+            this.props.navigation.navigate('Vrijwilligerswerk')
           })
           .catch(err => console.error(err));
       }
     });
+
+
   }
 
   render() {
@@ -117,17 +127,17 @@ export default class EditEvent extends React.Component {
               title="Terug"
               color="#841584"
             />
-            <Text>Event Aanmaken</Text>
+            <Text>Aanvraag Wijzigen</Text>
           </View>
           <View style={styles.form}>
             <Text>1/2</Text>
             <Text>
-              Om een evenement te maken moet je snel even dit forumulier
-              invullen na het invullen wordt jouw event geplaatst en kunnen
-              andere mensen erop reageren
+              Om een vrijwilliger aan te vragen moet je snel even dit form invullen
+              na het invullen wordt jouw aanvraag geplaatst
+              en kunnen andere mensen erop reageren.
             </Text>
             <Form
-               type={Event}
+               type={Volunteer}
                ref={c => this._form = c}
                value={this.value}
                onChange={this.onChange}

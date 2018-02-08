@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Image, Text, View, TouchableOpacity, Button, AsyncStorage } from "react-native";
-import { Camera, Permissions, Constants } from "expo";
+import { Camera, Permissions } from "expo";
 import { StackNavigator } from "react-navigation";
 
 export default class PayScreen extends React.Component {
@@ -50,14 +50,14 @@ export default class PayScreen extends React.Component {
               const headers = new Headers({
                 Authorization: `Bearer ${token}`
               });
-              fetch("http://192.168.1.4:3000/api/transactions", {
+              fetch("http://192.168.1.59:3000/api/transactions", {
                 method: "POST",
                 body,
                 headers
               })
               .then(r => {
                 AsyncStorage.getItem("muntenId").then(muntenId => {
-                  fetch(`http://192.168.1.4:3000/api/balances/${muntenId}`, {
+                  fetch(`http://192.168.1.59:3000/api/balances/${muntenId}`, {
                       method: "DELETE",
                       headers
                   })
@@ -66,7 +66,7 @@ export default class PayScreen extends React.Component {
                     const balance = new FormData();
                     balance.append(`userId`, this.state.user._id);
                     balance.append(`munten`, newMunten);
-                    fetch(`http://192.168.1.4:3000/api/balances`, {
+                    fetch(`http://192.168.1.59:3000/api/balances`, {
                       method: "POST",
                       body: balance,
                       headers
@@ -96,13 +96,11 @@ export default class PayScreen extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <View style={styles.backbutton}>
           <Button
             onPress={() => this.props.navigation.goBack()}
             title="Terug"
             color="#841584"
           />
-          </View>
           <Camera style={{ flex: 1 }} type={this.state.type} onBarCodeRead={this.onBarCodeRead}>
 
           </Camera>
@@ -118,9 +116,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  },
-  backbutton:{
-    paddingTop: Constants.statusBarHeight,
   },
   icon: {
     width: 26,

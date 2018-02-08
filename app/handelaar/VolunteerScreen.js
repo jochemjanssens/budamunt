@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-nativ
 import { StackNavigator } from 'react-navigation';
 
 import Navbar from './Navbar';
-export default class VolunteerPersonalScreen extends React.Component {
+export default class VolunteerScreen extends React.Component {
   state = {
     token: null,
     user: null,
@@ -19,10 +19,10 @@ export default class VolunteerPersonalScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.4:3000/api/volunteers?isActive=true`, {headers})
+      fetch(`http://192.168.1.59:3000/api/volunteers?isActive=true`, {headers})
         .then(r => {
           this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
-          fetch(`http://192.168.1.4:3000/api/applications`, {headers})
+          fetch(`http://192.168.1.59:3000/api/applications`, {headers})
             .then(r => {
               this.setState({'applications': JSON.parse(r._bodyText).applications});
             })
@@ -43,7 +43,7 @@ export default class VolunteerPersonalScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch(`http://192.168.1.4:3000/api/volunteers?isActive=true`, {headers})
+        fetch(`http://192.168.1.59:3000/api/volunteers?isActive=true`, {headers})
           .then(r => {
             const { volunteers } = this.state;
             if(volunteers && r){
@@ -51,7 +51,7 @@ export default class VolunteerPersonalScreen extends React.Component {
                   this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
               }
             }
-            fetch(`http://192.168.1.4:3000/api/applications`, {headers})
+            fetch(`http://192.168.1.59:3000/api/applications`, {headers})
               .then(r => {
                 const { applications } = this.state;
                 if(applications && r){
@@ -67,17 +67,26 @@ export default class VolunteerPersonalScreen extends React.Component {
     });
   }
 
+  deleteVolunteer = volunteer => {
+    AsyncStorage.getItem("myToken").then(token => {
+      const method = `DELETE`;
+      const headers = new Headers({
+        Authorization: `Bearer ${token}`
+      });
+      const url = 'http://192.168.1.59:3000/api/volunteers/' + volunteer._id;
+      fetch(url, {method, headers})
+        .then(r => {
+          this.props.navigation.goBack()
+        })
+        .catch(err => console.error(err));
+    });
+  }
+
   render() {
     setInterval(this.loadVolunteers, 1000);
     const { navigate } = this.props.navigation;
 
     const { volunteers, user, applications } = this.state;
-
-  /*  console.log("---|---");
-    console.log(volunteers);
-    console.log(user);
-    console.log(applications);
-    console.log("---X---");*/
 
     if(volunteers && user && applications){
       const volunteersArray = [];
@@ -96,11 +105,11 @@ export default class VolunteerPersonalScreen extends React.Component {
         today = `${yyyy}-${mm}-${dd}`;
 
         if (today > volunteer.date) {
-          console.log(volunteer);
+          this.deleteVolunteer(volunteer);
         }
 
         //Check type
-        if(volunteer.userType === 'USER'){
+        if(volunteer.userType === 'ORGANISATIE'){
           let added = false;
           volunteersArray.forEach((newEvent, key) => {
             if (volunteer.date < newEvent.date) {
@@ -115,7 +124,6 @@ export default class VolunteerPersonalScreen extends React.Component {
           }
         }
       });
-
       if(volunteersArray.length !== 0){
         return (
           <View style={styles.container}>
@@ -131,11 +139,11 @@ export default class VolunteerPersonalScreen extends React.Component {
                 onPress={() => navigate('Messages')}
               />
             </View>
-            <Text>Vrijwilligerswerk persoonlijk</Text>
+            <Text>Vrijwilligerswerk organisatorisch</Text>
             <Button
               style={styles.newEvent}
-              title='Bekijk organisatorisch aanbod'
-              onPress={() => navigate('Vrijwilligerswerk')}
+              title='Bekijk persoonlijk aanbod'
+              onPress={() => navigate('VolunteerPersonalScreen')}
             />
             {
               volunteersArray.map(
@@ -144,14 +152,14 @@ export default class VolunteerPersonalScreen extends React.Component {
                     <Text>{
                       applications.map(
                         application => {
-                          if(application.volunteerId === volunteer._id && user._id === application.userId){
+                          if(application.volunteerId === volunteer._id){
                             return(
                               'AL INGESCHREVEN'
                             );
                           }
                         })
                       }
-                    </Text>
+                    </Text>""
                     <Text>{volunteer.name}</Text>
                     <Text>{volunteer.description}</Text>
                     <Text>{volunteer.date}</Text>
@@ -187,11 +195,11 @@ export default class VolunteerPersonalScreen extends React.Component {
                 onPress={() => navigate('Messages')}
               />
             </View>
-              <Text>Vrijwilligerswerk persoonlijk</Text>
+              <Text>Vrijwilligerswerk organisatorisch</Text>
               <Button
                 style={styles.newEvent}
-                title='Bekijk organisatorisch aanbod'
-                onPress={() => navigate('Vrijwilligerswerk')}
+                title='Bekijk persoonlijk aanbod'
+                onPress={() => navigate('VolunteerPersonalScreen')}
               />
               <Text>Geen aanvragen</Text>
               <Button
@@ -204,6 +212,7 @@ export default class VolunteerPersonalScreen extends React.Component {
         );
       }
     }
+
 
     return (
       <View style={styles.container}>
@@ -219,11 +228,11 @@ export default class VolunteerPersonalScreen extends React.Component {
             onPress={() => navigate('Messages')}
           />
         </View>
-          <Text>Vrijwilligerswerk persoonlijk</Text>
+          <Text>Vrijwilligerswerk organisatorisch</Text>
           <Button
             style={styles.newEvent}
-            title='Bekijk organisatorisch aanbod'
-            onPress={() => navigate('Vrijwilligerswerk')}
+            title='Bekijk persoonlijk aanbod'
+            onPress={() => navigate('VolunteerPersonalScreen')}
           />
           <Text>Geen aanvragen</Text>
           <Button

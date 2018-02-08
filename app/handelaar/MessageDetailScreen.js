@@ -23,7 +23,7 @@ export default class MessageDetailScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.4:3000/api/messages`, {headers})
+      fetch(`http://192.168.1.59:3000/api/messages`, {headers})
         .then(r => {
           this.setState({'messages': JSON.parse(r._bodyText).messages});
         })
@@ -41,12 +41,8 @@ export default class MessageDetailScreen extends React.Component {
       AsyncStorage.getItem("myToken").then((token) => {
         if(token){
             const body = new FormData();
-            body.append(`sendId`, this.state.user.email);
-            if(this.state.user.email === conversation.content.sendId){
-              body.append(`receiveId`, conversation.content.receiveId);
-            }else{
-              body.append(`receiveId`, conversation.content.sendId);
-            }
+            body.append(`sendId`, conversation.content.receiveId);
+            body.append(`receiveId`, conversation.content.sendId);
             body.append(`content`, value.message);
             body.append(`conversation`, conversation.content._id);
 
@@ -54,13 +50,13 @@ export default class MessageDetailScreen extends React.Component {
               Authorization: `Bearer ${token}`
             });
 
-            fetch('http://192.168.1.4:3000/api/messages', {
+            fetch('http://192.168.1.59:3000/api/messages', {
                 method: 'POST',
                 body,
                 headers
               })
               .then(r => {
-                fetch(`http://192.168.1.4:3000/api/messages`, {headers})
+                fetch(`http://192.168.1.59:3000/api/messages`, {headers})
                   .then(r => {
                     this.setState({'messages': JSON.parse(r._bodyText).messages});
                   })
@@ -82,13 +78,13 @@ export default class MessageDetailScreen extends React.Component {
       messages.forEach(message=>{
         if(message.receiveId === params.content.receiveId || message.sendId === params.content.receiveId){
           if(message.receiveId === params.content.sendId || message.sendId === params.content.sendId){
-            if(user.email === message.receiveId){
+            if(user.name === message.receiveId){
               ownMessages.push({
                 type: 'receive',
                 content: message
               });
             }
-            if(user.email === message.sendId){
+            if(user.name === message.sendId){
               ownMessages.push({
                 type: 'send',
                 content: message
@@ -108,7 +104,7 @@ export default class MessageDetailScreen extends React.Component {
               title="Terug"
               color="#841584"
             />
-            <Text>{(params.type === 'receive') ? `${params.content.sendId}` : `${params.content.receiveId}`}</Text>
+            <Text>{(params.type === 'receive') ? `${params.content.sendId}` : `${params.content.recieveId}`}</Text>
           </View>
 
           {
@@ -144,7 +140,7 @@ export default class MessageDetailScreen extends React.Component {
               title="Terug"
               color="#841584"
             />
-            <Text>{(params.type === 'receive') ? `${params.content.sendId}` : `${params.content.receiveId}`}</Text>
+            <Text>{(params.type === 'receive') ? `${params.content.sendId}` : `${params.content.recieveId}`}</Text>
           </View>
 
           <View style={styles.form}>

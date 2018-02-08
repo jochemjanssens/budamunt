@@ -33,7 +33,7 @@ export default class MapScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.4:3000/api/stores`, {headers})
+      fetch(`http://192.168.1.59:3000/api/stores`, {headers})
         .then(r => {
           this.setState({'stores': JSON.parse(r._bodyText).stores});
         })
@@ -89,7 +89,7 @@ export default class MapScreen extends React.Component {
 
     if(data !== 'empty'){
       //check aanwezig op buda
-      if(data.latitude > 50.829535 && data.latitude < 50.830430 && data.longitude > 3.26454 && data.longitude < 3.265707){
+      if(data.latitude > 50.829535 && data.latitude < 50.830430 && data.longitude > 3.264559 && data.longitude < 3.265707){
         currentLatitude = data.latitude;
         currentLongitude = data.longitude;
       }
