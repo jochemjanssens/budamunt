@@ -15,6 +15,7 @@ const Volunteer = t.struct({
 
 export default class EditVolunteer extends React.Component {
   state = {
+    id: null,
     user: null,
     progress: 1,
     value: {
@@ -25,13 +26,15 @@ export default class EditVolunteer extends React.Component {
     },
     date: null,
     startTime: null,
-    endTime: null
+    endTime: null,
+    load: null
   };
 
   constructor(data){
     super();
     this.formData = data.navigation.state.params.data;
 
+    this.id = this.formData._id;
     this.user = this.formData.user;
     this.value = {
       beschrijving: this.formData.description,
@@ -51,7 +54,6 @@ export default class EditVolunteer extends React.Component {
   async componentWillMount() {
     AsyncStorage.getItem("user").then(user => {
       this.setState({'user': JSON.parse(user)});
-      console.log(user);
     });
   }
 
@@ -82,7 +84,7 @@ export default class EditVolunteer extends React.Component {
         const headers = new Headers({
           Authorization: `Bearer ${token}`
         });
-        const url = 'http://192.168.0.233:3000/api/volunteers/' + this.value._id;
+        const url = 'http://192.168.0.233:3000/api/volunteers/' + this.id;
         fetch(url, {
           method: 'DELETE',
           headers
@@ -104,17 +106,23 @@ export default class EditVolunteer extends React.Component {
           .catch(err => console.error(err));
       }
     });
+  }
 
-
+  setup = () => {
+    this.setState({date: this.date});
+    this.setState({startTime: this.startTime});
+    this.setState({endTime: this.endTime});
+    this.setState({load: true});
   }
 
   render() {
 
     const { navigate } = this.props.navigation;
-    const { progress, date, startTime, endTime} = this.state;
-    this.setState({date: this.date});
-    this.setState({startTime: this.startTime});
-    this.setState({endTime: this.endTime});
+    const { load, progress, date, startTime, endTime} = this.state;
+
+    if(load !== true){
+      this.setup();
+    }
 
     var currentDate = new Date().toJSON().slice(0,10);
 

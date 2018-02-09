@@ -174,10 +174,10 @@ export default class MapScreen extends React.Component {
                   }}
                 >
                   {store.store} - {
-                      geolib.getDistanceSimple(
-                        {latitude: JSON.parse(store.location)[0].latitude, longitude: JSON.parse(store.location)[0].longitude},
-                        {latitude: ownLatitude, longitude: ownLongitude}
-                      )
+                    geolib.getDistanceSimple(
+                      {latitude: JSON.parse(store.location)[0].latitude, longitude: JSON.parse(store.location)[0].longitude},
+                      {latitude: ownLatitude, longitude: ownLongitude}
+                    )
                   }m
                 </Text>
               ))}

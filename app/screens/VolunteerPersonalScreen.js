@@ -146,8 +146,6 @@ export default class VolunteerPersonalScreen extends React.Component {
                       }
                     )
                     let button = null;
-                    console.log(user.email);
-                    console.log(volunteer.user);
                      if (user.email === volunteer.user) {
                         button =  <Button onPress={() => navigate(`ownVolunteerDetail`, { ...volunteer })} title='wijzig' color="#134D57"/>;
                      } else {
