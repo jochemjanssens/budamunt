@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, AsyncStorage, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Button, AsyncStorage, KeyboardAvoidingView, TouchableHighlight, Image } from 'react-native';
 import { Constants } from 'expo';
 import LoggedIn from '../LoggedIn';
 
@@ -97,21 +97,44 @@ export default class RegisterGebruiker extends React.Component {
           style={styles.container}
           behavior="padding"
         >
-          <Text>Maak een account</Text>
+
+          <View style={styles.progress}>
+            <Image
+              source={require('../assets/register/prevButton.png')}
+              style={{
+                width: 14,
+                height: 22,
+              }}
+            />
+            <Image
+              source={require('../assets/register/progress.png')}
+              style={{
+                width: 78,
+                height: 28,
+              }}
+            />
+            <Image
+              source={require('../assets/register/nextButton.png')}
+              style={{
+                width: 35,
+                height: 35,
+              }}
+            />
+          </View>
+          <Text>Persoonlijke gegevens</Text>
           <Form
              type={Register}
              ref={c => this._form = c}
              options={options}
            />
-          <Button
-            title="Registreren"
-            onPress={this.handleSubmit}
-          />
 
-          <Button
-            title="Ik heb al een account"
-            onPress={() => this.props.navigation.goBack()}
-          />
+          <TouchableHighlight onPress={this.handleSubmit}>
+            <Text style={styles.button}>Registreren</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
+            <Text style={styles.button}>Ik heb al een account</Text>
+          </TouchableHighlight>
         </KeyboardAvoidingView>
       );
     }
@@ -121,9 +144,25 @@ export default class RegisterGebruiker extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: 300,
     backgroundColor: '#fff',
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
+    justifyContent: 'space-between',
+    paddingHorizontal: 50,
+    paddingVertical: Constants.statusBarHeight,
+  },
+  progress: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
+  },
+  button: {
+    color: 'white',
+    backgroundColor: '#5A60FB',
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingVertical: 14,
+    paddingHorizontal: 50,
+    textAlign: 'center',
   },
 });

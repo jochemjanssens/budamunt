@@ -1,27 +1,43 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, AsyncStorage, TouchableNativeFeedback, TouchableHighlight, Image } from 'react-native';
 
 export default class Login extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text>Maak een account</Text>
+        <Image
+          source={require('../assets/register/registerTitle.png')}
+          style={styles.title}
 
-        <Button
-          title="Gebruiker"
-          onPress={() => navigate('RegisterGebruiker')}
         />
-        <Text>IK HEB EEN WINKEL, VZW OF ORGANISATIE</Text>
+        <TouchableNativeFeedback onPress={() => navigate('RegisterGebruiker')}>
+          <View style={styles.bigButton}>
+            <Image
+              source={require('../assets/register/accountIcon.png')}
+              style={styles.icon}
+            />
+            <Text style={styles.text}>Je bent iemand die graag gebruik zou willen maken van onze munt !</Text>
+            <Text style={styles.button}>GEBRUIKER</Text>
+          </View>
+        </TouchableNativeFeedback>
 
-        <Button
-          title="Handelaar / Organisatie"
-          onPress={() => navigate('RegisterKeuze')}
+        <Image
+          source={require('../assets/register/grid.png')}
+          style={styles.grid}
         />
-        <Button
-          title="Ik heb al een account"
-          onPress={() => this.props.navigation.goBack()}
-        />
+
+        <View>
+          <Text style={styles.text}>IK HEB EEN WINKEL, VZW OF ORGANISATIE</Text>
+
+          <TouchableHighlight onPress={() => navigate('RegisterKeuze')}>
+            <Text style={styles.button}>Handelaar / Organisatie</Text>
+          </TouchableHighlight>
+        </View>
+
+        <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
+          <Text style={styles.smallButton}>IK HEB AL EEN ACCOUNT</Text>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -30,8 +46,47 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: 300,
     backgroundColor: '#fff',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 50,
   },
+  title:{
+    width: 166,
+    height: 44,
+  },
+  text: {
+    color: '#5A60FB',
+    textAlign: 'center',
+    padding: 10,
+  },
+  bigButton: {
+    borderWidth: 2,
+    borderColor: '#5A60FB',
+    backgroundColor: 'white',
+    paddingTop: 30,
+  },
+  icon: {
+    marginLeft: "38%",
+    width: 42,
+    height: 54,
+  },
+  button: {
+    color: 'white',
+    backgroundColor: '#5A60FB',
+    fontSize: 13,
+    fontWeight: 'bold',
+    paddingVertical: 14,
+    paddingHorizontal: 50,
+    textAlign: 'center',
+  },
+  smallButton: {
+    textAlign: 'center',
+  },
+  grid: {
+    position: 'absolute',
+    zIndex: -1,
+    right: 30,
+    top: 130,
+  }
 });

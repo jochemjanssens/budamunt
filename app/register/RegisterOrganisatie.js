@@ -300,7 +300,6 @@ export default class RegisterOrganisatie extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: 300,
     backgroundColor: '#fff',
     justifyContent: 'center',
   },
