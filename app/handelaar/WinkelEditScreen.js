@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, Image } from 'react-native';
 
 import Navbar from './Navbar';
 
-export default class WinkelScreen extends React.Component {
+export default class WinkelEditScreen extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
@@ -18,13 +18,11 @@ export default class WinkelScreen extends React.Component {
           />
           <Text>Mijn Winkel</Text>
         </View>
+        <Text>Openingsdagen</Text>
+        <Text>Openingsuren</Text>
+        <Text>Acties</Text>
 
-        <Text>WINKEL INFO IS MOMENTEEL NOG NIET BESCHIKBAAR</Text>
-
-        <Button
-          title='Wijzig'
-          onPress={() => navigate('EditWinkel')}
-        />
+        <Text>HET IS MOMENTEEL NOG NIET MOGELIJK OM DEZE DATA TE WIJZIGEN</Text>
 
         <Navbar navigate={this.props.navigation}/>
       </View>

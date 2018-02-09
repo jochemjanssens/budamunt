@@ -43,7 +43,7 @@ export default class Navbar extends React.Component {
         <TouchableHighlight onPress={() => this.navigate.navigate('Winkel')}>
           <Image
             style={styles.button}
-            source={(page === 'Winkel') ? require('../assets/icons/community-active.png') : require('../assets/icons/community.png')}
+            source={(page === 'Winkel') ? require('../assets/icons/shop-active.png') : require('../assets/icons/shop.png')}
           />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.navigate.navigate('Vrijwilligerswerk')}>

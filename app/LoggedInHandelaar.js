@@ -9,6 +9,7 @@ import MapdetailScreen from './handelaar/MapdetailScreen';
 import SupportScreen from './handelaar/SupportScreen';
 
 import WinkelScreen from './handelaar/WinkelScreen';
+import WinkelEditScreen from './handelaar/WinkelEditScreen';
 
 import CommunityScreen from './handelaar/CommunityScreen';
 import CommunityDetailScreen from './handelaar/CommunityDetailScreen';
@@ -50,6 +51,7 @@ export const Navigation = StackNavigator({
   Support: { screen: SupportScreen },
 
   Winkel: { screen: WinkelScreen },
+  EditWinkel: { screen: WinkelEditScreen },
 
   Pay: { screen: PayScreen },
   Receive: { screen: ReceiveScreen },
