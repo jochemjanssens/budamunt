@@ -31,7 +31,6 @@ export default class NewVolunteer extends React.Component {
 
   handleVolgende = () => {
     const value = this._form.getValue();
-    console.log(value);
     if(value){
       this.setState({ data: value });
       this.setState({ progress: 2 });
@@ -51,6 +50,8 @@ export default class NewVolunteer extends React.Component {
         body.append(`starttime`, this.state.startTime);
         body.append(`endtime`, this.state.endTime);
         body.append(`userType`, this.state.user.scope);
+
+        console.log(body);
 
         const headers = new Headers({
           Authorization: `Bearer ${token}`

@@ -16,10 +16,10 @@ export default class WinkelScreen extends React.Component {
             title="Terug"
             color="#841584"
           />
-          <Text>Mijn Winkel</Text>
+          <Text>Mijn organisatie</Text>
         </View>
 
-        <Text>WINKEL INFO IS MOMENTEEL NOG NIET BESCHIKBAAR</Text>
+        <Text>ORGANISATIE INFO IS MOMENTEEL NOG NIET BESCHIKBAAR</Text>
 
         <Button
           title='Wijzig'

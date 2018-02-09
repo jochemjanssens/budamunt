@@ -13,7 +13,6 @@ const FirstFrom = t.struct({
 
 const SecondFrom = t.struct({
   straat: t.String,
-  stad: t.String,
 });
 
 const ThirdFrom = t.struct({
@@ -63,9 +62,9 @@ export default class RegisterHandel extends React.Component {
         name: this.state.data.name,
         categorie: this.state.data.categorie,
         straat: value.straat,
-        stad: value.stad
+        stad: 'Kortrijk'
       }
-      const adres = `${value.straat}, ${value.stad};`
+      const adres = `${value.straat}, Kortrijk;`
       this._getLocationAsync(adres);
       const newProgress = this.state.progress + 1;
       this.setState({progress: newProgress});
@@ -199,11 +198,6 @@ export default class RegisterHandel extends React.Component {
             <Text>Maak een account</Text>
             <Text>1/4</Text>
 
-            <Form
-               type={FirstFrom}
-               ref={c => this._form = c}
-             />
-
             <Text>Categorie handelszaak</Text>
             <Picker
               selectedValue={this.state.categorie}
@@ -211,7 +205,13 @@ export default class RegisterHandel extends React.Component {
               <Picker.Item label="Café" value="cafe" />
               <Picker.Item label="Restaurant" value="restaurant" />
               <Picker.Item label="Winkel" value="winkel" />
+              <Picker.Item label="Overige" value="overige" />
             </Picker>
+
+            <Form
+               type={FirstFrom}
+               ref={c => this._form = c}
+             />
 
             <Button
               title="Volgende"
@@ -234,6 +234,8 @@ export default class RegisterHandel extends React.Component {
                type={SecondFrom}
                ref={c => this._form = c}
              />
+             <Text>Stad</Text>
+             <Text>Kortrijk</Text>
 
             <Button
               title="Volgende"

@@ -55,7 +55,7 @@ export default class MapScreen extends React.Component {
 
    showMore = () => {
      if(this.state.previewCount === 2){
-       this.setState({previewCount: 5});
+       this.setState({previewCount: 7});
      } else {
        this.setState({previewCount: 2});
      }

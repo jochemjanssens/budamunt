@@ -5,6 +5,7 @@ import t from 'tcomb-form-native';
 
 import LoggedIn from '../LoggedIn';
 import LoggedInHandelaar from '../LoggedInHandelaar';
+import LoggedinOrganisation from '../LoggedinOrganisation';
 
 const Form = t.form.Form;
 
@@ -32,9 +33,12 @@ export default class Login extends React.Component {
     AsyncStorage.getItem("myToken").then((token) => {
       if(token){
         AsyncStorage.getItem("user").then((user) => {
+          console.log(user);
           if(JSON.parse(user).scope === 'HANDELAAR'){
             this.setState({ login: 'handelaar' });
-          }else{
+          } else if (JSON.parse(user).scope === 'ORGANISATIE'){
+            this.setState({ login: 'organisatie' });
+          } else{
             this.setState({ login: true });
           }
         });
@@ -57,7 +61,15 @@ export default class Login extends React.Component {
         console.log(r);
         token = JSON.parse(r._bodyText).token;
         AsyncStorage.setItem("myToken", token);
-        this.setState({ login: true });
+        AsyncStorage.getItem("user").then((user) => {
+          if(JSON.parse(user).scope === 'HANDELAAR'){
+            this.setState({ login: 'handelaar' });
+          } else if (JSON.parse(user).scope === 'ORGANISATIE'){
+            this.setState({ login: 'organisatie' });
+          } else{
+            this.setState({ login: true });
+          }
+        });
       })
       .catch(
         err => console.error(err)
@@ -69,10 +81,12 @@ export default class Login extends React.Component {
     const { login } = this.state;
     const { navigate } = this.props.navigation;
 
-    if(login === true){
-      return <LoggedIn />
-    }else if (login === 'handelaar'){
+    if(login === 'handelaar'){
       return <LoggedInHandelaar />
+    }else if (login === 'organisatie'){
+      return <LoggedinOrganisation />
+    }else if (login === true){
+      return <LoggedIn />
     }else{
       return (
         <View style={styles.container}>
