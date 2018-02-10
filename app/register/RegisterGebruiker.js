@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, AsyncStorage, KeyboardAvoidingView, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, AsyncStorage, TouchableHighlight, Image } from 'react-native';
 import { Constants } from 'expo';
 import LoggedIn from '../LoggedIn';
 
@@ -117,9 +117,8 @@ export default class RegisterGebruiker extends React.Component {
     }else{
       if(progress === 1){
         return (
-          <KeyboardAvoidingView
+          <View
             style={styles.container}
-            behavior="padding"
           >
             <Image
               source={require('../assets/register/accountTitle.png')}
@@ -158,13 +157,12 @@ export default class RegisterGebruiker extends React.Component {
                type={Register1}
                ref={c => this._form = c}
              />
-          </KeyboardAvoidingView>
+             <View style={{height: 200}}></View>
+          </View>
         );
       } else {
         return (
-          <View
-            style={styles.container}
-          >
+          <View  style={styles.container}>
             <Image
               source={require('../assets/register/accountTitle.png')}
               style={styles.title}
@@ -203,6 +201,7 @@ export default class RegisterGebruiker extends React.Component {
                ref={c => this._form = c}
                options={options}
              />
+             <View style={{height: 150}}></View>
           </View>
         );
       }
@@ -213,13 +212,14 @@ export default class RegisterGebruiker extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     justifyContent: 'center',
+    backgroundColor: '#fff',
     padding: 50,
   },
   title:{
     width: 166,
     height: 44,
+    alignSelf: 'center'
   },
   progress: {
     flex: 1,
