@@ -5,9 +5,13 @@ import LoggedIn from '../LoggedIn';
 
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
-const Register = t.struct({
+
+const Register1 = t.struct({
   voornaam: t.String,
-  achternaam: t.String,
+  achternaam: t.String
+});
+
+const Register2 = t.struct({
   emailadres: t.String,
   paswoord: t.String
 });
@@ -24,15 +28,29 @@ var options = {
 export default class RegisterGebruiker extends React.Component {
 
   state = {
-    login: false
+    login: false,
+    data: null,
+    progress: 1,
   };
+
+  handleNext = () => {
+    const value = this._form.getValue(); // use that ref to get the form value);
+    if(value){
+      this.state.data = {
+        firstname: value.voornaam,
+        name: this.state.achternaam
+      }
+      const newProgress = this.state.progress + 1;
+      this.setState({progress: newProgress});
+    }
+  }
 
   handleSubmit = () => {
     const value = this._form.getValue(); // use that ref to get the form value);
     if(value){
       const body = new FormData();
-      body.append(`firstname`, value.voornaam);
-      body.append(`name`, value.achternaam);
+      body.append(`firstname`, this.state.data.firstname);
+      body.append(`name`, this.state.data.achternaam);
       body.append(`email`, value.emailadres);
       body.append(`password`, value.paswoord);
       body.append(`scope`, 'USER');
@@ -85,58 +103,109 @@ export default class RegisterGebruiker extends React.Component {
     }
   }
 
+  handleBack = () => {
+    const newProgress = this.state.progress - 1;
+    this.setState({progress: newProgress});
+  }
+
   render() {
-    const { login } = this.state;
+    const { progress, login } = this.state;
     const { navigate } = this.props.navigation;
 
     if(login === true){
       return <LoggedIn />
     }else{
-      return (
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior="padding"
-        >
+      if(progress === 1){
+        return (
+          <KeyboardAvoidingView
+            style={styles.container}
+            behavior="padding"
+          >
+            <Image
+              source={require('../assets/register/accountTitle.png')}
+              style={styles.title}
 
-          <View style={styles.progress}>
-            <Image
-              source={require('../assets/register/prevButton.png')}
-              style={{
-                width: 14,
-                height: 22,
-              }}
             />
+            <View style={styles.progress}>
+              <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
+                <Image
+                  source={require('../assets/register/prevButton.png')}
+                  style={{
+                    width: 14,
+                    height: 22,
+                  }}
+                />
+              </TouchableHighlight>
+              <Image
+                source={require('../assets/register/progress.png')}
+                style={{
+                  width: 79,
+                  height: 28,
+                }}
+              />
+              <TouchableHighlight onPress={this.handleNext}>
+                <Image
+                  source={require('../assets/register/nextButton.png')}
+                  style={{
+                    width: 35,
+                    height: 35,
+                  }}
+                />
+              </TouchableHighlight>
+            </View>
+            <Text style={styles.bigTitle}>PERSOONLIJKE GEGEVENS</Text>
+            <Form
+               type={Register1}
+               ref={c => this._form = c}
+             />
+          </KeyboardAvoidingView>
+        );
+      } else {
+        return (
+          <View
+            style={styles.container}
+          >
             <Image
-              source={require('../assets/register/progress.png')}
-              style={{
-                width: 78,
-                height: 28,
-              }}
+              source={require('../assets/register/accountTitle.png')}
+              style={styles.title}
+
             />
-            <Image
-              source={require('../assets/register/nextButton.png')}
-              style={{
-                width: 35,
-                height: 35,
-              }}
-            />
+            <View style={styles.progress}>
+              <TouchableHighlight onPress={() => this.handleBack}>
+                <Image
+                  source={require('../assets/register/prevButton.png')}
+                  style={{
+                    width: 14,
+                    height: 22,
+                  }}
+                />
+              </TouchableHighlight>
+              <Image
+                source={require('../assets/register/progress2.png')}
+                style={{
+                  width: 79,
+                  height: 28,
+                }}
+              />
+              <TouchableHighlight onPress={this.handleSubmit}>
+                <Image
+                  source={require('../assets/register/nextButton.png')}
+                  style={{
+                    width: 35,
+                    height: 35,
+                  }}
+                />
+              </TouchableHighlight>
+            </View>
+            <Text style={styles.bigTitle}>ACCOUNT GEGEVENS</Text>
+            <Form
+               type={Register2}
+               ref={c => this._form = c}
+               options={options}
+             />
           </View>
-          <Text>Persoonlijke gegevens</Text>
-          <Form
-             type={Register}
-             ref={c => this._form = c}
-             options={options}
-           />
-
-          <TouchableHighlight onPress={this.handleSubmit}>
-            <Text style={styles.button}>Registreren</Text>
-          </TouchableHighlight>
-
-          <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
-            <Text style={styles.button}>Ik heb al een account</Text>
-          </TouchableHighlight>
-        </KeyboardAvoidingView>
-      );
+        );
+      }
     }
   }
 }
@@ -145,9 +214,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'space-between',
-    paddingHorizontal: 50,
-    paddingVertical: Constants.statusBarHeight,
+    justifyContent: 'center',
+    padding: 50,
+  },
+  title:{
+    width: 166,
+    height: 44,
   },
   progress: {
     flex: 1,
@@ -165,4 +237,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 50,
     textAlign: 'center',
   },
+  bigTitle: {
+    color: '#5A60FB',
+    fontWeight: '900',
+  }
 });
