@@ -28,28 +28,27 @@ export default class Navbar extends React.Component {
       <View style={styles.navbar}>
         <TouchableHighlight onPress={() => this.navigate.navigate('Home')}>
           <Image
-            style={styles.button}
-            source={require('../assets/icons/community.png')}
+            style={styles.button1}
 
             source={(page === 'Home') ? require('../assets/icons/home-active.png') : require('../assets/icons/home.png')}
           />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.navigate.navigate('Community')}>
           <Image
-            style={styles.button}
+            style={styles.button2}
             source={(page === 'Community') ? require('../assets/icons/community-active.png') : require('../assets/icons/community.png')}
           />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.navigate.navigate('Vrijwilligerswerk')}>
           <Image
-            style={styles.button}
+            style={styles.button3}
             source={(page === 'Vrijwilligerswerk') ? require('../assets/icons/volunteer-active.png') : require('../assets/icons/volunteer.png')}
 
           />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.navigate.navigate('Evenementen')}>
           <Image
-            style={styles.button}
+            style={styles.button4}
             source={(page === 'Evenementen') ? require('../assets/icons/events-active.png') : require('../assets/icons/events.png')}
           />
         </TouchableHighlight>
@@ -59,16 +58,30 @@ export default class Navbar extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  button: {
-    width: 50,
-    height: 50,
+  button1: {
+    width: 34,
+    height: 32,
+  },
+  button2: {
+    width: 35,
+    height: 32,
+  },
+  button3: {
+    width: 38,
+    height: 31,
+  },
+  button4: {
+    width: 29,
+    height: 30,
   },
   navbar: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     position: 'absolute',
     bottom: 0,
-    width: 300,
+    width: '100%',
     backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderColor: '#4A90E2',
   },
 });

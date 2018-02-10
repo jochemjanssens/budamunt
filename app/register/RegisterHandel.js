@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, AsyncStorage, Picker } from 'react-native';
+import { StyleSheet, Text, View, Button, AsyncStorage, Picker, TouchableHighlight, Image } from 'react-native';
 
 import { Constants, Location, Permissions } from 'expo';
 
@@ -111,7 +111,7 @@ export default class RegisterHandel extends React.Component {
       body.append(`password`, value.paswoord);
       body.append(`scope`, 'HANDELAAR');
 
-      fetch('http://192.168.0.233:3000/api/users', {
+      fetch('http://192.168.1.7:3000/api/users', {
         method: 'POST',
         body: body
       })
@@ -121,7 +121,7 @@ export default class RegisterHandel extends React.Component {
         login.append(`password`, value.paswoord);
         login.append(`audience`, `tweets-frontend`);
 
-        fetch('http://192.168.0.233:3000/api/auth', {
+        fetch('http://192.168.1.7:3000/api/auth', {
           method: 'POST',
           body: login
         })
@@ -143,7 +143,7 @@ export default class RegisterHandel extends React.Component {
 
           console.log(shopData);
 
-          fetch('http://192.168.0.233:3000/api/stores', {
+          fetch('http://192.168.1.7:3000/api/stores', {
             method: 'POST',
             body: shopData,
             headers
@@ -153,7 +153,7 @@ export default class RegisterHandel extends React.Component {
             const balance = new FormData();
             balance.append(`userId`, JSON.parse(u._bodyText)._id);
             balance.append(`munten`, "0");
-            fetch('http://192.168.0.233:3000/api/balances', {
+            fetch('http://192.168.1.7:3000/api/balances', {
               method: 'POST',
               body: balance,
               headers
@@ -195,104 +195,186 @@ export default class RegisterHandel extends React.Component {
       if(progress === 1){
         return (
           <View style={styles.container}>
-            <Text>Maak een account</Text>
-            <Text>1/4</Text>
+            <Image
+              source={require('../assets/register/accountTitle.png')}
+              style={styles.title}
+            />
+            <View style={styles.progress}>
+              <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
+                <Image
+                  source={require('../assets/register/prevButton.png')}
+                  style={{
+                    width: 14,
+                    height: 22,
+                  }}
+                />
+              </TouchableHighlight>
+              <Image
+                source={require('../assets/register/progress14.png')}
+                style={{
+                  width: 158,
+                  height: 25,
+                }}
+              />
+              <TouchableHighlight onPress={this.handleNextOne}>
+                <Image
+                  source={require('../assets/register/nextButton.png')}
+                  style={{
+                    width: 35,
+                    height: 35,
+                  }}
+                />
+              </TouchableHighlight>
+            </View>
+            <Text style={styles.bigTitle}>HANDELSZAAK GEGEVENS</Text>
 
-            <Text>Categorie handelszaak</Text>
-            <Picker
-              selectedValue={this.state.categorie}
-              onValueChange={(itemValue, itemIndex) => this.setState({categorie: itemValue})}>
-              <Picker.Item label="Café" value="cafe" />
-              <Picker.Item label="Restaurant" value="restaurant" />
-              <Picker.Item label="Winkel" value="winkel" />
-              <Picker.Item label="Overige" value="overige" />
-            </Picker>
+            <Text style={styles.text}>Categorie handelszaak</Text>
+            <View style={styles.pickerparent}>
+              <Picker
+                selectedValue={this.state.categorie}
+                style={styles.picker}
+                onValueChange={(itemValue, itemIndex) => this.setState({categorie: itemValue})}>
+                <Picker.Item label="Café" value="cafe" />
+                <Picker.Item label="Restaurant" value="restaurant" />
+                <Picker.Item label="Winkel" value="winkel" />
+                <Picker.Item label="Overige" value="overige" />
+              </Picker>
+            </View>
 
             <Form
                type={FirstFrom}
                ref={c => this._form = c}
              />
-
-            <Button
-              title="Volgende"
-              onPress={this.handleNextOne}
-            />
-
-            <Button
-              title="Annuleer"
-              onPress={() => this.props.navigation.goBack()}
-            />
+             <View style={{height: 150}}></View>
           </View>
         );
       } else if (progress === 2){
         return (
           <View style={styles.container}>
-            <Text>Maak een account</Text>
-            <Text>2/4</Text>
+            <Image
+              source={require('../assets/register/accountTitle.png')}
+              style={styles.title}
+            />
+            <View style={styles.progress}>
+              <TouchableHighlight onPress={this.handleBack}>
+                <Image
+                  source={require('../assets/register/prevButton.png')}
+                  style={{
+                    width: 14,
+                    height: 22,
+                  }}
+                />
+              </TouchableHighlight>
+              <Image
+                source={require('../assets/register/progress24.png')}
+                style={{
+                  width: 158,
+                  height: 25,
+                }}
+              />
+              <TouchableHighlight onPress={this.handleNextTwo}>
+                <Image
+                  source={require('../assets/register/nextButton.png')}
+                  style={{
+                    width: 35,
+                    height: 35,
+                  }}
+                />
+              </TouchableHighlight>
+            </View>
+            <Text style={styles.bigTitle}>HANDELSZAAK GEGEVENS</Text>
 
             <Form
                type={SecondFrom}
                ref={c => this._form = c}
              />
-             <Text>Stad</Text>
-             <Text>Kortrijk</Text>
-
-            <Button
-              title="Volgende"
-              onPress={this.handleNextTwo}
-            />
-
-            <Button
-              title="Terug"
-              onPress={this.handleBack}
-            />
+             <Text style={styles.twocity}>Kortrijk</Text>
+             <View style={{height: 150}}></View>
           </View>
         );
       } else if (progress === 3){
         return (
           <View style={styles.container}>
-            <Text>Maak een account</Text>
-            <Text>3/4</Text>
-
-            <Text>Persoonlijke gegevens</Text>
+            <Image
+              source={require('../assets/register/accountTitle.png')}
+              style={styles.title}
+            />
+            <View style={styles.progress}>
+              <TouchableHighlight onPress={this.handleBack}>
+                <Image
+                  source={require('../assets/register/prevButton.png')}
+                  style={{
+                    width: 14,
+                    height: 22,
+                  }}
+                />
+              </TouchableHighlight>
+              <Image
+                source={require('../assets/register/progress34.png')}
+                style={{
+                  width: 158,
+                  height: 25,
+                }}
+              />
+              <TouchableHighlight onPress={this.handleNextThree}>
+                <Image
+                  source={require('../assets/register/nextButton.png')}
+                  style={{
+                    width: 35,
+                    height: 35,
+                  }}
+                />
+              </TouchableHighlight>
+            </View>
+            <Text style={styles.bigTitle}>PERSOONLIJKE GEGEVENS</Text>
             <Form
                type={ThirdFrom}
                ref={c => this._form = c}
              />
-
-            <Button
-              title="Volgende"
-              onPress={this.handleNextThree}
-            />
-
-            <Button
-              title="Terug"
-              onPress={this.handleBack}
-            />
+             <View style={{height: 150}}></View>
           </View>
         );
       } else {
         return (
           <View style={styles.container}>
-            <Text>Maak een account</Text>
-            <Text>4/4</Text>
-
-            <Text>Account gegevens</Text>
+            <Image
+              source={require('../assets/register/accountTitle.png')}
+              style={styles.title}
+            />
+            <View style={styles.progress}>
+              <TouchableHighlight onPress={this.handleBack}>
+                <Image
+                  source={require('../assets/register/prevButton.png')}
+                  style={{
+                    width: 14,
+                    height: 22,
+                  }}
+                />
+              </TouchableHighlight>
+              <Image
+                source={require('../assets/register/progress44.png')}
+                style={{
+                  width: 158,
+                  height: 25,
+                }}
+              />
+              <TouchableHighlight onPress={this.handleSubmit}>
+                <Image
+                  source={require('../assets/register/nextButton.png')}
+                  style={{
+                    width: 35,
+                    height: 35,
+                  }}
+                />
+              </TouchableHighlight>
+            </View>
+            <Text style={styles.bigTitle}>PERSOONLIJKE GEGEVENS</Text>
             <Form
                type={FourthFrom}
                ref={c => this._form = c}
                options={options}
              />
-
-            <Button
-              title="Bevestig"
-              onPress={this.handleSubmit}
-            />
-
-            <Button
-              title="Terug"
-              onPress={this.handleBack}
-            />
+             <View style={{height: 150}}></View>
           </View>
         );
       }
@@ -304,6 +386,43 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
+    padding: 50,
+  },
+  title:{
+    width: 166,
+    height: 44,
+    alignSelf: 'center'
+  },
+  progress: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
+  },
+  picker: {
+    color: '#5A60FB',
+  },
+  pickerparent: {
+    borderColor: '#5A60FB',
+    borderWidth: 1,
+    marginBottom: 20,
+  },
+  bigTitle: {
+    color: '#5A60FB',
+    fontWeight: '900',
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  text: {
+    color: '#5A60FB',
+    fontSize: 16,
+    paddingVertical: 10,
+  },
+  twocity: {
+    borderColor: '#5A60FB',
+    borderWidth: 1,
+    padding: 10,
+    fontSize: 16,
   },
 });

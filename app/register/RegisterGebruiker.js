@@ -50,22 +50,23 @@ export default class RegisterGebruiker extends React.Component {
     if(value){
       const body = new FormData();
       body.append(`firstname`, this.state.data.firstname);
-      body.append(`name`, this.state.data.achternaam);
+      body.append(`name`, this.state.data.name);
       body.append(`email`, value.emailadres);
       body.append(`password`, value.paswoord);
       body.append(`scope`, 'USER');
-
-      fetch('http://192.168.0.233:3000/api/users', {
+      console.log(body);
+      fetch('http://192.168.1.7:3000/api/users', {
         method: 'POST',
         body: body
       })
       .then(u => {
+        console.log(u);
         const login = new FormData();
         login.append(`login`, value.emailadres);
         login.append(`password`, value.paswoord);
         login.append(`audience`, `tweets-frontend`);
 
-        fetch('http://192.168.0.233:3000/api/auth', {
+        fetch('http://192.168.1.7:3000/api/auth', {
           method: 'POST',
           body: login
         })
@@ -81,7 +82,7 @@ export default class RegisterGebruiker extends React.Component {
             Authorization: `Bearer ${token}`
           });
 
-          fetch('http://192.168.0.233:3000/api/balances', {
+          fetch('http://192.168.1.7:3000/api/balances', {
             method: 'POST',
             body: balance,
             headers
@@ -169,7 +170,7 @@ export default class RegisterGebruiker extends React.Component {
 
             />
             <View style={styles.progress}>
-              <TouchableHighlight onPress={() => this.handleBack}>
+              <TouchableHighlight onPress={this.handleBack}>
                 <Image
                   source={require('../assets/register/prevButton.png')}
                   style={{

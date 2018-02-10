@@ -6,9 +6,12 @@ export default class Login extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text>Maak een account</Text>
+        <Image
+          source={require('../assets/register/accountTitle.png')}
+          style={styles.title}
+        />
 
-        <TouchableNativeFeedback onPress={() => navigate('RegisterHandel')}>
+        <TouchableHighlight onPress={() => navigate('RegisterHandel')}>
           <View style={styles.bigButton}>
             <Image
               source={require('../assets/register/handelIcon.png')}
@@ -17,13 +20,13 @@ export default class Login extends React.Component {
             <Text style={styles.text}>Je hebt een onderneming bv. één of meerdere bakkerijen</Text>
             <Text style={styles.button}>LOKALE HANDELSZAAK</Text>
           </View>
-        </TouchableNativeFeedback>
+        </TouchableHighlight>
         <Image
-          source={require('../assets/register/grid2.png')}
+          source={require('../assets/general/grid2.png')}
           style={styles.grid1}
         />
 
-        <TouchableNativeFeedback onPress={() => navigate('RegisterOrganisatie')}>
+        <TouchableHighlight onPress={() => navigate('RegisterOrganisatie')}>
           <View style={styles.bigButton}>
             <Image
               source={require('../assets/register/organisatieIcon.png')}
@@ -32,9 +35,9 @@ export default class Login extends React.Component {
             <Text style={styles.text}>Een organisatie zoals bv. het heilig-hart die gebruik maakt van vrijwilligers</Text>
             <Text style={styles.button}>ORGANISATIE</Text>
           </View>
-        </TouchableNativeFeedback>
+        </TouchableHighlight>
         <Image
-          source={require('../assets/register/grid3.png')}
+          source={require('../assets/general/grid3.png')}
           style={styles.grid2}
         />
 
@@ -53,6 +56,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 50,
+  },
+  title:{
+    width: 166,
+    height: 44,
+    alignSelf: 'center'
   },
   text: {
     color: '#5A60FB',
@@ -91,7 +99,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: -1,
     right: 30,
-    top: 70,
+    top: 85,
     width: 95,
     height: 95,
   },
@@ -99,7 +107,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: -1,
     left: 30,
-    top: 284,
+    top: 290,
     width: 95,
     height: 95,
   }

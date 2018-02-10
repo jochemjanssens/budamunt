@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, AsyncStorage, TouchableNativeFeedback, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, AsyncStorage, TouchableHighlight, Image } from 'react-native';
 
 export default class Login extends React.Component {
   render() {
@@ -11,7 +11,7 @@ export default class Login extends React.Component {
           style={styles.title}
 
         />
-        <TouchableNativeFeedback onPress={() => navigate('RegisterGebruiker')}>
+        <TouchableHighlight onPress={() => navigate('RegisterGebruiker')}>
           <View style={styles.bigButton}>
             <Image
               source={require('../assets/register/accountIcon.png')}
@@ -20,7 +20,7 @@ export default class Login extends React.Component {
             <Text style={styles.text}>Je bent iemand die graag gebruik zou willen maken van onze munt !</Text>
             <Text style={styles.button}>GEBRUIKER</Text>
           </View>
-        </TouchableNativeFeedback>
+        </TouchableHighlight>
 
         <Image
           source={require('../assets/register/grid.png')}

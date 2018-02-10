@@ -29,21 +29,21 @@ export default class HomeScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.0.233:3000/api/me?isActive=true`, {headers})
+          fetch(`http://192.168.1.7:3000/api/me?isActive=true`, {headers})
             .then(user => {
               const userContent = user._bodyText;
               AsyncStorage.setItem("user", userContent);
-              fetch(`http://192.168.0.233:3000/api/balances?isActive=true`, {headers})
+              fetch(`http://192.168.1.7:3000/api/balances?isActive=true`, {headers})
                 .then(r => {
                   const balances = JSON.parse(r._bodyText).balances;
                   balances.forEach(balance => {
                     if(JSON.parse(userContent)._id === balance.userId){
-                      console.log("found");
                       this.setState({ munten: balance.munten});
                       AsyncStorage.setItem("muntenId", balance._id);
                       AsyncStorage.setItem("munten", balance.munten);
-                      fetch(`http://192.168.0.233:3000/api/volunteers?isActive=true`, {headers})
+                      fetch(`http://192.168.1.7:3000/api/volunteers?isActive=true`, {headers})
                         .then(r => {
+                          console.log("ss");
                           this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
                         })
                         .catch(err => console.error(err));
@@ -103,28 +103,39 @@ export default class HomeScreen extends React.Component {
       return (
         <View style={styles.container}>
           <View style={styles.header}>
+            <TouchableHighlight onPress={this.handleLogout}>
+              <Image
+                source={require('../assets/home/logout.png')}
+                style={{
+                  width: 23,
+                  height: 26,
+                }}
+              />
+            </TouchableHighlight>
             <Text>{munten} CARPELS</Text>
-            <Button
-              title='MELD AF'
-              onPress={this.handleLogout}
-            />
-            <Button
-              title='HELP'
-              onPress={() => navigate('Support')}
-            />
-            <Button
-              title='Kaart'
-              onPress={() => navigate('Kaart')}
-            />
+            <TouchableHighlight onPress={() => navigate('Kaart')}>
+              <Image
+                source={require('../assets/home/map.png')}
+                style={{
+                  width: 21,
+                  height: 29,
+                }}
+              />
+            </TouchableHighlight>
           </View>
           <View style={styles.cta}>
             <Text>Partner in de buurt</Text>
             <Text>Comming soon...</Text>
+            <Button
+              title='HELP'
+              onPress={() => navigate('Support')}
+            />
           </View>
-          <Button
-            title='Bekijk Transacties'
-            onPress={() => navigate('Transactions')}
-          />
+
+          <TouchableHighlight onPress={() => navigate('Transactions')}>
+            <Text style={styles.transactionbutton}>BEKIJK TRANSACTIES</Text>
+          </TouchableHighlight>
+
           <Button
             title='Betalen'
             onPress={() => navigate('Pay')}
@@ -143,45 +154,136 @@ export default class HomeScreen extends React.Component {
           return (
             <View style={styles.container}>
               <View style={styles.header}>
-                <Text>{munten} CARPELS</Text>
-                <Button
-                  title='MELD AF'
-                  onPress={this.handleLogout}
+                <TouchableHighlight onPress={this.handleLogout}>
+                  <Image
+                    source={require('../assets/home/logout.png')}
+                    style={{
+                      width: 25,
+                      height: 27,
+                    }}
+                  />
+                </TouchableHighlight>
+                <Text style={styles.carpelcount}>{munten} CARPELS</Text>
+                <Image
+                  source={require('../assets/home/carpelGraphic.png')}
+                  style={styles.graphic}
                 />
-                <Button
-                  title='HELP'
-                  onPress={() => navigate('Support')}
-                />
-                <Button
-                  title='Kaart'
-                  onPress={() => navigate('Kaart')}
-                />
+                <TouchableHighlight onPress={() => navigate('Kaart')}>
+                  <Image
+                    source={require('../assets/home/map.png')}
+                    style={{
+                      width: 21,
+                      height: 29,
+                    }}
+                  />
+                </TouchableHighlight>
               </View>
+              <Image
+                source={require('../assets/home/bigBorder.png')}
+                style={{
+                  width: '100%',
+                  height: 12,
+                }}
+              />
               <View style={styles.cta}>
-                <Text>Vrijwilligerswerk</Text>
+                <View style={styles.vrijwilligerswerktitel}>
+                  <Text style={styles.maintitle}>VRIJWILLIGERSWERK</Text>
+                  <TouchableHighlight onPress={() => navigate('Support')}>
+                    <Image
+                      source={require('../assets/home/infoButton.png')}
+                      style={{
+                        width: 27,
+                        height: 27,
+                      }}
+                    />
+                  </TouchableHighlight>
+              </View>
 
                 <View key={volunteer._id} style={styles.item}>
-                  <Text>{volunteer.name}</Text>
-                  <Text>{volunteer.location} | {volunteer.starttime}-{volunteer.endtime} | {volunteer.date}</Text>
+                  <Text style={styles.volunteerTitle}>{volunteer.name}</Text>
+                  <View style={styles.volunteerInfo}>
+                    <View style={styles.volunteerInfoSmall}>
+                      <Image
+                        source={require('../assets/home/location.png')}
+                        style={{
+                          width: 15,
+                          height: 22,
+                        }}
+                      />
+                      <Text style={styles.volunteerInfoText}>{volunteer.location}</Text>
+                    </View>
+                    <View style={styles.volunteerInfoSmall}>
+                      <Image
+                        source={require('../assets/home/time.png')}
+                        style={{
+                          width: 20,
+                          height: 21,
+                        }}
+                      />
+                      <Text style={styles.volunteerInfoText}>{volunteer.starttime}-{volunteer.endtime}</Text>
+                    </View>
+                    <View style={styles.volunteerInfoSmall}>
+                      <Image
+                        source={require('../assets/home/date.png')}
+                        style={{
+                          width: 19,
+                          height: 20,
+                        }}
+                      />
+                      <Text style={styles.volunteerInfoText}>{volunteer.date}</Text>
+                    </View>
+                  </View>
                   <Text>{volunteer.description}</Text>
                 </View>
-                <Button
-                  title='Bekijk meer'
-                  onPress={() => navigate('Vrijwilligerswerk')}
+                <Image
+                  source={require('../assets/home/borderMid.png')}
+                  style={{
+                    width: 317,
+                    height: 15,
+                    marginHorizontal: 20,
+                    marginTop: 10,
+                  }}
+                />
+                <TouchableHighlight onPress={() => navigate('Vrijwilligerswerk')}>
+                  <Text style={styles.showmore}>BEKIJK MEER</Text>
+                </TouchableHighlight>
+              </View>
+
+              <TouchableHighlight onPress={() => navigate('Transactions')}>
+                <Text style={styles.transactionbutton}>BEKIJK TRANSACTIES</Text>
+              </TouchableHighlight>
+
+              <View style={styles.buttons}>
+                <TouchableHighlight onPress={() => navigate('Pay')} style={styles.buttonElement}>
+                  <View style={styles.bigButton}>
+                    <Image
+                      source={require('../assets/home/betalen.png')}
+                      style={styles.icon1}
+                    />
+                    <Text style={styles.button}>BETALEN</Text>
+                  </View>
+                </TouchableHighlight>
+
+
+                <TouchableHighlight onPress={() => navigate('Receive')} style={styles.buttonElement}>
+                  <View style={styles.bigButton}>
+                    <Image
+                      source={require('../assets/home/ontvangen.png')}
+                      style={styles.icon2}
+                    />
+                    <Text style={styles.button}>ONTVANGEN</Text>
+                  </View>
+                </TouchableHighlight>
+                <Image
+                  source={require('../assets/general/grid3.png')}
+                  style={styles.grid1}
+                />
+                <Image
+                  source={require('../assets/general/grid2.png')}
+                  style={styles.grid2}
                 />
               </View>
-              <Button
-                title='Bekijk Transacties'
-                onPress={() => navigate('Transactions')}
-              />
-              <Button
-                title='Betalen'
-                onPress={() => navigate('Pay')}
-              />
-              <Button
-                title='Ontvangen'
-                onPress={() => navigate('Receive')}
-              />
+
               <Navbar navigate={this.props.navigation}/>
             </View>
           );
@@ -189,32 +291,63 @@ export default class HomeScreen extends React.Component {
           return (
             <View style={styles.container}>
               <View style={styles.header}>
+                <TouchableHighlight onPress={this.handleLogout}>
+                  <Image
+                    source={require('../assets/home/logout.png')}
+                    style={{
+                      width: 25,
+                      height: 27,
+                    }}
+                  />
+                </TouchableHighlight>
                 <Text>{munten} CARPELS</Text>
-                <Button
-                  title='MELD AF'
-                  onPress={this.handleLogout}
+                <TouchableHighlight onPress={() => navigate('Kaart')}>
+                  <Image
+                    source={require('../assets/home/map.png')}
+                    style={{
+                      width: 21,
+                      height: 29,
+                    }}
+                  />
+                </TouchableHighlight>
+              </View>
+              <Text>nog geen vrijwilligerswerk</Text>
+
+              <TouchableHighlight onPress={() => navigate('Transactions')}>
+                <Text style={styles.transactionbutton}>BEKIJK TRANSACTIES</Text>
+              </TouchableHighlight>
+
+              <View style={styles.buttons}>
+                <TouchableHighlight onPress={() => navigate('Pay')} style={styles.buttonElement}>
+                  <View style={styles.bigButton}>
+                    <Image
+                      source={require('../assets/home/betalen.png')}
+                      style={styles.icon1}
+                    />
+                    <Text style={styles.button}>BETALEN</Text>
+                  </View>
+                </TouchableHighlight>
+
+
+                <TouchableHighlight onPress={() => navigate('Receive')} style={styles.buttonElement}>
+                  <View style={styles.bigButton}>
+                    <Image
+                      source={require('../assets/home/ontvangen.png')}
+                      style={styles.icon2}
+                    />
+                    <Text style={styles.button}>ONTVANGEN</Text>
+                  </View>
+                </TouchableHighlight>
+                <Image
+                  source={require('../assets/general/grid3.png')}
+                  style={styles.grid1}
                 />
-                <Button
-                  title='HELP'
-                  onPress={() => navigate('Support')}
-                />
-                <Button
-                  title='Kaart'
-                  onPress={() => navigate('Kaart')}
+                <Image
+                  source={require('../assets/general/grid2.png')}
+                  style={styles.grid2}
                 />
               </View>
-              <Button
-                title='Bekijk Transacties'
-                onPress={() => navigate('Transactions')}
-              />
-              <Button
-                title='Betalen'
-                onPress={() => navigate('Pay')}
-              />
-              <Button
-                title='Ontvangen'
-                onPress={() => navigate('Receive')}
-              />
+
               <Navbar navigate={this.props.navigation}/>
             </View>
           );
@@ -223,32 +356,63 @@ export default class HomeScreen extends React.Component {
         return (
           <View style={styles.container}>
             <View style={styles.header}>
+              <TouchableHighlight onPress={this.handleLogout}>
+                <Image
+                  source={require('../assets/home/logout.png')}
+                  style={{
+                    width: 25,
+                    height: 27,
+                  }}
+                />
+              </TouchableHighlight>
               <Text>{munten} CARPELS</Text>
-              <Button
-                title='MELD AF'
-                onPress={this.handleLogout}
+              <TouchableHighlight onPress={() => navigate('Kaart')}>
+                <Image
+                  source={require('../assets/home/map.png')}
+                  style={{
+                    width: 21,
+                    height: 29,
+                  }}
+                />
+              </TouchableHighlight>
+            </View>
+            <Text>nog geen vrijwilligerswerk</Text>
+
+            <TouchableHighlight onPress={() => navigate('Transactions')}>
+              <Text style={styles.transactionbutton}>BEKIJK TRANSACTIES</Text>
+            </TouchableHighlight>
+
+            <View style={styles.buttons}>
+              <TouchableHighlight onPress={() => navigate('Pay')} style={styles.buttonElement}>
+                <View style={styles.bigButton}>
+                  <Image
+                    source={require('../assets/home/betalen.png')}
+                    style={styles.icon1}
+                  />
+                  <Text style={styles.button}>BETALEN</Text>
+                </View>
+              </TouchableHighlight>
+
+
+              <TouchableHighlight onPress={() => navigate('Receive')} style={styles.buttonElement}>
+                <View style={styles.bigButton}>
+                  <Image
+                    source={require('../assets/home/ontvangen.png')}
+                    style={styles.icon2}
+                  />
+                  <Text style={styles.button}>ONTVANGEN</Text>
+                </View>
+              </TouchableHighlight>
+              <Image
+                source={require('../assets/general/grid3.png')}
+                style={styles.grid1}
               />
-              <Button
-                title='HELP'
-                onPress={() => navigate('Support')}
-              />
-              <Button
-                title='Kaart'
-                onPress={() => navigate('Kaart')}
+              <Image
+                source={require('../assets/general/grid2.png')}
+                style={styles.grid2}
               />
             </View>
-            <Button
-              title='Bekijk Transacties'
-              onPress={() => navigate('Transactions')}
-            />
-            <Button
-              title='Betalen'
-              onPress={() => navigate('Pay')}
-            />
-            <Button
-              title='Ontvangen'
-              onPress={() => navigate('Receive')}
-            />
+
             <Navbar navigate={this.props.navigation}/>
           </View>
         );
@@ -259,17 +423,131 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 5,
     backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: 40,
+    paddingBottom: 70,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  transactionbutton: {
+    borderColor: '#5A60FB',
+    borderWidth: 1,
+    fontSize: 12,
+    color: '#5A60FB',
+    fontWeight: '900',
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    width: 220,
+    textAlign: 'center',
+    alignSelf: 'center',
+  },
+  bigButton: {
+    borderWidth: 2,
+    borderColor: '#5A60FB',
+    backgroundColor: 'white',
+    paddingTop: 30,
+    height: 150,
+  },
+  buttonElement: {
+    width: '40%',
+  },
+  icon1: {
+    marginLeft: "28%",
+    marginBottom: 32,
+    width: 69,
+    height: 40,
+  },
+  icon2: {
+    marginLeft: "36%",
+    marginBottom: 10,
+    width: 38,
+    height: 62,
+  },
+  button: {
+    color: 'white',
+    backgroundColor: '#5A60FB',
+    fontSize: 13,
+    fontWeight: 'bold',
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    textAlign: 'center',
+  },
+  buttons:{
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginHorizontal: 10,
+  },
+  grid1: {
     position: 'absolute',
-    top: 50,
-    width: 300
+    zIndex: -1,
+    left: 0,
+    bottom: 75,
+    width: 95,
+    height: 95,
+  },
+  grid2: {
+    position: 'absolute',
+    zIndex: -1,
+    right: 0,
+    bottom: 75,
+    width: 95,
+    height: 95,
+  },
+  showmore: {
+    fontWeight: '700',
+    fontSize: 12,
+    color: '#5A60FB',
+    paddingHorizontal: 20,
+    paddingTop: 10,
+  },
+  maintitle: {
+    fontWeight: '700',
+    fontSize: 16,
+    color: '#5A60FB',
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  item: {
+    paddingHorizontal: 20,
+  },
+  volunteerTitle: {
+    fontWeight:'700',
+    fontSize: 14,
+  },
+  volunteerInfo: {
+    flexDirection: 'row',
+    width: '100%',
+    paddingVertical: 10,
+  },
+  volunteerInfoSmall: {
+    flexDirection: 'row',
+  },
+  volunteerInfoText: {
+    marginLeft: 5,
+    marginRight: 20,
+  },
+  carpelcount: {
+    fontSize: 20,
+    color: '#5A60FB',
+    fontWeight: '700',
+  },
+  graphic: {
+    position: 'absolute',
+    zIndex: -1,
+    left: 120,
+    top: 0,
+    width: 54,
+    height: 31,
+  },
+  vrijwilligerswerktitel: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingRight: 20,
   }
 });
