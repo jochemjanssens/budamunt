@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, Platform, AsyncStorage, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, Platform, AsyncStorage, ScrollView, TouchableHighlight } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 
 import MapView from 'react-native-maps';
@@ -7,7 +7,7 @@ import {Marker} from 'react-native-maps';
 
 import geolib from 'geolib';
 
-import Navbar from './MapNavbar';
+import Navbar from './Navbar';
 
 export default class MapScreen extends React.Component {
   state = {
@@ -54,10 +54,10 @@ export default class MapScreen extends React.Component {
  };
 
    showMore = () => {
-     if(this.state.previewCount === 2){
+     if(this.state.previewCount === 3){
        this.setState({previewCount: 7});
      } else {
-       this.setState({previewCount: 2});
+       this.setState({previewCount: 3});
      }
   };
 
@@ -127,12 +127,25 @@ export default class MapScreen extends React.Component {
       return (
         <View style={styles.container}>
           <View style={styles.header}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
+            <View style={styles.headerflex}>
+              <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>KAART</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
             />
-            <Text>Kaart</Text>
           </View>
           <MapView
             style={styles.map}
@@ -159,27 +172,34 @@ export default class MapScreen extends React.Component {
 
           <Text style={styles.paragraph}>{text}</Text>
           <View style={styles.bottom}>
-            <Button
-              style={styles.newEvent}
-              title='Pijltje boven'
-              onPress={() => this.showMore()}
-            />
+            <TouchableHighlight onPress={this.showMore} style={styles.showmore}>
+              <Image
+                source={(previewCount < 5 ) ? require('../assets/map/showmore.png') : require('../assets/map/showless.png')}
+                style={{
+                  width: 54,
+                  height: 28,
+                }}
+              />
+            </TouchableHighlight>
             <View style={styles.list}>
               {nearbyStores.map(store => (
-                <Text
+                <View
                   key={store._id}
                   style={styles.listItem}
                   onPress={() => {
                     navigate(`MapDetail`, { ...store });
                   }}
                 >
-                  {store.store} - {
+                  <Text
+                    style={styles.bold}
+                  >{store.store}</Text>
+                  <Text>{
                     geolib.getDistanceSimple(
                       {latitude: JSON.parse(store.location)[0].latitude, longitude: JSON.parse(store.location)[0].longitude},
                       {latitude: ownLatitude, longitude: ownLongitude}
                     )
-                  }m
-                </Text>
+                  }m</Text>
+                </View>
               ))}
             </View>
             <Navbar navigate={this.props.navigation}/>
@@ -195,7 +215,7 @@ export default class MapScreen extends React.Component {
               title="Terug"
               color="#841584"
             />
-            <Text>Kaart</Text>
+            <Text>KAART</Text>
           </View>
           <MapView
             style={styles.map}
@@ -219,19 +239,23 @@ export default class MapScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fff',
     flex: 1,
-    backgroundColor: '#ecf0f1',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
   },
   header: {
-    paddingTop: Constants.statusBarHeight,
+    position: 'absolute',
+    top: 0,
+    backgroundColor: '#FFF',
+    width: '100%',
+    zIndex: 5,
+  },
+  headerflex: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    alignSelf: 'stretch',
-    zIndex: 3,
-    backgroundColor: '#fff',
+    paddingHorizontal: 30,
+    paddingTop: 40,
+    paddingBottom: 10,
   },
   paragraph: {
     margin: 24,
@@ -243,18 +267,30 @@ const styles = StyleSheet.create({
     height: 26,
   },
   bottom: {
-    alignSelf: 'stretch',
+    width: '100%',
   },
   list: {
     backgroundColor: '#fff',
   },
   listItem: {
     padding: 8,
-    borderBottomColor: '#47315a',
-    borderBottomWidth: 1,
-    textAlign: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 50,
   },
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+    marginLeft: '34%'
+  },
+  showmore: {
+    marginLeft: '43%',
+  },
+  bold: {
+    fontWeight: '700',
+  }
 });
