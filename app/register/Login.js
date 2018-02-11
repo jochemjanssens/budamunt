@@ -53,7 +53,7 @@ export default class Login extends React.Component {
       body.append(`login`, value.emailadres);
       body.append(`password`, value.wachtwoord);
       body.append(`audience`, `tweets-frontend`);
-      fetch('http://192.168.0.233:3000/api/auth', {
+      fetch('http://192.168.1.11:3000/api/auth', {
         method: 'POST',
         body: body
       })

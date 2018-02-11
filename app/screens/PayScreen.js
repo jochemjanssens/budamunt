@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Image, Text, View, TouchableOpacity, Button, AsyncStorage } from "react-native";
+import { StyleSheet, Image, Text, View, TouchableOpacity, Button, AsyncStorage, TouchableHighlight } from "react-native";
 import { Camera, Permissions, Constants } from "expo";
 import { StackNavigator } from "react-navigation";
 
@@ -50,14 +50,14 @@ export default class PayScreen extends React.Component {
               const headers = new Headers({
                 Authorization: `Bearer ${token}`
               });
-              fetch("http://192.168.1.7:3000/api/transactions", {
+              fetch("http://192.168.1.11:3000/api/transactions", {
                 method: "POST",
                 body,
                 headers
               })
               .then(r => {
                 AsyncStorage.getItem("muntenId").then(muntenId => {
-                  fetch(`http://192.168.1.7:3000/api/balances/${muntenId}`, {
+                  fetch(`http://192.168.1.11:3000/api/balances/${muntenId}`, {
                       method: "DELETE",
                       headers
                   })
@@ -66,7 +66,7 @@ export default class PayScreen extends React.Component {
                     const balance = new FormData();
                     balance.append(`userId`, this.state.user._id);
                     balance.append(`munten`, newMunten);
-                    fetch(`http://192.168.1.7:3000/api/balances`, {
+                    fetch(`http://192.168.1.11:3000/api/balances`, {
                       method: "POST",
                       body: balance,
                       headers
@@ -81,6 +81,8 @@ export default class PayScreen extends React.Component {
               })
               .catch(err => console.error(err));
             })
+          }else{
+            this.props.navigation.navigate("ErrorScreen");
           }
         })
       }
@@ -96,13 +98,31 @@ export default class PayScreen extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <View style={styles.backbutton}>
-          <Button
-            onPress={() => this.props.navigation.goBack()}
-            title="Terug"
-            color="#841584"
-          />
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>BETALEN</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
+            />
           </View>
+
           <Camera style={{ flex: 1 }} type={this.state.type} onBarCodeRead={this.onBarCodeRead}>
 
           </Camera>
@@ -114,16 +134,26 @@ export default class PayScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    height: "100%",
   },
-  backbutton:{
-    paddingTop: Constants.statusBarHeight,
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
   },
-  icon: {
-    width: 26,
-    height: 26,
+  header: {
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingTop: 50,
+    paddingBottom: 10,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 52,
+    left: 30,
   },
 });

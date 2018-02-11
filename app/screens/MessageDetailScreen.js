@@ -23,7 +23,7 @@ export default class MessageDetailScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.7:3000/api/messages`, {headers})
+      fetch(`http://192.168.1.11:3000/api/messages`, {headers})
         .then(r => {
           this.setState({'messages': JSON.parse(r._bodyText).messages});
         })
@@ -54,13 +54,13 @@ export default class MessageDetailScreen extends React.Component {
               Authorization: `Bearer ${token}`
             });
 
-            fetch('http://192.168.1.7:3000/api/messages', {
+            fetch('http://192.168.1.11:3000/api/messages', {
                 method: 'POST',
                 body,
                 headers
               })
               .then(r => {
-                fetch(`http://192.168.1.7:3000/api/messages`, {headers})
+                fetch(`http://192.168.1.11:3000/api/messages`, {headers})
                   .then(r => {
                     this.setState({'messages': JSON.parse(r._bodyText).messages});
                   })

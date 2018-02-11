@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight } from 'react-native';
 import QRCode from 'react-native-qrcode';
 
 export default class QRScreen extends React.Component {
@@ -18,7 +18,7 @@ export default class QRScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch('http://192.168.1.7:3000/api/transactions?isActive=true', {
+      fetch('http://192.168.1.11:3000/api/transactions?isActive=true', {
         method: 'GET',
         headers
       })
@@ -61,27 +61,66 @@ export default class QRScreen extends React.Component {
     if(complete === true){
       return (
         <View style={styles.container}>
-          <Text style={styles.title}>Scanned</Text>
-          <Button
-            title='Go home'
-            onPress={() => navigate('Home')}
-          />
+          <View>
+            <View style={styles.header}>
+              <Text style={styles.maintitle}>ONTVANGEN</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
+            />
+          </View>
+          <View style={styles.content}>
+            <Image
+              source={require('../assets/pay/succes.png')}
+              style={{
+                width: 143,
+                height: 108,
+              }}
+            />
+
+            <View style={styles.textelement}>
+              <Text style={styles.maintext}>SUCCES</Text>
+              <Text style={styles.text}>De betaling is voltooid</Text>
+            </View>
+
+            <TouchableHighlight onPress={() => navigate('Home')}>
+              <Text style={styles.button}>NAAR HOME</Text>
+            </TouchableHighlight>
+          </View>
         </View>
       );
     }else{
       return (
         <View style={styles.container}>
-          <Button
-            onPress={() => this.props.navigation.goBack()}
-            title="Terug"
-            color="#841584"
-          />
+          <View>
+            <View style={styles.header}>
+              <Text style={styles.maintitle}>ONTVANGEN</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
+            />
+          </View>
+          <View style={styles.content}>
 
-          <Text style={styles.title}>Scan deze code</Text>
-          <QRCode
-           value={data}
-           size={220}
-         />
+            <Image
+              source={require('../assets/pay/scanTitle.png')}
+              style={styles.title}
+            />
+            <QRCode
+             value={data}
+             size={220}
+             bgColor='#5A60FB'
+             style={styles.qrcode}
+           />
+          </View>
         </View>
       );
     }
@@ -90,14 +129,62 @@ export default class QRScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
+    height: "100%",
+  },
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+  },
+  header: {
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingTop: 50,
+    paddingBottom: 10,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 52,
+    left: 30,
+  },
+  button: {
+    color: 'white',
+    backgroundColor: '#5A60FB',
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingVertical: 14,
+    paddingHorizontal: 50,
+    textAlign: 'center',
+  },
+  textelement: {
+    paddingVertical: 100,
+  },
+  maintext: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  content: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    paddingBottom: 30,
+  text: {
+    textAlign: 'center',
   },
+  title: {
+    width: 170,
+    height: 40,
+    marginBottom: 40,
+  },
+  qrcode: {
+    marginBottom: 40,
+  }
 });
 
 const handlePayment = (headers, transaction, userId) => {
@@ -108,7 +195,7 @@ const handlePayment = (headers, transaction, userId) => {
             Authorization: `Bearer ${token}`
           });
           AsyncStorage.getItem("muntenId").then(muntenId => {
-            fetch(`http://192.168.1.7:3000/api/balances/${muntenId}`, {
+            fetch(`http://192.168.1.11:3000/api/balances/${muntenId}`, {
                 method: "DELETE",
                 headers
             })
@@ -118,13 +205,13 @@ const handlePayment = (headers, transaction, userId) => {
                 const balance = new FormData();
                 balance.append(`userId`, userId);
                 balance.append(`munten`, newMunten);
-                fetch(`http://192.168.1.7:3000/api/balances`, {
+                fetch(`http://192.168.1.11:3000/api/balances`, {
                   method: "POST",
                   body: balance,
                   headers
                 })
                 .then(r => {
-                  fetch(`http://192.168.1.7:3000/api/transactions/${transaction._id}`, {
+                  fetch(`http://192.168.1.11:3000/api/transactions/${transaction._id}`, {
                       method: "DELETE",
                       headers
                   })
@@ -133,7 +220,7 @@ const handlePayment = (headers, transaction, userId) => {
                     balance.append(`payingId`, transaction.payingId);
                     balance.append(`receivingId`, transaction.receivingId);
                     balance.append(`munten`, transaction.munten);
-                    fetch(`http://192.168.1.7:3000/api/balances`, {
+                    fetch(`http://192.168.1.11:3000/api/balances`, {
                       method: "POST",
                       body: balance,
                       headers
