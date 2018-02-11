@@ -44,7 +44,7 @@ export default class SupportScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
-      <View style={styles.container} behavior="padding">
+      <View style={styles.container}>
         <View style={styles.header}>
           <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
             <Image

@@ -14,7 +14,7 @@ export default class MapScreen extends React.Component {
     location: null,
     errorMessage: null,
     stores: null,
-    previewCount: 2
+    previewCount: 3
   };
 
   componentWillMount() {
@@ -186,13 +186,14 @@ export default class MapScreen extends React.Component {
                 <View
                   key={store._id}
                   style={styles.listItem}
-                  onPress={() => {
-                    navigate(`MapDetail`, { ...store });
-                  }}
                 >
-                  <Text
-                    style={styles.bold}
-                  >{store.store}</Text>
+                  <TouchableHighlight onPress={() => {navigate(`MapDetail`, { ...store })}}>
+                    <Text
+                      style={styles.bold}
+                    >
+                      {store.store}
+                    </Text>
+                  </TouchableHighlight>
                   <Text>{
                     geolib.getDistanceSimple(
                       {latitude: JSON.parse(store.location)[0].latitude, longitude: JSON.parse(store.location)[0].longitude},
