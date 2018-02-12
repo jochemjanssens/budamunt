@@ -376,7 +376,7 @@ export default class HomeScreen extends React.Component {
                 />
               </TouchableHighlight>
             </View>
-            <Text>nog geen vrijwilligerswerk</Text>
+            <Text style={styles.errorText}>nog geen vrijwilligerswerk</Text>
 
             <TouchableHighlight onPress={() => navigate('Transactions')}>
               <Text style={styles.transactionbutton}>BEKIJK TRANSACTIES</Text>
@@ -549,5 +549,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingRight: 20,
+  },
+  errorText: {
+    fontWeight: '700',
+    fontSize: 16,
+    color: '#5A60FB',
+    textAlign: 'center',
   }
 });

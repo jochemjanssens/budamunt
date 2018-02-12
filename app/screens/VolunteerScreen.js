@@ -246,7 +246,7 @@ export default class VolunteerScreen extends React.Component {
                           source={(counter % 2 === 0) ? require(`../assets/volunteer/grid2small.png`) : require(`../assets/volunteer/grid1small.png`)}
                           style={{
                             width: 114,
-                            height: 70,
+                            height: 66,
                             position: 'absolute',
                             top: `${48 + counter*2}%`,
                             left: `${((counter % 2)*60) + 2}%`,

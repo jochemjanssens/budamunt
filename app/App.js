@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
+import Onboarding from './register/Onboarding';
+
 import Login from './register/Login';
 import Register from './register/Register';
 import RegisterGebruiker from './register/RegisterGebruiker';
@@ -21,6 +23,7 @@ export default class App extends React.Component {
 }
 
 export const Navigation = StackNavigator({
+  Onboarding: { screen: Onboarding },
   Login: { screen: Login },
   Register: { screen: Register },
   RegisterGebruiker: { screen: RegisterGebruiker },
