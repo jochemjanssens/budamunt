@@ -10,6 +10,11 @@ const Answer = t.struct({
   motivatie: t.String,
 });
 
+var options = {
+  auto: 'none',
+};
+
+
 export default class CommunityDetailScreen extends React.Component {
   state = {
     answer: null,
@@ -22,13 +27,10 @@ export default class CommunityDetailScreen extends React.Component {
 
   handleNee = () => {
     const { params } = this.props.navigation.state;
-
-    const value = this._form.getValue();
-    console.log(value);
     AsyncStorage.getItem("myToken").then((token) => {
       AsyncStorage.getItem("user").then(user => {
         const body = new FormData();
-        body.append(`userId`, user._id);
+        body.append(`userId`, JSON.parse(user)._id);
         body.append(`questionId`, params._id);
         body.append(`answer`, "nee");
         body.append(`motivation`, ' ');
@@ -36,7 +38,7 @@ export default class CommunityDetailScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.16:3000/api/answers', {
+        fetch('http://192.168.1.22:3000/api/answers', {
             method: 'POST',
             body,
             headers
@@ -65,7 +67,7 @@ export default class CommunityDetailScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.16:3000/api/answers', {
+        fetch('http://192.168.1.22:3000/api/answers', {
             method: 'POST',
             body,
             headers
@@ -87,11 +89,8 @@ export default class CommunityDetailScreen extends React.Component {
       return (
         <View style={styles.container}>
           <View>
-            <View style={styles.header}>
-              <TouchableHighlight
-                onPress={() => this.props.navigation.goBack()}
-                style={styles.backButton}
-              >
+            <View style={styles.header3}>
+              <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
                 <Image
                   source={require('../assets/general/back.png')}
                   style={{
@@ -100,7 +99,10 @@ export default class CommunityDetailScreen extends React.Component {
                   }}
                 />
               </TouchableHighlight>
-              <Text style={styles.maintitle}>TRANSACTIES</Text>
+              <Text style={styles.maintitle}>STEMMING</Text>
+              <TouchableHighlight onPress={this.handleSubmit}>
+                <Text style={styles.submitButton}>BEVESTIG</Text>
+              </TouchableHighlight>
             </View>
             <Image
               source={require('../assets/home/bigBorder.png')}
@@ -110,20 +112,25 @@ export default class CommunityDetailScreen extends React.Component {
               }}
             />
           </View>
-          <Text style={styles.title}>{params.name.toUpperCase()}</Text>
-          <Text style={styles.text}>{params.description}</Text>
+          <View style={styles.content}>
+            <Image
+               style={{
+                 width: 160,
+                 height: 160,
+                 alignSelf: 'center',
+               }}
+               source={{uri: params.image}}
+            />
 
-          <Text>Motiveer je antwoord</Text>
-          <Form
-             type={Answer}
-             ref={c => this._form = c}
-           />
+            <Text style={styles.title}>{params.name.toUpperCase()}</Text>
 
-          <TouchableHighlight
-            onPress={this.handleSubmit}
-          >
-            <Text style={styles.button}>Verzend</Text>
-          </TouchableHighlight>
+            <Text style={styles.smallText}>Motiveer je antwoord</Text>
+            <Form
+               type={Answer}
+               ref={c => this._form = c}
+               options={options}
+             />
+          </View>
 
           <Navbar navigate={this.props.navigation}/>
         </View>
@@ -145,7 +152,7 @@ export default class CommunityDetailScreen extends React.Component {
                   }}
                 />
               </TouchableHighlight>
-              <Text style={styles.maintitle}>TRANSACTIES</Text>
+              <Text style={styles.maintitle}>STEMMING</Text>
             </View>
             <Image
               source={require('../assets/home/bigBorder.png')}
@@ -158,8 +165,8 @@ export default class CommunityDetailScreen extends React.Component {
           <View style={styles.content}>
             <Image
                style={{
-                 width: 200,
-                 height: 200,
+                 width: 160,
+                 height: 160,
                  alignSelf: 'center',
                }}
                source={{uri: params.image}}
@@ -200,6 +207,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
   },
+  header3: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingTop: 50,
+    paddingBottom: 10,
+  },
   header: {
     backgroundColor: '#fff',
     flexDirection: 'row',
@@ -239,5 +254,16 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 20,
+  },
+  smallText: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 12,
+    paddingBottom: 4,
+  },
+  submitButton: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 12,
   }
 });

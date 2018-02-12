@@ -18,23 +18,28 @@ export default class CommunityScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.1.16:3000/api/artists`, {headers})
+          fetch(`http://192.168.1.22:3000/api/artists`, {headers})
           .then(r => {
             const artists = JSON.parse(r._bodyText).artists;
             this.setState({'artist': artists[artists.length-1]});
-            fetch(`http://192.168.1.16:3000/api/questions`, {headers})
+            fetch(`http://192.168.1.22:3000/api/questions`, {headers})
             .then(r => {
               const questions = JSON.parse(r._bodyText).questions;
               console.log(questions);
-              fetch(`http://192.168.1.16:3000/api/answers`, {headers})
+              fetch(`http://192.168.1.22:3000/api/answers`, {headers})
               .then(r => {
                 const answers = JSON.parse(r._bodyText).answers;
+                console.log(answers);
                 if(answers.length !== 0){
+                  let match = false;
                   answers.forEach(answer => {
                     if(JSON.parse(user)._id !== answer.userId){
-                      this.setState({'question': questions[questions.length-1]});
+                      match = true;
                     }
                   });
+                  if(match === false){
+                    this.setState({'question': questions[questions.length-1]});
+                  }
                 } else {
                   this.setState({'question': questions[questions.length-1]});
                 }
@@ -83,15 +88,14 @@ export default class CommunityScreen extends React.Component {
             </View>
             <View style={styles.stemming}>
               <Text style={styles.title}>COMMUNITYSTEMMING</Text>
-              <Text style={styles.text}>{question.name}</Text>
-              <Text style={styles.text}>{question.description}</Text>
+              <Text style={styles.text}>{question.name}: {question.description}</Text>
               <TouchableHighlight onPress={() => navigate('CommunityDetail', { ...question })}>
                 <Text style={styles.button}>BEVESTIG</Text>
               </TouchableHighlight>
             </View>
             <View style={styles.kunstenaar}>
               <Image
-                 style={{width: '100%', height: 120}}
+                 style={{width: '100%', height: 100}}
                  source={{uri: artist.image}}
               />
               <Text style={styles.titleBottom}>KUNSTENAAR VAN DE MAAND: {artist.name}</Text>
@@ -136,15 +140,15 @@ export default class CommunityScreen extends React.Component {
               />
             </View>
             <View style={styles.kunstenaar}>
-              <Text>Communitystemming</Text>
-              <Text>Al ingevuld</Text>
+              <Text style={styles.title}>Communitystemming</Text>
+              <Text style={styles.text}>Al ingevuld</Text>
             </View>
             <View style={styles.kunstenaar}>
               <Image
                  style={{width: '100%', height: 120}}
                  source={{uri: artist.image}}
               />
-              <Text style={styles.titleBottom}>KUNSTENAAR VAN DE MAAND: {artist.name}</Text>
+              <Text style={styles.titleBottom}>KUNSTENAAR V D MAAND: {artist.name}</Text>
               <Text style={styles.description}>{artist.description}</Text>
             </View>
             <Navbar navigate={this.props.navigation}/>
@@ -190,14 +194,14 @@ const styles = StyleSheet.create({
     color: '#5A60FB',
     fontWeight: '700',
     fontSize: 20,
-    paddingHorizontal: 20,
-    paddingBottom: 10,
+    textAlign: 'center',
+    paddingBottom: 6,
   },
   titleBottom: {
     color: '#5A60FB',
     fontWeight: '700',
-    fontSize: 20,
-    paddingHorizontal: 20,
+    fontSize: 18,
+    paddingHorizontal: 10,
     paddingTop: 10,
   },
   button: {
@@ -207,13 +211,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingVertical: 12,
     paddingHorizontal: 40,
-    marginTop: 20,
+    marginTop: 14,
     textAlign: 'center',
   },
   stemming: {
     borderWidth: 1,
     borderColor: '#5A60FB',
-    marginHorizontal: 30,
+    marginHorizontal: 20,
     marginVertical: 10,
     padding: 10,
   },
@@ -223,11 +227,11 @@ const styles = StyleSheet.create({
   kunstenaar: {
     borderWidth: 1,
     borderColor: '#5A60FB',
-    marginHorizontal: 30,
+    marginHorizontal: 20,
   },
   description: {
     paddingTop: 5,
     paddingBottom: 20,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   }
 });

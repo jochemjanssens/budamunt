@@ -19,10 +19,10 @@ export default class VolunteerScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.16:3000/api/volunteers?isActive=true`, {headers})
+      fetch(`http://192.168.1.22:3000/api/volunteers?isActive=true`, {headers})
         .then(r => {
           this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
-          fetch(`http://192.168.1.16:3000/api/applications`, {headers})
+          fetch(`http://192.168.1.22:3000/api/applications`, {headers})
             .then(r => {
               this.setState({'applications': JSON.parse(r._bodyText).applications});
             })
@@ -43,7 +43,7 @@ export default class VolunteerScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch(`http://192.168.1.16:3000/api/volunteers?isActive=true`, {headers})
+        fetch(`http://192.168.1.22:3000/api/volunteers?isActive=true`, {headers})
           .then(r => {
             const { volunteers } = this.state;
             if(volunteers && r){
@@ -51,7 +51,7 @@ export default class VolunteerScreen extends React.Component {
                   this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
               }
             }
-            fetch(`http://192.168.1.16:3000/api/applications`, {headers})
+            fetch(`http://192.168.1.22:3000/api/applications`, {headers})
               .then(r => {
                 const { applications } = this.state;
                 if(applications && r){
@@ -73,7 +73,7 @@ export default class VolunteerScreen extends React.Component {
       const headers = new Headers({
         Authorization: `Bearer ${token}`
       });
-      const url = 'http://192.168.1.16:3000/api/volunteers/' + volunteer._id;
+      const url = 'http://192.168.1.22:3000/api/volunteers/' + volunteer._id;
       fetch(url, {method, headers})
         .then(r => {
           this.props.navigation.goBack()

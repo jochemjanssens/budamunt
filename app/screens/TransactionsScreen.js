@@ -18,7 +18,7 @@ export default class TransactionsScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.16:3000/api/transactions?isActive=false`, {headers})
+      fetch(`http://192.168.1.22:3000/api/transactions?isActive=false`, {headers})
         .then(r => {
           this.setState({'transactions': JSON.parse(r._bodyText).transactions});
         })

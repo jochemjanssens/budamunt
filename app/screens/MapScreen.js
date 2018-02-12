@@ -33,7 +33,7 @@ export default class MapScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.16:3000/api/stores`, {headers})
+      fetch(`http://192.168.1.22:3000/api/stores`, {headers})
         .then(r => {
           this.setState({'stores': JSON.parse(r._bodyText).stores});
         })
