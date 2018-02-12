@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, AsyncStorage, Image, TouchableHighlight } from 'react-native';
 
 import t from 'tcomb-form-native';
-
-import LoggedIn from '../LoggedIn';
-import LoggedInHandelaar from '../LoggedInHandelaar';
-import LoggedinOrganisation from '../LoggedinOrganisation';
-
 const Form = t.form.Form;
 
 const User = t.struct({
@@ -53,7 +48,7 @@ export default class Login extends React.Component {
       body.append(`login`, value.emailadres);
       body.append(`password`, value.wachtwoord);
       body.append(`audience`, `tweets-frontend`);
-      fetch('http://192.168.1.11:3000/api/auth', {
+      fetch('http://192.168.1.16:3000/api/auth', {
         method: 'POST',
         body: body
       })
@@ -82,11 +77,17 @@ export default class Login extends React.Component {
     const { navigate } = this.props.navigation;
 
     if(login === 'handelaar'){
-      return <LoggedInHandelaar />
+      return (
+        navigate('LoggedInHandelaar')
+      );
     }else if (login === 'organisatie'){
-      return <LoggedinOrganisation />
+      return (
+        navigate('LoggedinOrganisation')
+      );
     }else if (login === true){
-      return <LoggedIn />
+      return (
+        navigate('LoggedIn')
+      );
     }else{
       return (
         <View style={styles.container}>

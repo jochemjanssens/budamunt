@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight } from 'react-native';
 
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
@@ -31,7 +31,6 @@ export default class NewVolunteer extends React.Component {
 
   handleVolgende = () => {
     const value = this._form.getValue();
-    console.log(value);
     if(value){
       this.setState({ data: value });
       this.setState({ progress: 2 });
@@ -56,7 +55,7 @@ export default class NewVolunteer extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.11:3000/api/volunteers', {
+        fetch('http://192.168.1.16:3000/api/volunteers', {
             method: 'POST',
             body,
             headers
@@ -79,17 +78,45 @@ export default class NewVolunteer extends React.Component {
     if(progress === 1){
       return (
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>VRIJWILLIGERS</Text>
+              <TouchableHighlight
+                onPress={this.handleVolgende}
+              >
+                <Text style={styles.comfirm}>VOLGENDE</Text>
+              </TouchableHighlight>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
             />
-            <Text>Aanvraag vrijwilligerswerk</Text>
           </View>
           <View style={styles.form}>
-            <Text>1/2</Text>
-            <Text>
+            <Image
+              source={require('../assets/register/progress.png')}
+              style={{
+                width: 79,
+                height: 28,
+                alignSelf: 'center',
+              }}
+            />
+            <Text style={styles.description}>
               Om een vrijwilliger aan te vragen moet je snel even dit form invullen
                na het invullen wordt jouw aanvraag geplaatst en kunnen andere mensen
                erop reageren.
@@ -98,27 +125,52 @@ export default class NewVolunteer extends React.Component {
                type={Volunteer}
                ref={c => this._form = c}
              />
-            <Button
-              title="Volgende"
-              onPress={this.handleVolgende}
-            />
           </View>
         </View>
       );
     } else {
       return (
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>VRIJWILLIGERS</Text>
+              <TouchableHighlight
+                onPress={this.handleSubmit}
+              >
+                <Text style={styles.comfirm}>BEVESTIG</Text>
+              </TouchableHighlight>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
             />
-            <Text>Aanvraag vrijwilligerswerk</Text>
           </View>
           <View style={styles.form}>
-            <Text>2/2</Text>
+            <Image
+              source={require('../assets/register/progress2.png')}
+              style={{
+                width: 79,
+                height: 28,
+                alignSelf: 'center',
+              }}
+            />
 
+            <Text style={styles.text}>Datum</Text>
             <DatePicker
               mode="date"
               date={this.state.date}
@@ -128,7 +180,14 @@ export default class NewVolunteer extends React.Component {
               confirmBtnText="Bevestig"
               cancelBtnText="Terug"
               onDateChange={(date) => {this.setState({date: date})}}
+              style={{width: '100%'}}
+              customStyles={{
+                dateInput: {
+                  borderColor: '#5A60FB'
+                }
+              }}
             />
+            <Text style={styles.text}>Startuur</Text>
             <DatePicker
               mode="time"
               date={this.state.startTime}
@@ -137,7 +196,14 @@ export default class NewVolunteer extends React.Component {
               confirmBtnText="Bevestig"
               cancelBtnText="Terug"
               onDateChange={(startTime) => {this.setState({startTime: startTime})}}
+              style={{width: '100%'}}
+              customStyles={{
+                dateInput: {
+                  borderColor: '#5A60FB'
+                }
+              }}
             />
+            <Text style={styles.text}>Einduur</Text>
             <DatePicker
               mode="time"
               date={this.state.endTime}
@@ -147,10 +213,12 @@ export default class NewVolunteer extends React.Component {
               confirmBtnText="Bevestig"
               cancelBtnText="Terug"
               onDateChange={(endTime) => {this.setState({endTime: endTime})}}
-            />
-            <Button
-              title="Kies deze datum"
-              onPress={this.handleSubmit}
+              style={{width: '100%'}}
+              customStyles={{
+                dateInput: {
+                  borderColor: '#5A60FB'
+                }
+              }}
             />
           </View>
         </View>
@@ -162,14 +230,39 @@ export default class NewVolunteer extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    height: "100%",
   },
   header: {
-    backgroundColor: '#0ff',
-    alignSelf: 'stretch',
-    paddingTop: 30
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 40,
+    paddingBottom: 10,
+  },
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+  },
+  comfirm: {
+    color: '#5A60FB',
+    fontSize: 12,
+  },
+  form: {
+    paddingHorizontal: 30,
+    paddingVertical: 30,
+  },
+  description: {
+    textAlign: 'center',
+    paddingVertical: 30,
+    fontSize: 13,
+  },
+  text: {
+    color: '#5A60FB',
+    fontSize: 16,
+    paddingTop: 20,
+    paddingBottom: 5,
   }
 });

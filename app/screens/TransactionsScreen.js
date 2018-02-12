@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight } from 'react-native';
 
 import Navbar from './Navbar';
 
@@ -18,7 +18,7 @@ export default class TransactionsScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.11:3000/api/transactions?isActive=false`, {headers})
+      fetch(`http://192.168.1.16:3000/api/transactions?isActive=false`, {headers})
         .then(r => {
           this.setState({'transactions': JSON.parse(r._bodyText).transactions});
         })
@@ -39,12 +39,16 @@ export default class TransactionsScreen extends React.Component {
       if(transactions.length !== 0){
         const ownTransactions = [];
         transactions.forEach(transaction=>{
+          var date = new Date(Date.parse(transaction.created));
+          var formattedTime = date.toLocaleDateString();
+
           if(transaction.payingId === user._id){
             ownTransactions.push({
               _id: transaction._id,
               role: 'pay',
               munten: transaction.munten,
-              person: transaction.receivingName
+              person: transaction.receivingName,
+              time: formattedTime,
             });
           }
           if(transaction.receivingId === user._id){
@@ -52,18 +56,55 @@ export default class TransactionsScreen extends React.Component {
               _id: transaction._id,
               role: 'receive',
               munten: transaction.munten,
-              person: transaction.payingName
+              person: transaction.payingName,
+              time: formattedTime,
             });
           }
         });
 
         return (
           <View style={styles.container}>
+            <View>
+              <View style={styles.header}>
+                <TouchableHighlight
+                  onPress={() => this.props.navigation.goBack()}
+                  style={styles.backButton}
+                >
+                  <Image
+                    source={require('../assets/general/back.png')}
+                    style={{
+                      width: 15,
+                      height: 23,
+                    }}
+                  />
+                </TouchableHighlight>
+                <Text style={styles.maintitle}>TRANSACTIES</Text>
+              </View>
+              <Image
+                source={require('../assets/home/bigBorder.png')}
+                style={{
+                  width: '100%',
+                  height: 12,
+                }}
+              />
+            </View>
             {
               ownTransactions.map(
                 transaction => (
-                  <View key={transaction._id}>
-                    <Text>Je {(transaction.role === 'receive') ? 'ontving' : 'betaalde'} {transaction.munten} munten {(transaction.role === 'receive') ? 'van' : 'aan'} {transaction.person}</Text>
+                  <View key={transaction._id} style={styles.transaction}>
+                    <View style={styles.start}>
+                      <Text style={styles.person}>{transaction.person.toUpperCase()}</Text>
+                      <Text>{transaction.time}</Text>
+                    </View>
+                    <Text style={styles.carpels}>{(transaction.role === 'receive') ? '+' : '-'} {transaction.munten} CARPELS</Text>
+                    <Image
+                      source={require('../assets/home/borderMid.png')}
+                      style={{
+                        width: 317,
+                        height: 15,
+                        marginTop: 10,
+                      }}
+                    />
                   </View>
                 )
               )
@@ -74,12 +115,31 @@ export default class TransactionsScreen extends React.Component {
       }else{
         return (
           <View style={styles.container}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
-            />
-            <Text>Er zijn nog geen transacties</Text>
+            <View>
+              <View style={styles.header}>
+                <TouchableHighlight
+                  onPress={() => this.props.navigation.goBack()}
+                  style={styles.backButton}
+                >
+                  <Image
+                    source={require('../assets/general/back.png')}
+                    style={{
+                      width: 15,
+                      height: 23,
+                    }}
+                  />
+                </TouchableHighlight>
+                <Text style={styles.maintitle}>TRANSACTIES</Text>
+              </View>
+              <Image
+                source={require('../assets/home/bigBorder.png')}
+                style={{
+                  width: '100%',
+                  height: 12,
+                }}
+              />
+            </View>
+            <Text style={styles.notransactions}>Er zijn nog geen transacties</Text>
             <Navbar navigate={this.props.navigation}/>
 
           </View>
@@ -88,12 +148,31 @@ export default class TransactionsScreen extends React.Component {
     }else {
       return (
         <View style={styles.container}>
-          <Button
-            onPress={() => this.props.navigation.goBack()}
-            title="Terug"
-            color="#841584"
-          />
-          <Text>Er zijn nog geen transacties</Text>
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>TRANSACTIES</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
+            />
+          </View>
+          <Text style={styles.notransactions}>Er zijn nog geen transacties</Text>
           <Navbar navigate={this.props.navigation}/>
 
         </View>
@@ -105,9 +184,50 @@ export default class TransactionsScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
   },
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+  },
+  header: {
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingTop: 50,
+    paddingBottom: 10,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 52,
+    left: 30,
+  },
+  person:{
+    fontWeight: '700',
+    fontSize: 15,
+  },
+  start:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 10,
+  },
+  carpels: {
+    fontWeight: '700',
+    fontSize: 20,
+    color: "#5A60FB",
+  },
+  transaction: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  notransactions: {
+    textAlign: 'center',
+    paddingTop: 200,
+    fontSize: 20,
+    color: "#5A60FB",
+  }
 });

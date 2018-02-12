@@ -38,7 +38,7 @@ export default class RegisterGebruiker extends React.Component {
     if(value){
       this.state.data = {
         firstname: value.voornaam,
-        name: this.state.achternaam
+        name: value.achternaam
       }
       const newProgress = this.state.progress + 1;
       this.setState({progress: newProgress});
@@ -54,18 +54,17 @@ export default class RegisterGebruiker extends React.Component {
       body.append(`email`, value.emailadres);
       body.append(`password`, value.paswoord);
       body.append(`scope`, 'USER');
-      fetch('http://192.168.1.11:3000/api/users', {
+      fetch('http://192.168.1.16:3000/api/users', {
         method: 'POST',
         body: body
       })
       .then(u => {
-        console.log(u);
         const login = new FormData();
         login.append(`login`, value.emailadres);
         login.append(`password`, value.paswoord);
         login.append(`audience`, `tweets-frontend`);
 
-        fetch('http://192.168.1.11:3000/api/auth', {
+        fetch('http://192.168.1.16:3000/api/auth', {
           method: 'POST',
           body: login
         })
@@ -81,12 +80,13 @@ export default class RegisterGebruiker extends React.Component {
             Authorization: `Bearer ${token}`
           });
 
-          fetch('http://192.168.1.11:3000/api/balances', {
+          fetch('http://192.168.1.16:3000/api/balances', {
             method: 'POST',
             body: balance,
             headers
           })
           .then(r => {
+            console.log(r);
             this.setState({ login: true });
           })
           .catch(

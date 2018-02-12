@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight } from 'react-native';
 
 import Navbar from './Navbar';
 
@@ -18,15 +18,15 @@ export default class CommunityScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.1.11:3000/api/artists`, {headers})
+          fetch(`http://192.168.1.16:3000/api/artists`, {headers})
           .then(r => {
             const artists = JSON.parse(r._bodyText).artists;
             this.setState({'artist': artists[artists.length-1]});
-            fetch(`http://192.168.1.11:3000/api/questions`, {headers})
+            fetch(`http://192.168.1.16:3000/api/questions`, {headers})
             .then(r => {
               const questions = JSON.parse(r._bodyText).questions;
               console.log(questions);
-              fetch(`http://192.168.1.11:3000/api/answers`, {headers})
+              fetch(`http://192.168.1.16:3000/api/answers`, {headers})
               .then(r => {
                 const answers = JSON.parse(r._bodyText).answers;
                 if(answers.length !== 0){
@@ -57,23 +57,45 @@ export default class CommunityScreen extends React.Component {
       if(artist && question){
         return (
           <View style={styles.container}>
-            <Text>Community</Text>
-            <View style={styles.kunstenaar}>
-              <Text>Communitystemming</Text>
-              <Text>{question.name}</Text>
-              <Text>{question.description}</Text>
-              <Button
-                title='Bevestig'
-                onPress={() => navigate('CommunityDetail', { ...question })}
+            <View>
+              <View style={styles.header}>
+                <TouchableHighlight
+                  onPress={() => this.props.navigation.goBack()}
+                  style={styles.backButton}
+                >
+                  <Image
+                    source={require('../assets/general/back.png')}
+                    style={{
+                      width: 15,
+                      height: 23,
+                    }}
+                  />
+                </TouchableHighlight>
+                <Text style={styles.maintitle}>TRANSACTIES</Text>
+              </View>
+              <Image
+                source={require('../assets/home/bigBorder.png')}
+                style={{
+                  width: '100%',
+                  height: 12,
+                }}
               />
+            </View>
+            <View style={styles.stemming}>
+              <Text style={styles.title}>COMMUNITYSTEMMING</Text>
+              <Text style={styles.text}>{question.name}</Text>
+              <Text style={styles.text}>{question.description}</Text>
+              <TouchableHighlight onPress={() => navigate('CommunityDetail', { ...question })}>
+                <Text style={styles.button}>BEVESTIG</Text>
+              </TouchableHighlight>
             </View>
             <View style={styles.kunstenaar}>
               <Image
-                 style={{width: 200, height: 200}}
+                 style={{width: '100%', height: 120}}
                  source={{uri: artist.image}}
               />
-              <Text>Kunstenaar van de maand: {artist.name}</Text>
-              <Text>{artist.description}</Text>
+              <Text style={styles.titleBottom}>KUNSTENAAR VAN DE MAAND: {artist.name}</Text>
+              <Text style={styles.description}>{artist.description}</Text>
             </View>
             <Navbar navigate={this.props.navigation}/>
           </View>
@@ -89,18 +111,41 @@ export default class CommunityScreen extends React.Component {
       if(artist){
         return (
           <View style={styles.container}>
-            <Text>Community</Text>
+            <View>
+              <View style={styles.header}>
+                <TouchableHighlight
+                  onPress={() => this.props.navigation.goBack()}
+                  style={styles.backButton}
+                >
+                  <Image
+                    source={require('../assets/general/back.png')}
+                    style={{
+                      width: 15,
+                      height: 23,
+                    }}
+                  />
+                </TouchableHighlight>
+                <Text style={styles.maintitle}>TRANSACTIES</Text>
+              </View>
+              <Image
+                source={require('../assets/home/bigBorder.png')}
+                style={{
+                  width: '100%',
+                  height: 12,
+                }}
+              />
+            </View>
             <View style={styles.kunstenaar}>
               <Text>Communitystemming</Text>
               <Text>Al ingevuld</Text>
             </View>
             <View style={styles.kunstenaar}>
               <Image
-                 style={{width: 200, height: 200}}
+                 style={{width: '100%', height: 120}}
                  source={{uri: artist.image}}
               />
-              <Text>Kunstenaar van de maand: {artist.name}</Text>
-              <Text>{artist.description}</Text>
+              <Text style={styles.titleBottom}>KUNSTENAAR VAN DE MAAND: {artist.name}</Text>
+              <Text style={styles.description}>{artist.description}</Text>
             </View>
             <Navbar navigate={this.props.navigation}/>
           </View>
@@ -118,9 +163,71 @@ export default class CommunityScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
   },
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  header: {
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingTop: 50,
+    paddingBottom: 10,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 52,
+    left: 30,
+  },
+  title: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 10,
+  },
+  titleBottom: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+  },
+  button: {
+    color: 'white',
+    backgroundColor: '#5A60FB',
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingVertical: 12,
+    paddingHorizontal: 40,
+    marginTop: 20,
+    textAlign: 'center',
+  },
+  stemming: {
+    borderWidth: 1,
+    borderColor: '#5A60FB',
+    marginHorizontal: 30,
+    marginVertical: 10,
+    padding: 10,
+  },
+  text: {
+    textAlign: 'center',
+  },
+  kunstenaar: {
+    borderWidth: 1,
+    borderColor: '#5A60FB',
+    marginHorizontal: 30,
+  },
+  description: {
+    paddingTop: 5,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+  }
 });

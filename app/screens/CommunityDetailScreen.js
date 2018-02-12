@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight } from 'react-native';
 
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
@@ -36,7 +36,7 @@ export default class CommunityDetailScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.11:3000/api/answers', {
+        fetch('http://192.168.1.16:3000/api/answers', {
             method: 'POST',
             body,
             headers
@@ -65,7 +65,7 @@ export default class CommunityDetailScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.11:3000/api/answers', {
+        fetch('http://192.168.1.16:3000/api/answers', {
             method: 'POST',
             body,
             headers
@@ -86,17 +86,32 @@ export default class CommunityDetailScreen extends React.Component {
     if(answer){
       return (
         <View style={styles.container}>
-          <Button
-            onPress={() => this.props.navigation.goBack()}
-            title="Terug"
-            color="#841584"
-          />
-          <Image
-             style={{width: 200, height: 200}}
-             source={{uri: params.image}}
-          />
-          <Text>{params.name}</Text>
-          <Text>{params.description}</Text>
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>TRANSACTIES</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
+            />
+          </View>
+          <Text style={styles.title}>{params.name.toUpperCase()}</Text>
+          <Text style={styles.text}>{params.description}</Text>
 
           <Text>Motiveer je antwoord</Text>
           <Form
@@ -104,10 +119,11 @@ export default class CommunityDetailScreen extends React.Component {
              ref={c => this._form = c}
            />
 
-          <Button
-            title="Verzend"
+          <TouchableHighlight
             onPress={this.handleSubmit}
-          />
+          >
+            <Text style={styles.button}>Verzend</Text>
+          </TouchableHighlight>
 
           <Navbar navigate={this.props.navigation}/>
         </View>
@@ -115,27 +131,56 @@ export default class CommunityDetailScreen extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-          <Button
-            onPress={() => this.props.navigation.goBack()}
-            title="Terug"
-            color="#841584"
-          />
-          <Image
-             style={{width: 200, height: 200}}
-             source={{uri: params.image}}
-          />
-          <Text>{params.name}</Text>
-          <Text>{params.description}</Text>
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>TRANSACTIES</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
+            />
+          </View>
+          <View style={styles.content}>
+            <Image
+               style={{
+                 width: 200,
+                 height: 200,
+                 alignSelf: 'center',
+               }}
+               source={{uri: params.image}}
+            />
+            <Text style={styles.title}>{params.name.toUpperCase()}</Text>
+            <Text style={styles.text}>{params.description}</Text>
 
-          <Button
-            title="Ja"
-            onPress={this.handleJa}
-          />
+            <View style={styles.buttons}>
+              <TouchableHighlight
+                onPress={this.handleJa}
+              >
+                <Text style={styles.button}>JA</Text>
+              </TouchableHighlight>
 
-          <Button
-            title="Nee"
-            onPress={this.handleNee}
-          />
+              <TouchableHighlight
+                onPress={this.handleNee}
+              >
+                <Text style={styles.button}>NEE</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
 
           <Navbar navigate={this.props.navigation}/>
         </View>
@@ -146,9 +191,53 @@ export default class CommunityDetailScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
   },
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  header: {
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingTop: 50,
+    paddingBottom: 10,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 52,
+    left: 30,
+  },
+  title: {
+    fontSize: 14,
+    color: '#5A60FB',
+    fontWeight: '700',
+    paddingVertical: 20,
+  },
+  text: {
+    fontSize: 13,
+    paddingBottom: 20,
+  },
+  button: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 12,
+    borderWidth: 1,
+    borderColor: '#5A60FB',
+    paddingHorizontal: 50,
+    paddingVertical: 16,
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  content: {
+    padding: 20,
+  }
 });

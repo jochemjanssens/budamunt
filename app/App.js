@@ -9,6 +9,11 @@ import RegisterKeuze from './register/RegisterKeuze';
 import RegisterHandel from './register/RegisterHandel';
 import RegisterOrganisatie from './register/RegisterOrganisatie';
 
+import LoggedIn from './LoggedIn';
+import LoggedInHandelaar from './LoggedInHandelaar';
+import LoggedinOrganisation from './LoggedinOrganisation';
+
+
 export default class App extends React.Component {
   render() {
     return <Navigation />
@@ -22,6 +27,9 @@ export const Navigation = StackNavigator({
   RegisterKeuze: { screen: RegisterKeuze },
   RegisterHandel: { screen: RegisterHandel },
   RegisterOrganisatie: { screen: RegisterOrganisatie },
+  LoggedIn: { screen: LoggedIn },
+  LoggedInHandelaar: { screen: LoggedInHandelaar },
+  LoggedinOrganisation: { screen: LoggedinOrganisation },
 }, {
     // see next line
     headerMode: 'none',
