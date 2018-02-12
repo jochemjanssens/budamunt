@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, Image, TouchableHighlight } from 'react
 
 import Navbar from './Navbar';
 
-export default class ChosenVolunteerDetailScreen extends React.Component {
+export default class VolunteerDetailScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     const { params } = this.props.navigation.state;
@@ -24,7 +24,7 @@ export default class ChosenVolunteerDetailScreen extends React.Component {
                 }}
               />
             </TouchableHighlight>
-            <Text style={styles.maintitle}>TRANSACTIES</Text>
+            <Text style={styles.maintitle}>VRIJWILLIGERS</Text>
           </View>
           <Image
             source={require('../assets/home/bigBorder.png')}
@@ -77,6 +77,11 @@ export default class ChosenVolunteerDetailScreen extends React.Component {
           <Text style={styles.description}>{params.description}</Text>
 
           <Text>Je krijgt hier {params.munten} Carpels voor</Text>
+          <TouchableHighlight
+            onPress={() => navigate('Inschrijven', { ...params })}
+          >
+            <Text style={styles.button}>INSCHRIJVEN</Text>
+          </TouchableHighlight>
         </View>
         <Navbar navigate={this.props.navigation}/>
       </View>
@@ -111,6 +116,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 52,
     left: 30,
+  },
+  button: {
+    color: 'white',
+    backgroundColor: '#5A60FB',
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingVertical: 14,
+    paddingHorizontal: 50,
+    textAlign: 'center',
+    marginTop: 50,
   },
   volunteerInfo: {
     flexDirection: 'row',

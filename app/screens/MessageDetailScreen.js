@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight, ScrollView } from 'react-native';
 
 import Navbar from './Navbar';
 
@@ -11,6 +11,15 @@ const Form = t.form.Form;
 const Answer = t.struct({
   message: t.String,
 });
+
+var options = {
+  auto: 'placeholders',
+  fields: {
+   message: {
+     placeholder: 'Stuur jouw bericht….'
+   }
+ }
+};
 
 export default class MessageDetailScreen extends React.Component {
   state = {
@@ -102,35 +111,56 @@ export default class MessageDetailScreen extends React.Component {
     if(ownMessages.length !== 0){
       return (
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>{(params.type === 'receive') ? `${params.content.sendId}` : `${params.content.receiveId}`}</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
             />
-            <Text>{(params.type === 'receive') ? `${params.content.sendId}` : `${params.content.receiveId}`}</Text>
           </View>
-
-          {
-            ownMessages.map(
-              message => {
-                  return(
-                    <Text key={message.content._id} style={(message.type === 'receive') ? styles.receive : styles.send}>
-                      {message.content.sendId} - {message.content.content}
-                    </Text>
-                  );
-              })
-            }
-          <View style={styles.form}>
-            <Form
-               type={Answer}
-               ref={c => this._form = c}
-             />
-             <Button
-               title="Stuur je bericht"
-               onPress={() => this.handleSubmit(ownMessages[0])}
-             />
-          </View>
+          <ScrollView style={styles.content}>
+            {
+              ownMessages.map(
+                message => {
+                    return(
+                      <Text key={message.content._id} style={(message.type === 'receive') ? styles.receive : styles.send}>
+                        {message.content.content}
+                      </Text>
+                    );
+                })
+              }
+            <View style={styles.newItem}>
+              <Form
+                 type={Answer}
+                 ref={c => this._form = c}
+                 options={options}
+                 style={styles.form}
+               />
+               <TouchableHighlight
+                 onPress={() => this.handleSubmit(ownMessages[0])}
+               >
+                 <Text style={styles.button}>Stuur je bericht</Text>
+               </TouchableHighlight>
+            </View>
+            <View style={{height: 300}}></View>
+          </ScrollView>
 
           <Navbar navigate={this.props.navigation}/>
         </View>
@@ -138,25 +168,48 @@ export default class MessageDetailScreen extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>{(params.type === 'receive') ? `${params.content.sendId}` : `${params.content.receiveId}`}</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
             />
-            <Text>{(params.type === 'receive') ? `${params.content.sendId}` : `${params.content.receiveId}`}</Text>
           </View>
 
-          <View style={styles.form}>
-            <Form
-               type={Answer}
-               ref={c => this._form = c}
-             />
-             <Button
-               title="Stuur je bericht"
-               onPress={this.handleSubmit}
-             />
-          </View>
+          <ScrollView style={styles.content}>
+            <View style={styles.newItem}>
+              <Form
+                 type={Answer}
+                 ref={c => this._form = c}
+                 options={options}
+                 style={styles.form}
+               />
+               <TouchableHighlight
+                 onPress={() => this.handleSubmit(ownMessages[0])}
+               >
+                 <Text style={styles.button}>Stuur je bericht</Text>
+               </TouchableHighlight>
+            </View>
+            <View style={{height: 300}}></View>
+          </ScrollView>
+
 
           <Navbar navigate={this.props.navigation}/>
         </View>
@@ -167,27 +220,62 @@ export default class MessageDetailScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+  },
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+    textAlign: 'center',
   },
   header: {
+    backgroundColor: '#fff',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingTop: 50,
+    paddingBottom: 10,
+  },
+  backButton: {
     position: 'absolute',
-    top: 50,
-    width: 300,
+    top: 52,
+    left: 30,
   },
   receive: {
-    backgroundColor: "#ff0"
+    backgroundColor: "#5A60FB",
+    color: "#FFF",
+    padding: 10,
+    width: '80%',
+    marginVertical: 10,
   },
   send: {
-    backgroundColor: "#f0f"
+    borderColor: "#5A60FB",
+    borderWidth: 1,
+    padding: 10,
+    width: '80%',
+    marginLeft: '20%',
+    marginVertical: 10,
   },
   form: {
-    alignSelf: 'stretch',
-    paddingHorizontal: 30,
+    width: '100%',
+  },
+  newItem:{
+    paddingTop: 30,
+  },
+  content: {
+    padding: 20,
+  },
+  button: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 12,
+    borderWidth: 1,
+    borderColor: '#5A60FB',
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    marginRight: '50%',
+    textAlign: 'center',
   },
 });

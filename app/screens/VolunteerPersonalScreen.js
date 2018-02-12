@@ -187,6 +187,7 @@ export default class VolunteerPersonalScreen extends React.Component {
                      }
 
                      counter++;
+                    console.log(link);
 
                     return(
                       <View key={volunteer._id} >

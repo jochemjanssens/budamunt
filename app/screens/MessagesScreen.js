@@ -54,42 +54,81 @@ export default class MessagesScreen extends React.Component {
         if(messagesArray.length !== 0){
           return (
             <View style={styles.container}>
-              <View style={styles.header}>
-                <Button
-                  onPress={() => this.props.navigation.goBack()}
-                  title="Terug"
-                  color="#841584"
+              <View>
+                <View style={styles.header}>
+                  <TouchableHighlight
+                    onPress={() => this.props.navigation.goBack()}
+                    style={styles.backButton}
+                  >
+                    <Image
+                      source={require('../assets/general/back.png')}
+                      style={{
+                        width: 15,
+                        height: 23,
+                      }}
+                    />
+                  </TouchableHighlight>
+                  <Text style={styles.maintitle}>TRANSACTIES</Text>
+                </View>
+                <Image
+                  source={require('../assets/home/bigBorder.png')}
+                  style={{
+                    width: '100%',
+                    height: 12,
+                  }}
                 />
-                <Text>Berichten</Text>
               </View>
+              <View style={styles.content}>
               {
                 messagesArray.map(
                   message => {
-                    console.log(message.content);
                     return(
                       <TouchableHighlight key={message.content._id} style={styles.message} onPress={() => navigate(`MessageDetail`, { ...message })}>
-                        <View>
-                          <Text>{(message.type === 'receive') ? `van ${message.content.sendId}` : `aan ${message.content.receiveId}`} </Text>
-                          <Text>{message.content.content}</Text>
+                        <View style={styles.messageelement}>
+                          <View style={styles.textelement}>
+                            <Text style={styles.person}>{(message.type === 'receive') ? `${message.content.sendId.toUpperCase()}` : `${message.content.receiveId.toUpperCase()}`} </Text>
+                            <Text>{message.content.content}</Text>
+                          </View>
+                          <Image
+                            source={require('../assets/volunteer/next.png')}
+                            style={styles.nextButton}
+                          />
                         </View>
                       </TouchableHighlight>
                     );
                   }
                 )
               }
+              </View>
               <Navbar navigate={this.props.navigation}/>
             </View>
           );
         } else {
           return (
             <View style={styles.container}>
-              <View style={styles.header}>
-                <Button
-                  onPress={() => this.props.navigation.goBack()}
-                  title="Terug"
-                  color="#841584"
+              <View>
+                <View style={styles.header}>
+                  <TouchableHighlight
+                    onPress={() => this.props.navigation.goBack()}
+                    style={styles.backButton}
+                  >
+                    <Image
+                      source={require('../assets/general/back.png')}
+                      style={{
+                        width: 15,
+                        height: 23,
+                      }}
+                    />
+                  </TouchableHighlight>
+                  <Text style={styles.maintitle}>TRANSACTIES</Text>
+                </View>
+                <Image
+                  source={require('../assets/home/bigBorder.png')}
+                  style={{
+                    width: '100%',
+                    height: 12,
+                  }}
                 />
-                <Text>Berichten</Text>
               </View>
               <Text>Nog geen berichten</Text>
               <Navbar navigate={this.props.navigation}/>
@@ -99,13 +138,29 @@ export default class MessagesScreen extends React.Component {
       } else {
         return (
           <View style={styles.container}>
-            <View style={styles.header}>
-              <Button
-                onPress={() => this.props.navigation.goBack()}
-                title="Terug"
-                color="#841584"
+            <View>
+              <View style={styles.header}>
+                <TouchableHighlight
+                  onPress={() => this.props.navigation.goBack()}
+                  style={styles.backButton}
+                >
+                  <Image
+                    source={require('../assets/general/back.png')}
+                    style={{
+                      width: 15,
+                      height: 23,
+                    }}
+                  />
+                </TouchableHighlight>
+                <Text style={styles.maintitle}>TRANSACTIES</Text>
+              </View>
+              <Image
+                source={require('../assets/home/bigBorder.png')}
+                style={{
+                  width: '100%',
+                  height: 12,
+                }}
               />
-              <Text>Berichten</Text>
             </View>
             <Text>Nog geen berichten</Text>
             <Navbar navigate={this.props.navigation}/>
@@ -115,13 +170,29 @@ export default class MessagesScreen extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>TRANSACTIES</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
             />
-            <Text>Berichten</Text>
           </View>
           <Text>Nog geen berichten</Text>
           <Navbar navigate={this.props.navigation}/>
@@ -133,25 +204,53 @@ export default class MessagesScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+  },
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+    textAlign: 'center',
   },
   header: {
+    backgroundColor: '#fff',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingTop: 50,
+    paddingBottom: 10,
+  },
+  backButton: {
     position: 'absolute',
-    top: 50,
-    width: 300,
+    top: 52,
+    left: 30,
+  },
+  content: {
+    padding: 20,
   },
   message: {
-    borderColor: '#000',
+    borderColor: '#5A60FB',
     borderWidth: 1,
+    marginBottom: 20,
+  },
+  messageelement: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 10,
   },
-  title: {
-    paddingBottom: 30,
+  person: {
+    fontWeight: '700',
+    marginBottom: 4,
   },
+  textelement: {
+    width: '94     %',
+  },
+  nextButton: {
+    width: 14,
+    height: 23,
+    alignSelf: 'center',
+    marginRight: 5,
+  }
 });
