@@ -198,7 +198,7 @@ export default class EventScreen extends React.Component {
                         position: 'absolute',
                         top: `${54 + counter*2}%`,
                         left: `${((counter % 2)*60) + 4}%`,
-                        zIndex: -10,
+                        zIndex: -1,
                       }}
                     />
                     </View>
