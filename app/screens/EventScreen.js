@@ -18,7 +18,7 @@ export default class EventScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.22:3000/api/events?isActive=true`, {headers})
+      fetch(`http://192.168.1.40:3000/api/events?isActive=true`, {headers})
         .then(r => {
           this.setState({'events': JSON.parse(r._bodyText).events});
         })
@@ -37,7 +37,7 @@ export default class EventScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch(`http://192.168.1.22:3000/api/events?isActive=true`, {headers})
+        fetch(`http://192.168.1.40:3000/api/events?isActive=true`, {headers})
           .then(r => {
             const { events } = this.state;
             if(events && r){
@@ -57,7 +57,7 @@ export default class EventScreen extends React.Component {
       const headers = new Headers({
         Authorization: `Bearer ${token}`
       });
-      const url = 'http://192.168.1.22:3000/api/events/' + event._id;
+      const url = 'http://192.168.1.40:3000/api/events/' + event._id;
       fetch(url, {method, headers})
         .then(r => {
           this.props.navigation.goBack()
@@ -152,7 +152,7 @@ export default class EventScreen extends React.Component {
                       >
                         <View style={styles.item}>
                           <View style={styles.titleitem}>
-                            <Text style={styles.eventtitle}>{event.name.toUpperCase()}</Text>
+                            <Text style={styles.eventtitle}>{event.name.toUpperCase().substring(0,40)}</Text>
                             <Text style={(user.email === event.user) ? styles.own : styles.other}>{(user.email === event.user) ? 'eigen event' : ''}</Text>
                           </View>
                           <Text>{event.description.substring(0,80)}...</Text>
@@ -165,7 +165,7 @@ export default class EventScreen extends React.Component {
                                   height: 22,
                                 }}
                               />
-                              <Text style={styles.eventInfoText}>{event.location}</Text>
+                              <Text style={styles.eventInfoText}>{event.location.substring(0,11)}</Text>
                             </View>
                             <View style={styles.eventInfoSmall}>
                               <Image
@@ -196,8 +196,8 @@ export default class EventScreen extends React.Component {
                         width: 114,
                         height: 66,
                         position: 'absolute',
-                        top: `${54 + counter*2}%`,
-                        left: `${((counter % 2)*60) + 4}%`,
+                        top: `${50 + (counter * 0.65)}%`,
+                        left: `${((counter % 2)*67) + 3}%`,
                         zIndex: -1,
                       }}
                     />
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginHorizontal: 30,
-    marginBottom: 20,
+    marginBottom: 30,
   },
   content: {
     paddingTop: 30,
@@ -310,6 +310,7 @@ const styles = StyleSheet.create({
   },
   eventInfoSmall: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   eventInfoText: {
     marginLeft: 4,

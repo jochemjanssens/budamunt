@@ -19,10 +19,10 @@ export default class VolunteerPersonalScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.22:3000/api/volunteers?isActive=true`, {headers})
+      fetch(`http://192.168.1.40:3000/api/volunteers?isActive=true`, {headers})
         .then(r => {
           this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
-          fetch(`http://192.168.1.22:3000/api/applications`, {headers})
+          fetch(`http://192.168.1.40:3000/api/applications`, {headers})
             .then(r => {
               this.setState({'applications': JSON.parse(r._bodyText).applications});
             })
@@ -43,7 +43,7 @@ export default class VolunteerPersonalScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch(`http://192.168.1.22:3000/api/volunteers?isActive=true`, {headers})
+        fetch(`http://192.168.1.40:3000/api/volunteers?isActive=true`, {headers})
           .then(r => {
             const { volunteers } = this.state;
             if(volunteers && r){
@@ -51,7 +51,7 @@ export default class VolunteerPersonalScreen extends React.Component {
                   this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
               }
             }
-            fetch(`http://192.168.1.22:3000/api/applications`, {headers})
+            fetch(`http://192.168.1.40:3000/api/applications`, {headers})
               .then(r => {
                 const { applications } = this.state;
                 if(applications && r){
@@ -187,7 +187,6 @@ export default class VolunteerPersonalScreen extends React.Component {
                      }
 
                      counter++;
-                    console.log(link);
 
                     return(
                       <View key={volunteer._id} >
@@ -235,8 +234,8 @@ export default class VolunteerPersonalScreen extends React.Component {
                             width: 114,
                             height: 66,
                             position: 'absolute',
-                            top: `${48 + counter*2}%`,
-                            left: `${((counter % 2)*60) + 2}%`,
+                            top: `${53 + counter*3}%`,
+                            left: `${((counter % 2)*66) + 3}%`,
                             zIndex: -10,
                           }}
                         />
@@ -300,7 +299,7 @@ export default class VolunteerPersonalScreen extends React.Component {
                 }}
               />
             </View>
-              <Text style={styles.novolunteer}>Geen aanvragen</Text>
+              <Text style={styles.novolunteer}>Er zijn nog geen aanvragen geplaatst, je kan er altijd zelf een plaatsen</Text>
               <Navbar navigate={this.props.navigation}/>
           </View>
         );
@@ -422,6 +421,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: '#43454E',
+    paddingBottom: 5,
   },
   volunteerInfo: {
     flexDirection: 'row',
@@ -444,5 +444,9 @@ const styles = StyleSheet.create({
     color: '#5A60FB',
     paddingTop: 160,
     fontSize: 16,
+    paddingHorizontal: 20,
+  },
+  elementlijst: {
+    paddingTop: 30,
   }
 });

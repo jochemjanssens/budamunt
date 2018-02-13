@@ -18,15 +18,15 @@ export default class CommunityScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.1.22:3000/api/artists`, {headers})
+          fetch(`http://192.168.1.40:3000/api/artists`, {headers})
           .then(r => {
             const artists = JSON.parse(r._bodyText).artists;
             this.setState({'artist': artists[artists.length-1]});
-            fetch(`http://192.168.1.22:3000/api/questions`, {headers})
+            fetch(`http://192.168.1.40:3000/api/questions`, {headers})
             .then(r => {
               const questions = JSON.parse(r._bodyText).questions;
               console.log(questions);
-              fetch(`http://192.168.1.22:3000/api/answers`, {headers})
+              fetch(`http://192.168.1.40:3000/api/answers`, {headers})
               .then(r => {
                 const answers = JSON.parse(r._bodyText).answers;
                 console.log(answers);
@@ -76,7 +76,7 @@ export default class CommunityScreen extends React.Component {
                     }}
                   />
                 </TouchableHighlight>
-                <Text style={styles.maintitle}>TRANSACTIES</Text>
+                <Text style={styles.maintitle}>COMMUNITY</Text>
               </View>
               <Image
                 source={require('../assets/home/bigBorder.png')}
@@ -93,6 +93,10 @@ export default class CommunityScreen extends React.Component {
                 <Text style={styles.button}>BEVESTIG</Text>
               </TouchableHighlight>
             </View>
+            <Image
+              source={require('../assets/general/communityBG.png')}
+              style={styles.bg}
+            />
             <View style={styles.kunstenaar}>
               <Image
                  style={{width: '100%', height: 100}}
@@ -129,7 +133,7 @@ export default class CommunityScreen extends React.Component {
                     }}
                   />
                 </TouchableHighlight>
-                <Text style={styles.maintitle}>TRANSACTIES</Text>
+                <Text style={styles.maintitle}>COMMUNITY</Text>
               </View>
               <Image
                 source={require('../assets/home/bigBorder.png')}
@@ -139,7 +143,7 @@ export default class CommunityScreen extends React.Component {
                 }}
               />
             </View>
-            <View style={styles.kunstenaar}>
+            <View style={styles.stemming}>
               <Text style={styles.title}>Communitystemming</Text>
               <Text style={styles.text}>Al ingevuld</Text>
             </View>
@@ -148,7 +152,7 @@ export default class CommunityScreen extends React.Component {
                  style={{width: '100%', height: 120}}
                  source={{uri: artist.image}}
               />
-              <Text style={styles.titleBottom}>KUNSTENAAR V D MAAND: {artist.name}</Text>
+              <Text style={styles.titleBottom}>KUNSTENAAR VAN DE MAAND: {artist.name}</Text>
               <Text style={styles.description}>{artist.description}</Text>
             </View>
             <Navbar navigate={this.props.navigation}/>
@@ -218,7 +222,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#5A60FB',
     marginHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 30,
     padding: 10,
   },
   text: {
@@ -233,5 +237,13 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 20,
     paddingHorizontal: 10,
+  },
+  bg: {
+    width: '96%',
+    height: 200,
+    position: 'absolute',
+    left: 1,
+    top: 120,
+    zIndex: -2,
   }
 });

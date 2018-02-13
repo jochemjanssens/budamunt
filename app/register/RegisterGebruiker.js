@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button, AsyncStorage, TouchableHighlight, Image
 import { Constants } from 'expo';
 import LoggedIn from '../LoggedIn';
 
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
 
@@ -54,7 +56,7 @@ export default class RegisterGebruiker extends React.Component {
       body.append(`email`, value.emailadres);
       body.append(`password`, value.paswoord);
       body.append(`scope`, 'USER');
-      fetch('http://192.168.1.22:3000/api/users', {
+      fetch('http://192.168.1.40:3000/api/users', {
         method: 'POST',
         body: body
       })
@@ -64,7 +66,7 @@ export default class RegisterGebruiker extends React.Component {
         login.append(`password`, value.paswoord);
         login.append(`audience`, `tweets-frontend`);
 
-        fetch('http://192.168.1.22:3000/api/auth', {
+        fetch('http://192.168.1.40:3000/api/auth', {
           method: 'POST',
           body: login
         })
@@ -80,7 +82,7 @@ export default class RegisterGebruiker extends React.Component {
             Authorization: `Bearer ${token}`
           });
 
-          fetch('http://192.168.1.22:3000/api/balances', {
+          fetch('http://192.168.1.40:3000/api/balances', {
             method: 'POST',
             body: balance,
             headers
@@ -201,7 +203,8 @@ export default class RegisterGebruiker extends React.Component {
                ref={c => this._form = c}
                options={options}
              />
-             <View style={{height: 150}}></View>
+             <View style={{height: 50}}></View>
+             <KeyboardSpacer/>
           </View>
         );
       }

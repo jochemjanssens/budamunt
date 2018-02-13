@@ -38,7 +38,7 @@ export default class CommunityDetailScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.22:3000/api/answers', {
+        fetch('http://192.168.1.40:3000/api/answers', {
             method: 'POST',
             body,
             headers
@@ -67,7 +67,7 @@ export default class CommunityDetailScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.22:3000/api/answers', {
+        fetch('http://192.168.1.40:3000/api/answers', {
             method: 'POST',
             body,
             headers

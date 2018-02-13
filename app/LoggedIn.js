@@ -77,4 +77,5 @@ export const Navigation = StackNavigator({
 }, {
     // see next line
     headerMode: 'none',
+    transitionConfig: () => ({ screenInterpolator: () => null }),
 });

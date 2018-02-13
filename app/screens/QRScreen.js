@@ -18,7 +18,7 @@ export default class QRScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch('http://192.168.1.22:3000/api/transactions?isActive=true', {
+      fetch('http://192.168.1.40:3000/api/transactions?isActive=true', {
         method: 'GET',
         headers
       })
@@ -110,6 +110,18 @@ export default class QRScreen extends React.Component {
         <View style={styles.container}>
           <View>
             <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
               <Text style={styles.maintitle}>ONTVANGEN</Text>
             </View>
             <Image
@@ -207,7 +219,7 @@ const handlePayment = (headers, transaction, userId) => {
             Authorization: `Bearer ${token}`
           });
           AsyncStorage.getItem("muntenId").then(muntenId => {
-            fetch(`http://192.168.1.22:3000/api/balances/${muntenId}`, {
+            fetch(`http://192.168.1.40:3000/api/balances/${muntenId}`, {
                 method: "DELETE",
                 headers
             })
@@ -217,13 +229,13 @@ const handlePayment = (headers, transaction, userId) => {
                 const balance = new FormData();
                 balance.append(`userId`, userId);
                 balance.append(`munten`, newMunten);
-                fetch(`http://192.168.1.22:3000/api/balances`, {
+                fetch(`http://192.168.1.40:3000/api/balances`, {
                   method: "POST",
                   body: balance,
                   headers
                 })
                 .then(r => {
-                  fetch(`http://192.168.1.22:3000/api/transactions/${transaction._id}`, {
+                  fetch(`http://192.168.1.40:3000/api/transactions/${transaction._id}`, {
                       method: "DELETE",
                       headers
                   })
@@ -232,7 +244,7 @@ const handlePayment = (headers, transaction, userId) => {
                     balance.append(`payingId`, transaction.payingId);
                     balance.append(`receivingId`, transaction.receivingId);
                     balance.append(`munten`, transaction.munten);
-                    fetch(`http://192.168.1.22:3000/api/balances`, {
+                    fetch(`http://192.168.1.40:3000/api/balances`, {
                       method: "POST",
                       body: balance,
                       headers

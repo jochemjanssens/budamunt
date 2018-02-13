@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight, ScrollView } from 'react-native';
+
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
@@ -11,6 +13,28 @@ const Event = t.struct({
   beschrijving: t.String,
   locatie: t.String
 });
+
+var options = {
+  fields: {
+    beschrijving: {
+      multiline: true,
+      stylesheet: {
+          ...Form.stylesheet,
+          textbox: {
+            ...Form.stylesheet.textbox,
+            normal: {
+              ...Form.stylesheet.textbox.normal,
+              height: 100
+            },
+            error: {
+              ...Form.stylesheet.textbox.error,
+              height: 100
+          }
+        }
+      }
+    }
+  }
+};
 
 export default class NewEvent extends React.Component {
   state = {
@@ -54,7 +78,7 @@ export default class NewEvent extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.22:3000/api/events', {
+        fetch('http://192.168.1.40:3000/api/events', {
             method: 'POST',
             body,
             headers
@@ -107,7 +131,7 @@ export default class NewEvent extends React.Component {
               }}
             />
           </View>
-          <View style={styles.form}>
+          <ScrollView style={styles.form}>
             <Image
               source={require('../assets/register/progress.png')}
               style={{
@@ -126,8 +150,11 @@ export default class NewEvent extends React.Component {
             <Form
                type={Event}
                ref={c => this._form = c}
+               options={options}
              />
-          </View>
+             <View style={{height: 50}}></View>
+          </ScrollView>
+          <KeyboardSpacer/>
         </View>
       );
     } else {
@@ -224,6 +251,7 @@ export default class NewEvent extends React.Component {
               }}
             />
           </View>
+          <KeyboardSpacer/>
         </View>
       )
     }

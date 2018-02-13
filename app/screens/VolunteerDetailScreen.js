@@ -76,7 +76,6 @@ export default class VolunteerDetailScreen extends React.Component {
 
           <Text style={styles.description}>{params.description}</Text>
 
-          <Text>Je krijgt hier {params.munten} Carpels voor</Text>
           <TouchableHighlight
             onPress={() => navigate('Inschrijven', { ...params })}
           >
@@ -137,6 +136,7 @@ const styles = StyleSheet.create({
   },
   volunteerInfoSmall: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   volunteerInfoText: {
     marginLeft: 4,
@@ -153,10 +153,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   volunteerNameImg: {
-    width: 113,
+    width: 122,
     height: 43,
     position: 'absolute',
-    top: 40,
+    top: 32,
     left: 20,
     zIndex: -5,
   }

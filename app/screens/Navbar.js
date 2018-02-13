@@ -26,27 +26,27 @@ export default class Navbar extends React.Component {
 
     return (
       <View style={styles.navbar}>
-        <TouchableHighlight onPress={() => this.navigate.navigate('Home')}>
+        <TouchableHighlight onPress={() => this.navigate.navigate('Home')}  underlayColor="white">
           <Image
             style={styles.button1}
 
             source={(page === 'Home') ? require('../assets/icons/home-active.png') : require('../assets/icons/home.png')}
           />
         </TouchableHighlight>
-        <TouchableHighlight onPress={() => this.navigate.navigate('Community')}>
+        <TouchableHighlight onPress={() => this.navigate.navigate('Community')}  underlayColor="white">
           <Image
             style={styles.button2}
             source={(page === 'Community') ? require('../assets/icons/community-active.png') : require('../assets/icons/community.png')}
           />
         </TouchableHighlight>
-        <TouchableHighlight onPress={() => this.navigate.navigate('Vrijwilligerswerk')}>
+        <TouchableHighlight onPress={() => this.navigate.navigate('Vrijwilligerswerk')}  underlayColor="white">
           <Image
             style={styles.button3}
             source={(page === 'Vrijwilligerswerk') ? require('../assets/icons/volunteer-active.png') : require('../assets/icons/volunteer.png')}
 
           />
         </TouchableHighlight>
-        <TouchableHighlight onPress={() => this.navigate.navigate('Evenementen')}>
+        <TouchableHighlight onPress={() => this.navigate.navigate('Evenementen')}  underlayColor="white">
           <Image
             style={styles.button4}
             source={(page === 'Evenementen') ? require('../assets/icons/events-active.png') : require('../assets/icons/events.png')}
@@ -59,8 +59,8 @@ export default class Navbar extends React.Component {
 
 const styles = StyleSheet.create({
   button1: {
-    width: 34,
-    height: 32,
+    width: 32,
+    height: 30,
   },
   button2: {
     width: 35,
@@ -72,11 +72,12 @@ const styles = StyleSheet.create({
   },
   button4: {
     width: 29,
-    height: 30,
+    height: 28,
   },
   navbar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center',
     position: 'absolute',
     bottom: 0,
     width: '100%',

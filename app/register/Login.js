@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, AsyncStorage, Image, TouchableHighlight } from 'react-native';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
 
@@ -48,7 +50,7 @@ export default class Login extends React.Component {
       body.append(`login`, value.emailadres);
       body.append(`password`, value.wachtwoord);
       body.append(`audience`, `tweets-frontend`);
-      fetch('http://192.168.1.22:3000/api/auth', {
+      fetch('http://192.168.1.120:3000/api/auth', {
         method: 'POST',
         body: body
       })
