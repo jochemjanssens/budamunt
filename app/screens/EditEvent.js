@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight } from 'react-native';
 
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
@@ -111,17 +111,47 @@ export default class EditEvent extends React.Component {
     if(progress === 1){
       return (
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>AANVRAAG WIJZIGEN</Text>
+              <TouchableHighlight
+                onPress={this.handleVolgende}
+              >
+                <Text style={styles.comfirm}>VOLGENDE</Text>
+              </TouchableHighlight>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
             />
-            <Text>Event Aanmaken</Text>
           </View>
           <View style={styles.form}>
-            <Text>1/2</Text>
-            <Text>
+            <Image
+              source={require('../assets/register/progress.png')}
+              style={{
+                width: 79,
+                height: 28,
+                alignSelf: 'center',
+                marginBottom: 20,
+                marginTop: 10,
+              }}
+            />
+            <Text style={styles.description}>
               Om een evenement te maken moet je snel even dit forumulier
               invullen na het invullen wordt jouw event geplaatst en kunnen
               andere mensen erop reageren
@@ -132,26 +162,52 @@ export default class EditEvent extends React.Component {
                value={this.value}
                onChange={this.onChange}
              />
-            <Button
-              title="Volgende"
-              onPress={this.handleVolgende}
-            />
           </View>
         </View>
       );
     } else {
       return (
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>AANVRAAG WIJZIGEN</Text><TouchableHighlight
+                onPress={this.handleSubmit}
+              >
+                <Text style={styles.comfirm}>PLAATS</Text>
+              </TouchableHighlight>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
             />
-            <Text>Event Aanmaken</Text>
           </View>
           <View style={styles.form}>
-            <Text>2/2</Text>
+            <Image
+              source={require('../assets/register/progress2.png')}
+              style={{
+                width: 79,
+                height: 28,
+                alignSelf: 'center',
+                marginBottom: 20,
+                marginTop: 10,
+              }}
+            />
+            <Text style={styles.text}>Datum</Text>
             <DatePicker
               mode="date"
               date={date}
@@ -161,7 +217,14 @@ export default class EditEvent extends React.Component {
               confirmBtnText="Bevestig"
               cancelBtnText="Terug"
               onDateChange={(date) => {this.setState({date: date})}}
+              style={{width: '100%'}}
+              customStyles={{
+                dateInput: {
+                  borderColor: '#5A60FB'
+                }
+              }}
             />
+            <Text style={styles.text}>Startuur</Text>
             <DatePicker
               mode="time"
               date={startTime}
@@ -170,7 +233,14 @@ export default class EditEvent extends React.Component {
               confirmBtnText="Bevestig"
               cancelBtnText="Terug"
               onDateChange={(startTime) => {this.setState({startTime: startTime})}}
+              style={{width: '100%'}}
+              customStyles={{
+                dateInput: {
+                  borderColor: '#5A60FB'
+                }
+              }}
             />
+            <Text style={styles.text}>Einduur</Text>
             <DatePicker
               mode="time"
               date={endTime}
@@ -180,10 +250,12 @@ export default class EditEvent extends React.Component {
               confirmBtnText="Bevestig"
               cancelBtnText="Terug"
               onDateChange={(endTime) => {this.setState({endTime: endTime})}}
-            />
-            <Button
-              title="Bevestig"
-              onPress={this.handleSubmit}
+              style={{width: '100%'}}
+              customStyles={{
+                dateInput: {
+                  borderColor: '#5A60FB'
+                }
+              }}
             />
           </View>
         </View>
@@ -195,14 +267,37 @@ export default class EditEvent extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    height: "100%",
   },
   header: {
-    backgroundColor: '#0ff',
-    alignSelf: 'stretch',
-    paddingTop: 30
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 40,
+    paddingBottom: 10,
+  },
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+  },
+  comfirm: {
+    color: '#5A60FB',
+    fontSize: 12,
+  },
+  form: {
+    padding: 20,
+  },
+  description: {
+    textAlign: 'center',
+    paddingBottom: 20,
+  },
+  text: {
+    color: '#5A60FB',
+    fontSize: 16,
+    paddingTop: 20,
+    paddingBottom: 5,
   }
 });

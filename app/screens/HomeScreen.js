@@ -132,7 +132,7 @@ export default class HomeScreen extends React.Component {
             />
           </View>
 
-          <TouchableHighlight onPress={() => navigate('Transactions')}>
+          <TouchableHighlight onPress={() => navigate('Transactions')}  underlayColor="white">
             <Text style={styles.transactionbutton}>BEKIJK TRANSACTIES</Text>
           </TouchableHighlight>
 
@@ -249,7 +249,7 @@ export default class HomeScreen extends React.Component {
                 </TouchableHighlight>
               </View>
 
-              <TouchableHighlight onPress={() => navigate('Transactions')}>
+              <TouchableHighlight onPress={() => navigate('Transactions')}  underlayColor="white">
                 <Text style={styles.transactionbutton}>BEKIJK TRANSACTIES</Text>
               </TouchableHighlight>
 
@@ -313,7 +313,7 @@ export default class HomeScreen extends React.Component {
               </View>
               <Text>nog geen vrijwilligerswerk</Text>
 
-              <TouchableHighlight onPress={() => navigate('Transactions')}>
+              <TouchableHighlight onPress={() => navigate('Transactions')}  underlayColor="white">
                 <Text style={styles.transactionbutton}>BEKIJK TRANSACTIES</Text>
               </TouchableHighlight>
 
@@ -379,7 +379,7 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.errorText}>nog geen vrijwilligerswerk</Text>
 
             <TouchableHighlight onPress={() => navigate('Transactions')}>
-              <Text style={styles.transactionbutton}>BEKIJK TRANSACTIES</Text>
+              <Text style={styles.transactionbutton}  underlayColor="white">BEKIJK TRANSACTIES</Text>
             </TouchableHighlight>
 
             <View style={styles.buttons}>

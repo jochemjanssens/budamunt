@@ -100,6 +100,10 @@ export default class Onboarding extends React.Component {
             <TouchableHighlight onPress={this.skipOnboarding}>
               <Text style={styles.smallButton}>OVERSLAAN</Text>
             </TouchableHighlight>
+            <Image
+              source={require('../assets/onboarding/bottomItem.png')}
+              style={styles.bottomItem}
+            />
           </View>
         );
       } else if(page === 2){
@@ -136,6 +140,10 @@ export default class Onboarding extends React.Component {
             <TouchableHighlight onPress={this.skipOnboarding}>
               <Text style={styles.smallButton}>OVERSLAAN</Text>
             </TouchableHighlight>
+            <Image
+              source={require('../assets/onboarding/bottomItem.png')}
+              style={styles.bottomItem}
+            />
           </View>
         );
       } else if(page === 3){
@@ -172,6 +180,10 @@ export default class Onboarding extends React.Component {
             <TouchableHighlight onPress={this.skipOnboarding}>
               <Text style={styles.smallButton}>OVERSLAAN</Text>
             </TouchableHighlight>
+            <Image
+              source={require('../assets/onboarding/bottomItem.png')}
+              style={styles.bottomItem}
+            />
           </View>
         );
       } else if(page === 4){
@@ -208,6 +220,10 @@ export default class Onboarding extends React.Component {
             <TouchableHighlight onPress={this.skipOnboarding}>
               <Text style={styles.smallButton}>OVERSLAAN</Text>
             </TouchableHighlight>
+            <Image
+              source={require('../assets/onboarding/bottomItem.png')}
+              style={styles.bottomItem}
+            />
           </View>
         );
       } else {
@@ -250,4 +266,11 @@ const styles = StyleSheet.create({
   smallButton: {
     textAlign: 'center',
   },
+  bottomItem: {
+    width: 67,
+    height: 66,
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+  }
 });

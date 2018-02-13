@@ -68,7 +68,7 @@ export default class MessagesScreen extends React.Component {
                       }}
                     />
                   </TouchableHighlight>
-                  <Text style={styles.maintitle}>TRANSACTIES</Text>
+                  <Text style={styles.maintitle}>BERICHTEN</Text>
                 </View>
                 <Image
                   source={require('../assets/home/bigBorder.png')}
@@ -120,7 +120,7 @@ export default class MessagesScreen extends React.Component {
                       }}
                     />
                   </TouchableHighlight>
-                  <Text style={styles.maintitle}>TRANSACTIES</Text>
+                  <Text style={styles.maintitle}>BERICHTEN</Text>
                 </View>
                 <Image
                   source={require('../assets/home/bigBorder.png')}
@@ -130,7 +130,7 @@ export default class MessagesScreen extends React.Component {
                   }}
                 />
               </View>
-              <Text>Nog geen berichten</Text>
+              <Text style={styles.noberichten}>Nog geen berichten</Text>
               <Navbar navigate={this.props.navigation}/>
             </View>
           );
@@ -152,7 +152,7 @@ export default class MessagesScreen extends React.Component {
                     }}
                   />
                 </TouchableHighlight>
-                <Text style={styles.maintitle}>TRANSACTIES</Text>
+                <Text style={styles.maintitle}>BERICHTEN</Text>
               </View>
               <Image
                 source={require('../assets/home/bigBorder.png')}
@@ -162,7 +162,7 @@ export default class MessagesScreen extends React.Component {
                 }}
               />
             </View>
-            <Text>Nog geen berichten</Text>
+            <Text style={styles.noberichten}>Nog geen berichten</Text>
             <Navbar navigate={this.props.navigation}/>
           </View>
         );
@@ -252,5 +252,11 @@ const styles = StyleSheet.create({
     height: 23,
     alignSelf: 'center',
     marginRight: 5,
+  },
+  noberichten: {
+    textAlign: 'center',
+    paddingTop: 200,
+    fontSize: 20,
+    color: "#5A60FB",
   }
 });

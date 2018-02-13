@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight } from 'react-native';
 
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
@@ -129,17 +129,48 @@ export default class EditVolunteer extends React.Component {
     if(progress === 1){
       return (
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>AANVRAAG WIJZIGEN</Text>
+              <TouchableHighlight
+                onPress={this.handleVolgende}
+              >
+                <Text style={styles.comfirm}>VOLGENDE</Text>
+              </TouchableHighlight>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
             />
-            <Text>Aanvraag Wijzigen</Text>
           </View>
           <View style={styles.form}>
-            <Text>1/2</Text>
-            <Text>
+
+              <Image
+                source={require('../assets/register/progress.png')}
+                style={{
+                  width: 79,
+                  height: 28,
+                  alignSelf: 'center',
+                  marginBottom: 20,
+                  marginTop: 10,
+                }}
+              />
+            <Text style={styles.description}>
               Om een vrijwilliger aan te vragen moet je snel even dit form invullen
               na het invullen wordt jouw aanvraag geplaatst
               en kunnen andere mensen erop reageren.
@@ -150,26 +181,54 @@ export default class EditVolunteer extends React.Component {
                value={this.value}
                onChange={this.onChange}
              />
-            <Button
-              title="Volgende"
-              onPress={this.handleVolgende}
-            />
           </View>
         </View>
       );
     } else {
       return (
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>AANVRAAG WIJZIGEN</Text>
+              <TouchableHighlight
+                onPress={this.handleSubmit}
+              >
+                <Text style={styles.comfirm}>BEVESTIG</Text>
+              </TouchableHighlight>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
             />
-            <Text>Event Aanmaken</Text>
           </View>
           <View style={styles.form}>
-            <Text>2/2</Text>
+            <Image
+              source={require('../assets/register/progress2.png')}
+              style={{
+                width: 79,
+                height: 28,
+                alignSelf: 'center',
+                marginBottom: 20,
+                marginTop: 10,
+              }}
+            />
+
+            <Text style={styles.text}>Datum</Text>
             <DatePicker
               mode="date"
               date={date}
@@ -179,7 +238,14 @@ export default class EditVolunteer extends React.Component {
               confirmBtnText="Bevestig"
               cancelBtnText="Terug"
               onDateChange={(date) => {this.setState({date: date})}}
+              style={{width: '100%'}}
+              customStyles={{
+                dateInput: {
+                  borderColor: '#5A60FB'
+                }
+              }}
             />
+            <Text style={styles.text}>Startuur</Text>
             <DatePicker
               mode="time"
               date={startTime}
@@ -188,7 +254,14 @@ export default class EditVolunteer extends React.Component {
               confirmBtnText="Bevestig"
               cancelBtnText="Terug"
               onDateChange={(startTime) => {this.setState({startTime: startTime})}}
+              style={{width: '100%'}}
+              customStyles={{
+                dateInput: {
+                  borderColor: '#5A60FB'
+                }
+              }}
             />
+            <Text style={styles.text}>Einduur</Text>
             <DatePicker
               mode="time"
               date={endTime}
@@ -198,10 +271,12 @@ export default class EditVolunteer extends React.Component {
               confirmBtnText="Bevestig"
               cancelBtnText="Terug"
               onDateChange={(endTime) => {this.setState({endTime: endTime})}}
-            />
-            <Button
-              title="Bevestig"
-              onPress={this.handleSubmit}
+              style={{width: '100%'}}
+              customStyles={{
+                dateInput: {
+                  borderColor: '#5A60FB'
+                }
+              }}
             />
           </View>
         </View>
@@ -213,14 +288,30 @@ export default class EditVolunteer extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    height: "100%",
+  },
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
   },
   header: {
-    backgroundColor: '#0ff',
-    alignSelf: 'stretch',
-    paddingTop: 30
-  }
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingTop: 50,
+    paddingBottom: 10,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 52,
+    left: 30,
+  },
+  description: {
+    textAlign: 'center',
+    paddingBottom: 20,
+  },
 });

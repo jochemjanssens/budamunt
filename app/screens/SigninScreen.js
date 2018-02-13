@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, AsyncStorage, TouchableHighlight } from 'react-native';
 
 import Navbar from './Navbar';
 
@@ -71,22 +71,58 @@ export default class SigninScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Button
-          onPress={() => this.props.navigation.goBack()}
-          title="Terug"
-          color="#841584"
-        />
-        <Text>VRIJWILLIGERS</Text>
-        <Text>INSCHRIJVING VOLTOOID</Text>
-        <Text>
-          Bedankt voor je registratie.
-          De verantwoordelijk zal zo snel mogelijk
-          contact met je opnemen
-        </Text>
-        <Button
-          title='Terug naar Home'
-          onPress={() => navigate('Home')}
-        />
+        <View>
+          <View style={styles.header}>
+            <TouchableHighlight
+              onPress={() => this.props.navigation.goBack()}
+              style={styles.backButton}
+            >
+              <Image
+                source={require('../assets/general/back.png')}
+                style={{
+                  width: 15,
+                  height: 23,
+                }}
+              />
+            </TouchableHighlight>
+            <Text style={styles.maintitle}>VRIJWILLIGERS</Text>
+          </View>
+          <Image
+            source={require('../assets/home/bigBorder.png')}
+            style={{
+              width: '100%',
+              height: 12,
+            }}
+          />
+        </View>
+        <View style={styles.content}>
+          <Image
+            source={require('../assets/pay/succes.png')}
+            style={{
+              width: 143,
+              height: 108,
+              alignSelf: 'center',
+              marginVertical: 20,
+            }}
+          />
+          <Image
+            source={require('../assets/register/aanvraagTitle.png')}
+            style={{
+              width: 228,
+              height: 43,
+              marginVertical: 20,
+              alignSelf: 'center',
+            }}
+          />
+          <Text style={styles.text}>
+            Bedankt voor je registratie.
+            De verantwoordelijk zal zo snel mogelijk
+            contact met je opnemen
+          </Text>
+          <TouchableHighlight onPress={() => navigate('Home')}>
+            <Text style={styles.button}>TERUG NAAR HOME</Text>
+          </TouchableHighlight>
+        </View>
 
         <Navbar navigate={this.props.navigation}/>
       </View>
@@ -96,9 +132,43 @@ export default class SigninScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
   },
+  maintitle: {
+    color: '#5A60FB',
+    fontWeight: '700',
+    fontSize: 20,
+  },
+  header: {
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingTop: 50,
+    paddingBottom: 10,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 52,
+    left: 30,
+  },
+  text: {
+    textAlign: 'center',
+  },
+  button: {
+    color: 'white',
+    backgroundColor: '#5A60FB',
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    marginTop: 50,
+    textAlign: 'center',
+    alignSelf: 'center',
+  },
+  content: {
+    padding: 20,
+  }
 });

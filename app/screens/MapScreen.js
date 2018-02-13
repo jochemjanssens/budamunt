@@ -61,8 +61,6 @@ export default class MapScreen extends React.Component {
      }
   };
 
-
-
   render() {
     const { navigate } = this.props.navigation;
     const { stores, previewCount } = this.state;
@@ -126,6 +124,30 @@ export default class MapScreen extends React.Component {
     if(storesArray.length !== 0 && nearbyStores.length !== 0){
       return (
         <View style={styles.container}>
+          <View>
+            <View style={styles.header}>
+              <TouchableHighlight
+                onPress={() => this.props.navigation.goBack()}
+                style={styles.backButton}
+              >
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>KAART</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
+            />
+          </View>
           <View style={styles.header}>
             <View style={styles.headerflex}>
               <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
@@ -210,13 +232,27 @@ export default class MapScreen extends React.Component {
     } else {
       return (
         <View style={styles.container}>
+
           <View style={styles.header}>
-            <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Terug"
-              color="#841584"
+            <View style={styles.headerflex}>
+              <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
+                <Image
+                  source={require('../assets/general/back.png')}
+                  style={{
+                    width: 15,
+                    height: 23,
+                  }}
+                />
+              </TouchableHighlight>
+              <Text style={styles.maintitle}>KAART</Text>
+            </View>
+            <Image
+              source={require('../assets/home/bigBorder.png')}
+              style={{
+                width: '100%',
+                height: 12,
+              }}
             />
-            <Text>KAART</Text>
           </View>
           <MapView
             style={styles.map}
