@@ -66,6 +66,7 @@ export default class QRScreen extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}
@@ -99,7 +100,7 @@ export default class QRScreen extends React.Component {
               <Text style={styles.text}>De betaling is voltooid</Text>
             </View>
 
-            <TouchableHighlight onPress={() => navigate('Home')}>
+            <TouchableHighlight underlayColor="white" onPress={() => navigate('Home')}>
               <Text style={styles.button}>NAAR HOME</Text>
             </TouchableHighlight>
           </View>
@@ -113,6 +114,7 @@ export default class QRScreen extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}

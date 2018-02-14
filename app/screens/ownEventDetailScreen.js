@@ -39,6 +39,7 @@ export default class ownEventDetailScreen extends React.Component {
             <TouchableHighlight
               onPress={() => this.props.navigation.goBack()}
               style={styles.backButton}
+              underlayColor="white"
             >
               <Image
                 source={require('../assets/general/back.png')}
@@ -99,12 +100,14 @@ export default class ownEventDetailScreen extends React.Component {
           <View style={styles.buttons}>
             <TouchableHighlight
               onPress={this.changeEvent}
+              underlayColor="white"
             >
               <Text style={styles.button}>WIJZIG EVENT</Text>
             </TouchableHighlight>
 
             <TouchableHighlight
               onPress={this.deleteEvent}
+              underlayColor="white"
             >
               <Text style={styles.button}>VERWIJDER EVENT</Text>
             </TouchableHighlight>

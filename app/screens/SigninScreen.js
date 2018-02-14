@@ -76,6 +76,7 @@ export default class SigninScreen extends React.Component {
             <TouchableHighlight
               onPress={() => this.props.navigation.goBack()}
               style={styles.backButton}
+              underlayColor="white"
             >
               <Image
                 source={require('../assets/general/back.png')}
@@ -119,7 +120,7 @@ export default class SigninScreen extends React.Component {
             De verantwoordelijk zal zo snel mogelijk
             contact met je opnemen
           </Text>
-          <TouchableHighlight onPress={() => navigate('Home')}>
+          <TouchableHighlight underlayColor="white" onPress={() => navigate('Home')}>
             <Text style={styles.button}>TERUG NAAR HOME</Text>
           </TouchableHighlight>
         </View>

@@ -134,6 +134,7 @@ export default class EditVolunteer extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}
@@ -146,6 +147,7 @@ export default class EditVolunteer extends React.Component {
               <Text style={styles.maintitle}>AANVRAAG WIJZIGEN</Text>
               <TouchableHighlight
                 onPress={this.handleVolgende}
+                underlayColor="white"
               >
                 <Text style={styles.comfirm}>VOLGENDE</Text>
               </TouchableHighlight>
@@ -192,6 +194,7 @@ export default class EditVolunteer extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}
@@ -204,6 +207,7 @@ export default class EditVolunteer extends React.Component {
               <Text style={styles.maintitle}>AANVRAAG WIJZIGEN</Text>
               <TouchableHighlight
                 onPress={this.handleSubmit}
+                underlayColor="white"
               >
                 <Text style={styles.comfirm}>BEVESTIG</Text>
               </TouchableHighlight>

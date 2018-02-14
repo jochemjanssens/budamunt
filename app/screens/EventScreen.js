@@ -116,6 +116,7 @@ export default class EventScreen extends React.Component {
                 <TouchableHighlight
                   onPress={() => this.props.navigation.goBack()}
                   style={styles.backButton}
+                  underlayColor="white"
                 >
                   <Image
                     source={require('../assets/general/back.png')}
@@ -128,6 +129,7 @@ export default class EventScreen extends React.Component {
                 <Text style={styles.maintitle}>EVENTS</Text>
                 <TouchableHighlight
                   onPress={() => navigate('newEvent')}
+                  underlayColor="white"
                 >
                   <Text style={styles.comfirm}>+</Text>
                 </TouchableHighlight>
@@ -148,6 +150,7 @@ export default class EventScreen extends React.Component {
                   return(
                     <View key={event._id}>
                       <TouchableHighlight
+                        underlayColor="white"
                         onPress={() => navigate(`${(user.email === event.user) ? 'ownEventDetail' : "EventDetail"}`, { ...event })}
                       >
                         <View style={styles.item}>
@@ -223,6 +226,7 @@ export default class EventScreen extends React.Component {
             <TouchableHighlight
               onPress={() => this.props.navigation.goBack()}
               style={styles.backButton}
+              underlayColor="white"
             >
               <Image
                 source={require('../assets/general/back.png')}
@@ -235,6 +239,7 @@ export default class EventScreen extends React.Component {
             <Text style={styles.maintitle}>EVENTS</Text>
             <TouchableHighlight
               onPress={() => navigate('newEvent')}
+              underlayColor="white"
             >
               <Text style={styles.comfirm}>+</Text>
             </TouchableHighlight>

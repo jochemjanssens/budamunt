@@ -90,7 +90,7 @@ export default class CommunityDetailScreen extends React.Component {
         <View style={styles.container}>
           <View>
             <View style={styles.header3}>
-              <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
+              <TouchableHighlight underlayColor="white" onPress={() => this.props.navigation.goBack()}>
                 <Image
                   source={require('../assets/general/back.png')}
                   style={{
@@ -100,7 +100,7 @@ export default class CommunityDetailScreen extends React.Component {
                 />
               </TouchableHighlight>
               <Text style={styles.maintitle}>STEMMING</Text>
-              <TouchableHighlight onPress={this.handleSubmit}>
+              <TouchableHighlight onPress={this.handleSubmit} underlayColor="white">
                 <Text style={styles.submitButton}>BEVESTIG</Text>
               </TouchableHighlight>
             </View>
@@ -143,6 +143,7 @@ export default class CommunityDetailScreen extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}
@@ -177,12 +178,14 @@ export default class CommunityDetailScreen extends React.Component {
             <View style={styles.buttons}>
               <TouchableHighlight
                 onPress={this.handleJa}
+                underlayColor="white"
               >
                 <Text style={styles.button}>JA</Text>
               </TouchableHighlight>
 
               <TouchableHighlight
                 onPress={this.handleNee}
+                underlayColor="white"
               >
                 <Text style={styles.button}>NEE</Text>
               </TouchableHighlight>

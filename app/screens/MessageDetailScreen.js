@@ -116,6 +116,7 @@ export default class MessageDetailScreen extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}
@@ -154,6 +155,7 @@ export default class MessageDetailScreen extends React.Component {
                  style={styles.form}
                />
                <TouchableHighlight
+                 underlayColor="white"
                  onPress={() => this.handleSubmit(ownMessages[0])}
                >
                  <Text style={styles.button}>Stuur je bericht</Text>
@@ -173,6 +175,7 @@ export default class MessageDetailScreen extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}
@@ -203,6 +206,7 @@ export default class MessageDetailScreen extends React.Component {
                />
                <TouchableHighlight
                  onPress={() => this.handleSubmit(ownMessages[0])}
+                 underlayColor="white"
                >
                  <Text style={styles.button}>Stuur je bericht</Text>
                </TouchableHighlight>

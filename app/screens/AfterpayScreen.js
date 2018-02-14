@@ -34,7 +34,7 @@ export default class AfterpayScreen extends React.Component {
             <Text style={styles.text}>De betaling is voltooid</Text>
           </View>
 
-          <TouchableHighlight onPress={() => navigate('Home')}>
+          <TouchableHighlight onPress={() => navigate('Home')} underlayColor="white">
             <Text style={styles.button}>NAAR HOME</Text>
           </TouchableHighlight>
         </View>

@@ -23,7 +23,7 @@ export default class Errorscreen extends React.Component {
         <View style={styles.content}>
           <Text style={styles.maintext}>NIET GENOEG MUNTEN</Text>
 
-          <TouchableHighlight onPress={() => navigate('Home')}>
+          <TouchableHighlight underlayColor="white" onPress={() => navigate('Home')}>
             <Text style={styles.button}>NAAR HOME</Text>
           </TouchableHighlight>
         </View>

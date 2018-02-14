@@ -103,6 +103,7 @@ export default class PayScreen extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}

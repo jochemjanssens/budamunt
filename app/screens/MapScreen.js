@@ -129,6 +129,7 @@ export default class MapScreen extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}
@@ -150,7 +151,7 @@ export default class MapScreen extends React.Component {
           </View>
           <View style={styles.header}>
             <View style={styles.headerflex}>
-              <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
+              <TouchableHighlight onPress={() => this.props.navigation.goBack()} underlayColor="white">
                 <Image
                   source={require('../assets/general/back.png')}
                   style={{
@@ -194,7 +195,7 @@ export default class MapScreen extends React.Component {
 
           <Text style={styles.paragraph}>{text}</Text>
           <View style={styles.bottom}>
-            <TouchableHighlight onPress={this.showMore} style={styles.showmore}>
+            <TouchableHighlight onPress={this.showMore} style={styles.showmore} underlayColor="white">
               <Image
                 source={(previewCount < 5 ) ? require('../assets/map/showmore.png') : require('../assets/map/showless.png')}
                 style={{
@@ -209,7 +210,7 @@ export default class MapScreen extends React.Component {
                   key={store._id}
                   style={styles.listItem}
                 >
-                  <TouchableHighlight onPress={() => {navigate(`MapDetail`, { ...store })}}>
+                  <TouchableHighlight underlayColor="white" onPress={() => {navigate(`MapDetail`, { ...store })}}>
                     <Text
                       style={styles.bold}
                     >
@@ -235,7 +236,7 @@ export default class MapScreen extends React.Component {
 
           <View style={styles.header}>
             <View style={styles.headerflex}>
-              <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
+              <TouchableHighlight onPress={() => this.props.navigation.goBack()} underlayColor="white">
                 <Image
                   source={require('../assets/general/back.png')}
                   style={{
@@ -305,12 +306,13 @@ const styles = StyleSheet.create({
   },
   bottom: {
     width: '100%',
+    paddingBottom: 49,
   },
   list: {
     backgroundColor: '#fff',
   },
   listItem: {
-    padding: 8,
+    padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 50,
@@ -329,5 +331,6 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: '700',
+    fontSize: 16,
   }
 });

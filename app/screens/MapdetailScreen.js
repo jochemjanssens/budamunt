@@ -15,6 +15,7 @@ export default class MapdetailScreen extends React.Component {
           <TouchableHighlight
             onPress={() => this.props.navigation.goBack()}
             style={styles.backButton}
+            underlayColor="white"
           >
             <Image
               source={require('../assets/general/back.png')}
@@ -36,25 +37,69 @@ export default class MapdetailScreen extends React.Component {
 
         <View style={styles.topItem}>
           <View style={styles.openingsuren}>
-            <Text style={styles.text}>MA: 14:00 - 18:00</Text>
-            <Text style={styles.text}>DI: 12:00 - 18:00</Text>
-            <Text style={styles.text}>WO: 09:00 - 18:00</Text>
-            <Text style={styles.boldtext}>DO: 14:00 - 18:00</Text>
-            <Text style={styles.text}>VR: 10:00 - 18:00</Text>
-            <Text style={styles.text}>ZA: gesloten</Text>
-            <Text style={styles.text}>Z0: 10:00 - 12:00</Text>
+            <Image
+              source={require('../assets/map/openingsuren.png')}
+              style={{
+                width: 136,
+                height: 25,
+                marginBottom: 12,
+              }}
+            />
+            <View style={styles.openingsurenelement}>
+              <Text style={styles.text}>MA:</Text>
+              <Text style={styles.text}>14:00 - 18:00</Text>
+            </View>
+            <View style={styles.openingsurenelement}>
+              <Text style={styles.text}>DI:</Text>
+              <Text style={styles.text}>12:00 - 18:00</Text>
+            </View>
+
+            <View style={styles.openingsurenelement}>
+              <Text style={styles.text}>WO:</Text>
+              <Text style={styles.text}>09:00 - 18:00</Text>
+            </View>
+
+            <View style={styles.openingsurenelement}>
+              <Text style={styles.boldtext}>DO:</Text>
+              <Text style={styles.boldtext}>14:00 - 18:00</Text>
+            </View>
+
+            <View style={styles.openingsurenelement}>
+              <Text style={styles.text}>VR:</Text>
+              <Text style={styles.text}>10:00 - 18:00</Text>
+            </View>
+
+            <View style={styles.openingsurenelement}>
+              <Text style={styles.text}>ZA:</Text>
+              <Text style={styles.text}>gesloten</Text>
+            </View>
+
+            <View style={styles.openingsurenelement}>
+              <Text style={styles.text}>Z0:</Text>
+              <Text style={styles.text}>10:00 - 12:00</Text>
+            </View>
           </View>
 
           <View style={styles.contact}>
-            <Text style={styles.text}>{params.street}</Text>
-            <Text style={styles.text}>8500 {params.city}</Text>
-            <Text style={styles.boldtext}>056 / 31 62 33</Text>
+            <Image
+              source={require('../assets/map/adres.png')}
+              style={{
+                width: 71,
+                height: 24,
+                marginBottom: 12,
+              }}
+            />
+            <View style={styles.contacttext}>
+              <Text style={styles.text}>{params.street}</Text>
+              <Text style={styles.text}>8500 {params.city}</Text>
+              <Text style={styles.boldtext}>056 / 31 62 33</Text>
+            </View>
           </View>
         </View>
 
         <View style={styles.acties}>
           <Image
-            source={require('../assets/map/actiesTitle.png')}
+            source={require('../assets/map/acties.png')}
             style={{
               width: 83,
               height: 24,
@@ -62,8 +107,10 @@ export default class MapdetailScreen extends React.Component {
               marginBottom: 12,
             }}
           />
-          <Text style={styles.text}>5 Carpels - 10% korting</Text>
-          <Text style={styles.text}>25 Carpels - 1 + 1 Gratis</Text>
+          <View style={styles.contacttext}>
+            <Text style={styles.text}>5 Carpels - 10% korting</Text>
+            <Text style={styles.text}>25 Carpels - 1 + 1 Gratis</Text>
+          </View>
         </View>
       </View>
     );
@@ -99,10 +146,16 @@ const styles = StyleSheet.create({
   topItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 30,
+    padding: 40,
+  },
+  openingsurenelement:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: 150,
+    paddingLeft: 10,
   },
   acties: {
-    padding: 30,
+    padding: 40,
   },
   text: {
     color: '#5A60FB',
@@ -113,4 +166,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
   },
+  contact:{
+    paddingRight: 10,
+  },
+  contacttext: {
+    paddingLeft: 10,
+  }
 });

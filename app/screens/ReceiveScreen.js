@@ -57,6 +57,7 @@ export default class ReceiveScreen extends React.Component {
             <TouchableHighlight
               onPress={() => this.props.navigation.goBack()}
               style={styles.backButton}
+              underlayColor="white"
             >
               <Image
                 source={require('../assets/general/back.png')}
@@ -130,7 +131,7 @@ export default class ReceiveScreen extends React.Component {
                />
              </TouchableHighlight>
           </View>
-          <TouchableHighlight onPress={this.handleClick}>
+          <TouchableHighlight onPress={this.handleClick} underlayColor="white"> 
             <Text style={styles.button}>BEVESTIG</Text>
           </TouchableHighlight>
         </View>

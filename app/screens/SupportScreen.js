@@ -46,7 +46,7 @@ export default class SupportScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableHighlight onPress={() => this.props.navigation.goBack()}>
+          <TouchableHighlight underlayColor="white" onPress={() => this.props.navigation.goBack()}>
             <Image
               source={require('../assets/general/back.png')}
               style={{
@@ -56,7 +56,7 @@ export default class SupportScreen extends React.Component {
             />
           </TouchableHighlight>
           <Text style={styles.maintitle}>ONDERSTEUNING</Text>
-          <TouchableHighlight onPress={this.handleSubmit}>
+          <TouchableHighlight underlayColor="white" onPress={this.handleSubmit}>
             <Text style={styles.submitButton}>BEVESTIG</Text>
           </TouchableHighlight>
         </View>

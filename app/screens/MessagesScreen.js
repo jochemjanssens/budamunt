@@ -59,6 +59,7 @@ export default class MessagesScreen extends React.Component {
                   <TouchableHighlight
                     onPress={() => this.props.navigation.goBack()}
                     style={styles.backButton}
+                    underlayColor="white"
                   >
                     <Image
                       source={require('../assets/general/back.png')}
@@ -83,7 +84,7 @@ export default class MessagesScreen extends React.Component {
                 messagesArray.map(
                   message => {
                     return(
-                      <TouchableHighlight key={message.content._id} style={styles.message} onPress={() => navigate(`MessageDetail`, { ...message })}>
+                      <TouchableHighlight underlayColor="white" key={message.content._id} style={styles.message} onPress={() => navigate(`MessageDetail`, { ...message })}>
                         <View style={styles.messageelement}>
                           <View style={styles.textelement}>
                             <Text style={styles.person}>{(message.type === 'receive') ? `${message.content.sendId.toUpperCase()}` : `${message.content.receiveId.toUpperCase()}`} </Text>
@@ -111,6 +112,7 @@ export default class MessagesScreen extends React.Component {
                   <TouchableHighlight
                     onPress={() => this.props.navigation.goBack()}
                     style={styles.backButton}
+                    underlayColor="white"
                   >
                     <Image
                       source={require('../assets/general/back.png')}
@@ -143,6 +145,7 @@ export default class MessagesScreen extends React.Component {
                 <TouchableHighlight
                   onPress={() => this.props.navigation.goBack()}
                   style={styles.backButton}
+                  underlayColor="white"
                 >
                   <Image
                     source={require('../assets/general/back.png')}
@@ -175,6 +178,7 @@ export default class MessagesScreen extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}

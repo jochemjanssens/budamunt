@@ -67,6 +67,7 @@ export default class CommunityScreen extends React.Component {
                 <TouchableHighlight
                   onPress={() => this.props.navigation.goBack()}
                   style={styles.backButton}
+                  underlayColor="white"
                 >
                   <Image
                     source={require('../assets/general/back.png')}
@@ -89,7 +90,7 @@ export default class CommunityScreen extends React.Component {
             <View style={styles.stemming}>
               <Text style={styles.title}>COMMUNITYSTEMMING</Text>
               <Text style={styles.text}>{question.name}: {question.description}</Text>
-              <TouchableHighlight onPress={() => navigate('CommunityDetail', { ...question })}>
+              <TouchableHighlight underlayColor="white" onPress={() => navigate('CommunityDetail', { ...question })}>
                 <Text style={styles.button}>BEVESTIG</Text>
               </TouchableHighlight>
             </View>
@@ -124,6 +125,7 @@ export default class CommunityScreen extends React.Component {
                 <TouchableHighlight
                   onPress={() => this.props.navigation.goBack()}
                   style={styles.backButton}
+                  underlayColor="white"
                 >
                   <Image
                     source={require('../assets/general/back.png')}
@@ -221,12 +223,14 @@ const styles = StyleSheet.create({
   stemming: {
     borderWidth: 1,
     borderColor: '#5A60FB',
+    backgroundColor: '#FFF',
     marginHorizontal: 20,
     marginVertical: 30,
-    padding: 10,
+    padding: 14,
   },
   text: {
     textAlign: 'center',
+    marginVertical: 10,
   },
   kunstenaar: {
     borderWidth: 1,
@@ -234,16 +238,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   description: {
-    paddingTop: 5,
+    paddingTop: 10,
     paddingBottom: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
   },
   bg: {
-    width: '96%',
-    height: 200,
+    width: 351,
+    height: 217,
     position: 'absolute',
-    left: 1,
-    top: 120,
+    left: 5,
+    top: 110,
     zIndex: -2,
   }
 });

@@ -40,6 +40,7 @@ export default class ownVolunteerDetailScreen extends React.Component {
             <TouchableHighlight
               onPress={() => this.props.navigation.goBack()}
               style={styles.backButton}
+              underlayColor="white"
             >
               <Image
                 source={require('../assets/general/back.png')}
@@ -103,10 +104,10 @@ export default class ownVolunteerDetailScreen extends React.Component {
 
           <Text>Je krijgt hier {params.munten} Carpels voor</Text>
           <View style={styles.volunteerButtons}>
-            <TouchableHighlight onPress={this.changeVolunteer}>
+            <TouchableHighlight onPress={this.changeVolunteer} underlayColor="white">
               <Text style={styles.button}>WIJZIG VRIJWILLIGERSWERK</Text>
             </TouchableHighlight>
-            <TouchableHighlight onPress={this.deleteVolunteer}>
+            <TouchableHighlight onPress={this.deleteVolunteer} underlayColor="white">
               <Text style={styles.button}>VERWIJDER VRIJWILLIGERSWERK</Text>
             </TouchableHighlight>
           </View>

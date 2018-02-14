@@ -15,6 +15,7 @@ import LoggedIn from './LoggedIn';
 import LoggedInHandelaar from './LoggedInHandelaar';
 import LoggedinOrganisation from './LoggedinOrganisation';
 
+console.disableYellowBox = true;
 
 export default class App extends React.Component {
   render() {

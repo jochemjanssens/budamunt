@@ -15,6 +15,7 @@ export default class EventDetailScreen extends React.Component {
             <TouchableHighlight
               onPress={() => this.props.navigation.goBack()}
               style={styles.backButton}
+              underlayColor="white"
             >
               <Image
                 source={require('../assets/general/back.png')}
@@ -24,7 +25,7 @@ export default class EventDetailScreen extends React.Component {
                 }}
               />
             </TouchableHighlight>
-            <Text style={styles.maintitle}>VRIJWILLIGERS</Text>
+            <Text style={styles.maintitle}>EVENEMENTEN</Text>
           </View>
           <Image
             source={require('../assets/home/bigBorder.png')}
@@ -38,13 +39,11 @@ export default class EventDetailScreen extends React.Component {
           <Image
             source={require('../assets/volunteer/event.jpg')}
             style={{
-              width: 300,
+              width: '100%',
               height: 150,
             }}
           />
-          <Text style={styles.title}>{params.name.toUpperCase()}</Text>
-          <Text>{params.description}</Text>
-
+          <Text style={styles.title}>{params.name.toUpperCase().substring(0,20)}</Text>
           <View style={styles.eventInfo}>
             <View style={styles.eventInfoSmall}>
               <Image
@@ -54,7 +53,7 @@ export default class EventDetailScreen extends React.Component {
                   height: 22,
                 }}
               />
-              <Text style={styles.eventInfoText}>{params.location}</Text>
+              <Text style={styles.eventInfoText}>{params.location.substring(0,20)}</Text>
             </View>
             <View style={styles.eventInfoSmall}>
               <Image
@@ -77,6 +76,7 @@ export default class EventDetailScreen extends React.Component {
               <Text style={styles.eventInfoText}>{params.date}</Text>
             </View>
           </View>
+          <Text>{params.description}</Text>
         </View>
 
         <Navbar navigate={this.props.navigation}/>
@@ -143,10 +143,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '80%',
-    paddingVertical: 20,
+    paddingVertical: 30,
   },
   eventInfoSmall: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   eventInfoText: {
     marginLeft: 4,

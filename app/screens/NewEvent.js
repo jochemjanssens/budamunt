@@ -107,6 +107,7 @@ export default class NewEvent extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}
@@ -119,6 +120,7 @@ export default class NewEvent extends React.Component {
               <Text style={styles.maintitle}>EVENT AANMAKEN</Text>
               <TouchableHighlight
                 onPress={this.handleVolgende}
+                underlayColor="white"
               >
                 <Text style={styles.comfirm}>VOLGENDE</Text>
               </TouchableHighlight>
@@ -165,6 +167,7 @@ export default class NewEvent extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}
@@ -177,6 +180,7 @@ export default class NewEvent extends React.Component {
               <Text style={styles.maintitle}>EVENT AANMAKEN</Text>
               <TouchableHighlight
                 onPress={this.handleSubmit}
+                underlayColor="white"
               >
                 <Text style={styles.comfirm}>PLAATS</Text>
               </TouchableHighlight>
@@ -276,6 +280,7 @@ const styles = StyleSheet.create({
     color: '#5A60FB',
     fontWeight: '700',
     fontSize: 20,
+
   },
   comfirm: {
     color: '#5A60FB',

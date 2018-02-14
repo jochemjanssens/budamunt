@@ -30,7 +30,6 @@ export default class Login extends React.Component {
     AsyncStorage.getItem("myToken").then((token) => {
       if(token){
         AsyncStorage.getItem("user").then((user) => {
-          console.log(user);
           if(JSON.parse(user).scope === 'HANDELAAR'){
             this.setState({ login: 'handelaar' });
           } else if (JSON.parse(user).scope === 'ORGANISATIE'){

@@ -69,6 +69,7 @@ export default class TransactionsScreen extends React.Component {
                 <TouchableHighlight
                   onPress={() => this.props.navigation.goBack()}
                   style={styles.backButton}
+                  underlayColor="white"
                 >
                   <Image
                     source={require('../assets/general/back.png')}
@@ -88,6 +89,7 @@ export default class TransactionsScreen extends React.Component {
                 }}
               />
             </View>
+            <View style={styles.content}>
             {
               ownTransactions.map(
                 transaction => (
@@ -100,15 +102,16 @@ export default class TransactionsScreen extends React.Component {
                     <Image
                       source={require('../assets/home/borderMid.png')}
                       style={{
-                        width: 317,
+                        width: 354,
                         height: 15,
-                        marginTop: 10,
+                        marginTop: 14,
                       }}
                     />
                   </View>
                 )
               )
             }
+            </View>
             <Navbar navigate={this.props.navigation}/>
           </View>
         );
@@ -120,6 +123,7 @@ export default class TransactionsScreen extends React.Component {
                 <TouchableHighlight
                   onPress={() => this.props.navigation.goBack()}
                   style={styles.backButton}
+                  underlayColor="white"
                 >
                   <Image
                     source={require('../assets/general/back.png')}
@@ -153,6 +157,7 @@ export default class TransactionsScreen extends React.Component {
               <TouchableHighlight
                 onPress={() => this.props.navigation.goBack()}
                 style={styles.backButton}
+                underlayColor="white"
               >
                 <Image
                   source={require('../assets/general/back.png')}
@@ -221,13 +226,17 @@ const styles = StyleSheet.create({
     color: "#5A60FB",
   },
   transaction: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: 30,
+    paddingTop: 10,
+    paddingBottom: 20,
   },
   notransactions: {
     textAlign: 'center',
     paddingTop: 200,
     fontSize: 20,
     color: "#5A60FB",
+  },
+  content: {
+    marginTop: 10,
   }
 });

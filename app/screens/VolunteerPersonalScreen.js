@@ -121,6 +121,7 @@ export default class VolunteerPersonalScreen extends React.Component {
                 <TouchableHighlight
                   onPress={() => this.props.navigation.goBack()}
                   style={styles.backButton}
+                  underlayColor="white"
                 >
                   <Image
                     source={require('../assets/general/back.png')}
@@ -133,6 +134,7 @@ export default class VolunteerPersonalScreen extends React.Component {
                 <Text style={styles.maintitle}>VRIJWILLIGERS</Text>
                 <TouchableHighlight
                   onPress={() => navigate('Messages')}
+                  underlayColor="white"
                 >
                   <Image
                     source={require('../assets/volunteer/messages.png')}
@@ -146,11 +148,13 @@ export default class VolunteerPersonalScreen extends React.Component {
               <View style={styles.buttons}>
                 <TouchableHighlight
                   onPress={() => navigate('Vrijwilligerswerk')}
+                  underlayColor="white"
                 >
                   <Text style={styles.smallButton}>ORGANISATORISCH AANBOD</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => navigate('newVolunteer')}
+                  underlayColor="white"
                 >
                   <Text style={styles.smallButton}>DOE EEN AANVRAAG</Text>
                 </TouchableHighlight>
@@ -190,10 +194,10 @@ export default class VolunteerPersonalScreen extends React.Component {
 
                     return(
                       <View key={volunteer._id} >
-                        <TouchableHighlight style={styles.item} onPress={() => navigate(link, { ...volunteer })}>
+                        <TouchableHighlight underlayColor="white" style={styles.item} onPress={() => navigate(link, { ...volunteer })}>
                           <View style={(link === `ownVolunteerDetail`) ? styles.own : styles.other}>
                             <Text style={styles.itemtitle}>{volunteer.name}{`${(match === true) ? ' - INGESCHREVEN' : ""}`}</Text>
-                            <Text>{volunteer.description}</Text>
+                            <Text>{volunteer.description.substring(0,80)}</Text>
                             <View style={styles.volunteerInfo}>
                               <View style={styles.volunteerInfoSmall}>
                                 <Image
@@ -203,7 +207,7 @@ export default class VolunteerPersonalScreen extends React.Component {
                                     height: 22,
                                   }}
                                 />
-                                <Text style={styles.volunteerInfoText}>{volunteer.location}</Text>
+                                <Text style={styles.volunteerInfoText}>{volunteer.location.substring(0,11)}</Text>
                               </View>
                               <View style={styles.volunteerInfoSmall}>
                                 <Image
@@ -257,6 +261,7 @@ export default class VolunteerPersonalScreen extends React.Component {
                 <TouchableHighlight
                   onPress={() => this.props.navigation.goBack()}
                   style={styles.backButton}
+                  underlayColor="white"
                 >
                   <Image
                     source={require('../assets/general/back.png')}
@@ -269,6 +274,7 @@ export default class VolunteerPersonalScreen extends React.Component {
                 <Text style={styles.maintitle}>VRIJWILLIGERS</Text>
                 <TouchableHighlight
                   onPress={() => navigate('Messages')}
+                  underlayColor="white"
                 >
                   <Image
                     source={require('../assets/volunteer/messages.png')}
@@ -282,11 +288,13 @@ export default class VolunteerPersonalScreen extends React.Component {
               <View style={styles.buttons}>
                 <TouchableHighlight
                   onPress={() => navigate('Vrijwilligerswerk')}
+                  underlayColor="white"
                 >
                   <Text style={styles.smallButton}>ORGANISATORISCH AANBOD</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => navigate('newVolunteer')}
+                  underlayColor="white"
                 >
                   <Text style={styles.smallButton}>DOE EEN AANVRAAG</Text>
                 </TouchableHighlight>
@@ -313,6 +321,7 @@ export default class VolunteerPersonalScreen extends React.Component {
             <TouchableHighlight
               onPress={() => this.props.navigation.goBack()}
               style={styles.backButton}
+              underlayColor="white"
             >
               <Image
                 source={require('../assets/general/back.png')}
@@ -325,6 +334,7 @@ export default class VolunteerPersonalScreen extends React.Component {
             <Text style={styles.maintitle}>VRIJWILLIGERS</Text>
             <TouchableHighlight
               onPress={() => navigate('Messages')}
+              underlayColor="white"
             >
               <Image
                 source={require('../assets/volunteer/messages.png')}
@@ -338,11 +348,13 @@ export default class VolunteerPersonalScreen extends React.Component {
           <View style={styles.buttons}>
             <TouchableHighlight
               onPress={() => navigate('Vrijwilligerswerk')}
+              underlayColor="white"
             >
               <Text style={styles.smallButton}>ORGANISATORISCH AANBOD</Text>
             </TouchableHighlight>
             <TouchableHighlight
               onPress={() => navigate('newVolunteer')}
+              underlayColor="white"
             >
               <Text style={styles.smallButton}>DOE EEN AANVRAAG</Text>
             </TouchableHighlight>

@@ -15,6 +15,7 @@ export default class VolunteerDetailScreen extends React.Component {
             <TouchableHighlight
               onPress={() => this.props.navigation.goBack()}
               style={styles.backButton}
+              underlayColor="white"
             >
               <Image
                 source={require('../assets/general/back.png')}
@@ -78,6 +79,7 @@ export default class VolunteerDetailScreen extends React.Component {
 
           <TouchableHighlight
             onPress={() => navigate('Inschrijven', { ...params })}
+            underlayColor="white"
           >
             <Text style={styles.button}>INSCHRIJVEN</Text>
           </TouchableHighlight>
