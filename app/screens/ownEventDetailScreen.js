@@ -13,7 +13,7 @@ export default class ownEventDetailScreen extends React.Component {
       const headers = new Headers({
         Authorization: `Bearer ${token}`
       });
-      const url = 'http://192.168.1.40:3000/api/events/' + params._id;
+      const url = 'http://172.20.66.6:3000/api/events/' + params._id;
       fetch(url, {method, headers})
         .then(r => {
           this.props.navigation.goBack()
@@ -49,7 +49,7 @@ export default class ownEventDetailScreen extends React.Component {
                 }}
               />
             </TouchableHighlight>
-            <Text style={styles.maintitle}>VRIJWILLIGERS</Text>
+            <Text style={styles.maintitle}>EVENEMENT</Text>
           </View>
           <Image
             source={require('../assets/home/bigBorder.png')}

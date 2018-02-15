@@ -111,7 +111,7 @@ export default class RegisterHandel extends React.Component {
       body.append(`password`, value.paswoord);
       body.append(`scope`, 'HANDELAAR');
 
-      fetch('http://192.168.1.40:3000/api/users', {
+      fetch('http://172.20.66.6:3000/api/users', {
         method: 'POST',
         body: body
       })
@@ -121,7 +121,7 @@ export default class RegisterHandel extends React.Component {
         login.append(`password`, value.paswoord);
         login.append(`audience`, `tweets-frontend`);
 
-        fetch('http://192.168.1.40:3000/api/auth', {
+        fetch('http://172.20.66.6:3000/api/auth', {
           method: 'POST',
           body: login
         })
@@ -143,7 +143,7 @@ export default class RegisterHandel extends React.Component {
 
           console.log(shopData);
 
-          fetch('http://192.168.1.40:3000/api/stores', {
+          fetch('http://172.20.66.6:3000/api/stores', {
             method: 'POST',
             body: shopData,
             headers
@@ -153,7 +153,7 @@ export default class RegisterHandel extends React.Component {
             const balance = new FormData();
             balance.append(`userId`, JSON.parse(u._bodyText)._id);
             balance.append(`munten`, "0");
-            fetch('http://192.168.1.40:3000/api/balances', {
+            fetch('http://172.20.66.6:3000/api/balances', {
               method: 'POST',
               body: balance,
               headers

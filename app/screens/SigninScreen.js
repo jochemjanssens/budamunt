@@ -15,13 +15,13 @@ export default class SigninScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.40:3000/api/applications', {
+        fetch('http://172.20.66.6:3000/api/applications', {
             method: 'POST',
             body,
             headers
           })
           .then(r => {
-            fetch(`http://192.168.1.40:3000/api/messages`, {headers})
+            fetch(`http://172.20.66.6:3000/api/messages`, {headers})
             .then(r => {
               let match = false;
               const messages = JSON.parse(r._bodyText).messages;
@@ -47,7 +47,7 @@ export default class SigninScreen extends React.Component {
               }
 
 
-              fetch('http://192.168.1.40:3000/api/messages', {
+              fetch('http://172.20.66.6:3000/api/messages', {
                 method: 'POST',
                 body: message,
                 headers

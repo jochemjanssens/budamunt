@@ -25,7 +25,7 @@ export default class ChosenVolunteerDetailScreen extends React.Component {
                 }}
               />
             </TouchableHighlight>
-            <Text style={styles.maintitle}>TRANSACTIES</Text>
+            <Text style={styles.maintitle}>VRIJWILLIGERSWERK</Text>
           </View>
           <Image
             source={require('../assets/home/bigBorder.png')}

@@ -78,7 +78,7 @@ export default class NewEvent extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.40:3000/api/events', {
+        fetch('http://172.20.66.6:3000/api/events', {
             method: 'POST',
             body,
             headers

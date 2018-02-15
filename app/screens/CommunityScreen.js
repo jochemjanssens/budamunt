@@ -18,15 +18,15 @@ export default class CommunityScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.1.40:3000/api/artists`, {headers})
+          fetch(`http://172.20.66.6:3000/api/artists`, {headers})
           .then(r => {
             const artists = JSON.parse(r._bodyText).artists;
             this.setState({'artist': artists[artists.length-1]});
-            fetch(`http://192.168.1.40:3000/api/questions`, {headers})
+            fetch(`http://172.20.66.6:3000/api/questions`, {headers})
             .then(r => {
               const questions = JSON.parse(r._bodyText).questions;
               console.log(questions);
-              fetch(`http://192.168.1.40:3000/api/answers`, {headers})
+              fetch(`http://172.20.66.6:3000/api/answers`, {headers})
               .then(r => {
                 const answers = JSON.parse(r._bodyText).answers;
                 console.log(answers);
@@ -100,8 +100,8 @@ export default class CommunityScreen extends React.Component {
             />
             <View style={styles.kunstenaar}>
               <Image
-                 style={{width: '100%', height: 100}}
-                 source={{uri: artist.image}}
+                source={require('../assets/community/artist.png')}
+                style={{width: '100%', height: 100}}
               />
               <Text style={styles.titleBottom}>KUNSTENAAR VAN DE MAAND: {artist.name}</Text>
               <Text style={styles.description}>{artist.description}</Text>
@@ -151,8 +151,8 @@ export default class CommunityScreen extends React.Component {
             </View>
             <View style={styles.kunstenaar}>
               <Image
-                 style={{width: '100%', height: 120}}
-                 source={{uri: artist.image}}
+                source={require('../assets/community/artist.png')}
+                style={{width: '100%', height: 100}}
               />
               <Text style={styles.titleBottom}>KUNSTENAAR VAN DE MAAND: {artist.name}</Text>
               <Text style={styles.description}>{artist.description}</Text>
@@ -163,6 +163,7 @@ export default class CommunityScreen extends React.Component {
       } else {
         return (
           <View style={styles.container}>
+            <Text style={styles.maintitle}>NOG GEEN VRAGEN</Text>
             <Navbar navigate={this.props.navigation}/>
           </View>
         );

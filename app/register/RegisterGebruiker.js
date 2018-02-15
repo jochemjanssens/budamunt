@@ -56,7 +56,7 @@ export default class RegisterGebruiker extends React.Component {
       body.append(`email`, value.emailadres);
       body.append(`password`, value.paswoord);
       body.append(`scope`, 'USER');
-      fetch('http://192.168.1.40:3000/api/users', {
+      fetch('http://172.20.66.6:3000/api/users', {
         method: 'POST',
         body: body
       })
@@ -66,7 +66,7 @@ export default class RegisterGebruiker extends React.Component {
         login.append(`password`, value.paswoord);
         login.append(`audience`, `tweets-frontend`);
 
-        fetch('http://192.168.1.40:3000/api/auth', {
+        fetch('http://172.20.66.6:3000/api/auth', {
           method: 'POST',
           body: login
         })
@@ -82,13 +82,12 @@ export default class RegisterGebruiker extends React.Component {
             Authorization: `Bearer ${token}`
           });
 
-          fetch('http://192.168.1.40:3000/api/balances', {
+          fetch('http://172.20.66.6:3000/api/balances', {
             method: 'POST',
             body: balance,
             headers
           })
           .then(r => {
-            console.log(r);
             this.setState({ login: true });
           })
           .catch(

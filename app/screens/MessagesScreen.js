@@ -15,7 +15,7 @@ export default class MessagesScreen extends React.Component {
         Authorization: `Bearer ${token}`
       });
 
-      fetch(`http://192.168.1.40:3000/api/messages`, {headers})
+      fetch(`http://172.20.66.6:3000/api/messages`, {headers})
         .then(r => {
           this.setState({'messages': JSON.parse(r._bodyText).messages});
         })

@@ -30,11 +30,11 @@ export default class HomeScreen extends React.Component {
           const headers = new Headers({
             Authorization: `Bearer ${token}`
           });
-          fetch(`http://192.168.1.40:3000/api/me?isActive=true`, {headers})
+          fetch(`http://172.20.66.6:3000/api/me?isActive=true`, {headers})
             .then(user => {
               const userContent = user._bodyText;
               AsyncStorage.setItem("user", userContent);
-              fetch(`http://192.168.1.40:3000/api/balances?isActive=true`, {headers})
+              fetch(`http://172.20.66.6:3000/api/balances?isActive=true`, {headers})
                 .then(r => {
                   const balances = JSON.parse(r._bodyText).balances;
                   balances.forEach(balance => {
@@ -42,12 +42,11 @@ export default class HomeScreen extends React.Component {
                       this.setState({ munten: balance.munten});
                       AsyncStorage.setItem("muntenId", balance._id);
                       AsyncStorage.setItem("munten", balance.munten);
-                      fetch(`http://192.168.1.40:3000/api/volunteers?isActive=true`, {headers})
+                      fetch(`http://172.20.66.6:3000/api/volunteers?isActive=true`, {headers})
                         .then(r => {
                           this.setState({'volunteers': JSON.parse(r._bodyText).volunteers});
-                          fetch(`http://192.168.1.40:3000/api/stores?isActive=true`, {headers})
+                          fetch(`http://172.20.66.6:3000/api/stores?isActive=true`, {headers})
                             .then(r => {
-                              console.log(JSON.parse(r._bodyText).stores);
                               this.setState({'stores': JSON.parse(r._bodyText).stores});
                             })
                             .catch(err => console.error(err));
@@ -90,7 +89,7 @@ export default class HomeScreen extends React.Component {
       text = this.state.errorMessage;
     } else if (this.state.location) {
       let data = this.state.location.coords;
-      if(data.latitude > 50.829535 && data.latitude < 50.830430 && data.longitude > 3.26454 && data.longitude < 3.265707){
+      if(data.latitude > 50.829535 && data.latitude < 50.834446 && data.longitude > 3.259348 && data.longitude < 3.270361){
         currentLatitude = data.latitude;
         currentLongitude = data.longitude;
         onBuda = true;
@@ -150,7 +149,7 @@ export default class HomeScreen extends React.Component {
               style={styles.graphic}
             />
           </View>
-          <View style={styles.content}>
+          <ScrollView style={styles.content}>
 
             <View style={styles.cta}>
               <View style={styles.vrijwilligerswerktitel}>
@@ -167,8 +166,8 @@ export default class HomeScreen extends React.Component {
               </View>
 
               <View style={styles.item}>
-                <Text style={styles.volunteerTitle}>{nearbyStore}</Text>
-                <Text style={styles.volunteerText}>{nearbyAdres}</Text>
+                <Text style={styles.actionTitle}>{nearbyStore}</Text>
+                <Text style={styles.actionText}>Bij budascoop kan je genieten van een gratis popcorn bij aankoop van een ticket voor 6 budamunten.</Text>
               </View>
               <Image
                 source={require('../assets/home/borderMid.png')}
@@ -218,7 +217,10 @@ export default class HomeScreen extends React.Component {
                 style={styles.grid2}
               />
             </View>
-          </View>
+            <View style={{
+              height: 100,
+            }}></View>
+          </ScrollView>
 
           <Navbar navigate={this.props.navigation}/>
         </View>
@@ -688,6 +690,18 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   volunteerText: {
+    fontSize: 16,
+    paddingTop: 10,
+  },
+  actionTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#5A60FB',
+  },
+  actionText: {
+    paddingVertical: 10,
+  },
+  actions: {
     fontSize: 16,
     paddingTop: 10,
   }

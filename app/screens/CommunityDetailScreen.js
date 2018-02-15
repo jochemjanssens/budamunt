@@ -38,7 +38,7 @@ export default class CommunityDetailScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.40:3000/api/answers', {
+        fetch('http://172.20.66.6:3000/api/answers', {
             method: 'POST',
             body,
             headers
@@ -67,7 +67,7 @@ export default class CommunityDetailScreen extends React.Component {
           Authorization: `Bearer ${token}`
         });
 
-        fetch('http://192.168.1.40:3000/api/answers', {
+        fetch('http://172.20.66.6:3000/api/answers', {
             method: 'POST',
             body,
             headers
@@ -114,12 +114,12 @@ export default class CommunityDetailScreen extends React.Component {
           </View>
           <View style={styles.content}>
             <Image
-               style={{
-                 width: 160,
-                 height: 160,
-                 alignSelf: 'center',
-               }}
-               source={{uri: params.image}}
+              source={require('../assets/community/question.jpg')}
+              style={{
+                width: 320,
+                height: 160,
+                alignSelf: 'center',
+              }}
             />
 
             <Text style={styles.title}>{params.name.toUpperCase()}</Text>
@@ -165,12 +165,12 @@ export default class CommunityDetailScreen extends React.Component {
           </View>
           <View style={styles.content}>
             <Image
-               style={{
-                 width: 160,
-                 height: 160,
-                 alignSelf: 'center',
-               }}
-               source={{uri: params.image}}
+              source={require('../assets/community/question.jpg')}
+              style={{
+                width: 320,
+                height: 160,
+                alignSelf: 'center',
+              }}
             />
             <Text style={styles.title}>{params.name.toUpperCase()}</Text>
             <Text style={styles.text}>{params.description}</Text>
