@@ -20,3 +20,14 @@ Een Native-app met React-Native
 
 ### Site
 - Een site met HTML - CSS - JS
+
+## Setup
+
+#### Backend map
+- Yarn
+- Yarn Run Development
+
+#### App map
+- exp start
+- Alle fetch-urls aanpassen naar je eigen IP
+- Code scannen met de expo app (Android/iOS)
