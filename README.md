@@ -1,6 +1,9 @@
 # Budamunt
 Bachelorproef voor de opleiding Digital Design & Development aan Howest Kortrijk. Door [Jorden Di Egidio](https://www.behance.net/jordendiegidio) en [Jochem Janssens](https://www.janssensjochem.be).
 
+## Expo
+De app werkt met [Expo](https://expo.io/). Dit is een app die er voor zorgt dat we makkelijk hot-reloading hebben voor de native app en zo sneller kunnen developen.
+
 ## Onderdelen
 
 ### App
